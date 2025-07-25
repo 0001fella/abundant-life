@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App.jsx"; // ✅ Corrected casing here
+import App from "./app.jsx"; // ✅ Corrected casing here
 import { AuthProvider } from "./context/authContext.jsx";
 import "./index.css";
 
