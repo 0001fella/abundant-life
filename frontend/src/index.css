@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === CSS Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* === Global Layout === */
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background-color: white;
+  color: #0b0b2e;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark {
+  background-color: #0b0b2e;
+  color: white;
+}
+
+/* === Scrollbar Styling === */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* === Fade-In Animation === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === Theme-Aware Backgrounds === */
+.bg-theme {
+  @apply bg-white dark:bg-gray-900;
+}
+
+.text-theme {
+  @apply text-gray-900 dark:text-gray-100;
+}

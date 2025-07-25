@@ -1,0 +1,6 @@
+.react-calendar__tile.highlight-sunday {
+  background-color: rgba(255, 99, 132, 0.2);
+  color: #ff8fa3;
+  font-weight: bold;
+  border-radius: 0.5rem;
+}
