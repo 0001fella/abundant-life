@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://alcc-chuch.com/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://alcc-chuch.com/sermons</loc>
+  </url>
+  <url>
+    <loc>https://alcc-chuch.com/devotionals</loc>
+  </url>
+  <url>
+    <loc>https://alcc-chuch.com/prayerwall</loc>
+  </url>
+  <url>
+    <loc>https://alcc-chuch.com/events</loc>
+  </url>
+  <url>
+    <loc>https://alcc-chuch.com/login</loc>
+  </url>
+  <url>
+    <loc>https://alcc-chuch.com/admin</loc>
+  </url>
+</urlset>

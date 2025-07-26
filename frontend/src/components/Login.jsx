@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Eye, EyeOff, UserPlus, LogIn } from "lucide-react";
+import { Eye, EyeOff, UserPlus, LogIn, Server, WifiOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import axios from 'axios'; // Import axios directly
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,6 +22,25 @@ const Login = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState(false);
   const [welcomeName, setWelcomeName] = useState("");
+  const [backendStatus, setBackendStatus] = useState(null); // Track backend status
+
+  // Check backend status on mount
+  useEffect(() => {
+    const checkBackend = async () => {
+      try {
+        const response = await axios.get(
+          'https://abundant-life.onrender.com/api/health', 
+          { withCredentials: true } // Ensure credentials are sent
+        );
+        setBackendStatus(response.status === 200 ? 'online' : 'offline');
+      } catch (err) {
+        setBackendStatus('error');
+        console.error('Backend health check failed:', err);
+      }
+    };
+
+    checkBackend();
+  }, []);
 
   // Redirect if user is already authenticated
   useEffect(() => {
@@ -80,6 +100,7 @@ const Login = () => {
 
     try {
       if (formMode === "signup") {
+        // Axios call with credentials
         await signup(
           formData.name,
           formData.email,
@@ -90,7 +111,12 @@ const Login = () => {
         setSuccessMessage(true);
         setTimeout(() => navigate("/member/dashboard"), 2500);
       } else {
-        const user = await login(formData.email, formData.password);
+        // Axios call with credentials
+        const user = await login(
+          formData.email, 
+          formData.password,
+          { withCredentials: true } // CRITICAL FIX: Add credentials flag
+        );
         setWelcomeName(user.name || "Member");
         setSuccessMessage(true);
         setTimeout(() => {
@@ -100,11 +126,32 @@ const Login = () => {
         }, 2500);
       }
     } catch (error) {
-      setError(error.message || 
+      let errorMsg = error.message || 
         (formMode === "signup" 
           ? "Failed to create account. Please try again." 
-          : "Invalid email or password")
-      );
+          : "Invalid email or password");
+      
+      // Enhanced network error handling
+      if (error.message.includes('Network Error')) {
+        errorMsg = (
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2 font-bold">
+              <WifiOff className="text-red-500" />
+              Network Connection Failed
+            </div>
+            <div className="mt-2 text-sm">
+              <p>• Check your internet connection</p>
+              <p>• Verify backend is running at:</p>
+              <code className="text-xs block bg-gray-100 p-2 mt-1 rounded">
+                https://abundant-life.onrender.com
+              </code>
+              <p className="mt-2">• Ensure cookies are enabled in your browser</p>
+            </div>
+          </div>
+        );
+      }
+      
+      setError(errorMsg);
     } finally {
       setIsSubmitted(false);
     }
@@ -148,6 +195,20 @@ const Login = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#0a142f] to-[#1a2439] flex items-center justify-center p-4 font-sans">
+      {/* Backend status indicator */}
+      {backendStatus && (
+        <div className="absolute top-4 right-4 z-30">
+          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${
+            backendStatus === 'online' 
+              ? 'bg-green-100 text-green-800' 
+              : 'bg-red-100 text-red-800'
+          }`}>
+            <Server size={16} />
+            {backendStatus === 'online' ? 'Backend Online' : 'Backend Unavailable'}
+          </div>
+        </div>
+      )}
+
       {/* Background elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a142f]/95 to-[#1a2439]/95" />
@@ -450,7 +511,6 @@ const Login = () => {
           <div className="absolute bottom-0 left-0 w-12 h-12 bg-white rounded-tr-[40px] z-10" />
           
           <div className="w-full h-full">
-            {/* FIXED: Use relative path to image in public folder */}
             <img 
               src="/child.jpg" 
               alt="Church community" 
@@ -509,11 +569,11 @@ const Login = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
-            <h4 className="font-bold mb-1 text-[#D4AF37]">Service Times</h4>
+            <h4 className="font-bold mb-1 text-[#D4AF37]">Cookie Settings</h4>
             <div className="space-y-1 text-xs">
-              <p>Sunday Worship: <span className="font-medium">9am & 11am</span></p>
-              <p>Wednesday Bible Study: <span className="font-medium">7pm</span></p>
-              <p>Friday Youth Night: <span className="font-medium">7pm</span></p>
+              <p>• <span className="font-medium">SameSite</span>: None</p>
+              <p>• <span className="font-medium">Secure</span>: true</p>
+              <p>• <span className="font-medium">Domain</span>: alcc-church.com</p>
             </div>
           </motion.div>
           
