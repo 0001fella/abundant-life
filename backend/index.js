@@ -29,24 +29,37 @@ import userRoutes from './routes/userRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Updated CORS whitelist for Netlify + localhost
-const CLIENT_URLS = [
+// Trust first proxy (critical for Render)
+app.set('trust proxy', 1);
+
+// CORS Configuration
+const allowedOrigins = [
   'http://localhost:5173',
   'https://alcc-chuch.com',
-  'https://www.alcc-chuch.com'
+  'https://www.alcc-chuch.com',
+  'https://your-netlify-app.netlify.app' // ADD YOUR NETLIFY URL HERE
 ];
 
-app.use(cors({
+const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || CLIENT_URLS.includes(origin)) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || 
+        allowedOrigins.some(domain => origin.endsWith(domain))) {
       return callback(null, true);
     }
-    return callback(new Error('Not allowed by CORS'));
+    
+    const msg = `CORS policy: ${origin} not allowed`;
+    return callback(new Error(msg), false);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Debug-Origin'],
+  exposedHeaders: ['Set-Cookie']
+};
+
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json({ limit: '50mb' }));
@@ -55,7 +68,7 @@ app.use(cookieParser());
 
 // Logger
 app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - Origin: ${req.headers.origin || 'none'}`);
   next();
 });
 
@@ -88,21 +101,34 @@ app.use('/api/resources', resourceRoutes);
 app.use('/api/members', memberRoutes);
 app.use('/api/users', userRoutes);
 
-// ✅ Health Check Route
+// Enhanced Health Check Route
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
     time: new Date(),
-    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    environment: process.env.NODE_ENV || 'development',
+    cors: {
+      allowedOrigins,
+      credentials: true
+    },
+    cookies: {
+      domain: process.env.COOKIE_DOMAIN,
+      secure: process.env.NODE_ENV === 'production'
+    }
   });
 });
 
-// ✅ Just confirm backend root for production — don't try to serve frontend
-if (process.env.NODE_ENV === 'production') {
-  app.get('/', (req, res) => {
-    res.send('API is running...');
-  });
-}
+// Root endpoint
+app.get('/', (req, res) => {
+  res.send(`
+    <h1>ALCC API Server</h1>
+    <p>Environment: ${process.env.NODE_ENV || 'development'}</p>
+    <p>Version: 1.0.0</p>
+    <p><a href="/api/health">Health Check</a></p>
+    <p>Allowed Origins: ${allowedOrigins.join(', ')}</p>
+  `);
+});
 
 // 404 for undefined API routes
 app.use('/api/*', (req, res) => {
@@ -120,6 +146,18 @@ app.use('/api/*', (req, res) => {
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error(`[ERROR] ${err.stack}`);
+  
+  // Special handling for CORS errors
+  if (err.message.includes('CORS')) {
+    return res.status(403).json({
+      success: false,
+      message: 'Cross-origin request blocked',
+      error: err.message,
+      allowedOrigins,
+      troubleshooting: 'Verify your origin is in the allowed list and cookies are enabled'
+    });
+  }
+  
   const status = err.statusCode || 500;
   res.status(status).json({
     success: false,
@@ -140,7 +178,9 @@ const startServer = async () => {
 📁 Static files:
    - Event Images: /uploads → ${publicUploadsDir}
    - Sermons: /sermons → ${sermonsDir}
-🌐 CORS enabled for: ${CLIENT_URLS.join(', ')}
+🌐 CORS enabled for: ${allowedOrigins.join(', ')}
+🍪 Cookie Domain: ${process.env.COOKIE_DOMAIN || 'default'}
+🔒 Secure Cookies: ${process.env.NODE_ENV === 'production' ? 'Yes' : 'No'}
 `);
     });
   } catch (error) {

@@ -8,6 +8,17 @@ const generateToken = (userId) => {
   });
 };
 
+// Helper function to set cookies
+const setAuthCookie = (res, token) => {
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+    domain: process.env.COOKIE_DOMAIN,
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+  });
+};
+
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
@@ -31,6 +42,9 @@ export const registerUser = async (req, res) => {
     });
 
     const token = generateToken(user._id);
+    
+    // Set HTTP-only cookie
+    setAuthCookie(res, token);
     
     res.status(201).json({
       _id: user._id,
@@ -68,6 +82,9 @@ export const loginUser = async (req, res) => {
 
     const token = generateToken(user._id);
     
+    // Set HTTP-only cookie
+    setAuthCookie(res, token);
+    
     res.status(200).json({
       _id: user._id,
       name: user.name,
@@ -85,6 +102,14 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = (req, res) => {
+  // Clear the authentication cookie
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+    domain: process.env.COOKIE_DOMAIN
+  });
+  
   res.status(200).json({ message: 'Logged out successfully' });
 };
 
