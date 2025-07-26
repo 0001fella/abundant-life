@@ -29,7 +29,7 @@ import userRoutes from './routes/userRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Updated CORS Whitelist
+// ✅ Updated CORS whitelist for Netlify + localhost
 const CLIENT_URLS = [
   'http://localhost:5173',
   'https://alcc-chuch.com',
@@ -88,7 +88,7 @@ app.use('/api/resources', resourceRoutes);
 app.use('/api/members', memberRoutes);
 app.use('/api/users', userRoutes);
 
-// Health Check Route
+// ✅ Health Check Route
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
@@ -97,13 +97,10 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Serve frontend in production
+// ✅ Just confirm backend root for production — don't try to serve frontend
 if (process.env.NODE_ENV === 'production') {
-  const __clientDir = path.resolve(__dirname, '../client/dist');
-  app.use(express.static(__clientDir));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__clientDir, 'index.html'));
+  app.get('/', (req, res) => {
+    res.send('API is running...');
   });
 }
 
