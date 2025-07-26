@@ -13,7 +13,7 @@ export const getResources = async () => {
       'getResources error:',
       errorMessage,
       '\nFull URL:',
-      api.defaults.baseURL + RESOURCES_ENDPOINT
+      `${import.meta.env.VITE_API_URL}/api/${RESOURCES_ENDPOINT}` // Use VITE_API_URL for logging
     );
     throw new Error(errorMessage);
   }
@@ -44,7 +44,7 @@ export const uploadResource = async (formData) => {
       'uploadResource error:',
       errorMessage,
       '\nFull URL:',
-      api.defaults.baseURL + RESOURCES_ENDPOINT
+      `${import.meta.env.VITE_API_URL}/api/${RESOURCES_ENDPOINT}` // Use VITE_API_URL for logging
     );
     throw new Error(errorMessage);
   }
@@ -72,7 +72,7 @@ export const updateResource = async (id, resourceData) => {
       'updateResource error:',
       errorMessage,
       '\nFull URL:',
-      `${api.defaults.baseURL}${RESOURCES_ENDPOINT}/${id}`
+      `${import.meta.env.VITE_API_URL}/api/${RESOURCES_ENDPOINT}/${id}` // Use VITE_API_URL for logging
     );
     throw new Error(errorMessage);
   }
@@ -100,7 +100,7 @@ export const deleteResource = async (id) => {
       'deleteResource error:',
       errorMessage,
       '\nFull URL:',
-      `${api.defaults.baseURL}${RESOURCES_ENDPOINT}/${id}`
+      `${import.meta.env.VITE_API_URL}/api/${RESOURCES_ENDPOINT}/${id}` // Use VITE_API_URL for logging
     );
     throw new Error(errorMessage);
   }

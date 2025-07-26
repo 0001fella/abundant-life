@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api/sermons'; // change to match your backend URL
+// Use the VITE_API_URL environment variable for the base URL
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api/sermons`;
 
 // Fetch all sermons
 export const getAllSermons = async () => {
