@@ -1,4 +1,4 @@
-import Prayer from '../models/Prayer.js';
+import Prayer from '../models/prayer.js'; // ✅ lowercase filename for case-sensitive filesystems
 
 // GET all prayers
 export const getAllPrayers = async (req, res) => {
@@ -15,6 +15,7 @@ export const getAllPrayers = async (req, res) => {
 export const createPrayer = async (req, res) => {
   try {
     const { name, message } = req.body;
+
     if (!name || !message) {
       return res.status(400).json({ message: 'Name and message are required' });
     }
