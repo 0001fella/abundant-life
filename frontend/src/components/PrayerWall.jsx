@@ -13,7 +13,7 @@ const PrayerWall = () => {
   const [sortOption, setSortOption] = useState("newest");
   const [showFilters, setShowFilters] = useState(false);
   const [loadingPrayers, setLoadingPrayers] = useState(true);
-  
+
   // API configuration
   const apiBaseUrl = typeof __api_base_url !== 'undefined' ? __api_base_url : '';
   const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -23,7 +23,6 @@ const PrayerWall = () => {
     try {
       const response = await fetch(`${apiBaseUrl}/api/prayers?appId=${appId}`);
       if (!response.ok) throw new Error('Failed to fetch prayers');
-      
       const data = await response.json();
       setPrayers(data);
       setLoadingPrayers(false);
@@ -41,7 +40,6 @@ const PrayerWall = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.text.trim()) return;
-
     setIsSubmitting(true);
     try {
       const response = await fetch(`${apiBaseUrl}/api/prayers`, {
@@ -55,14 +53,11 @@ const PrayerWall = () => {
           name: formData.name.trim() || "Anonymous"
         })
       });
-
       if (!response.ok) throw new Error('Submission failed');
-
       setFormData({ name: "", text: "" });
       setSuccessMessage(true);
       setShowForm(false);
       fetchPrayers(); // Refresh the list
-
       setTimeout(() => setSuccessMessage(false), 3000);
     } catch (error) {
       console.error("Error adding prayer request:", error);
@@ -76,9 +71,7 @@ const PrayerWall = () => {
       const response = await fetch(`${apiBaseUrl}/api/prayers/${prayerId}/pray`, {
         method: 'PATCH'
       });
-
       if (!response.ok) throw new Error('Prayer update failed');
-      
       // Update local state instead of refetching all prayers
       setPrayers(prayers.map(prayer => 
         prayer._id === prayerId 
@@ -104,7 +97,6 @@ const PrayerWall = () => {
     .sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
-
       if (sortOption === "newest") {
         return dateB - dateA;
       } else if (sortOption === "oldest") {
@@ -142,7 +134,6 @@ const PrayerWall = () => {
                 <X size={20} />
               </button>
             </div>
-
             {successMessage ? (
               <div className="py-8 text-center">
                 <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-amber-100 mb-4">
@@ -170,7 +161,6 @@ const PrayerWall = () => {
                     />
                   </div>
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Your Prayer Request</label>
                   <textarea
@@ -181,7 +171,6 @@ const PrayerWall = () => {
                     required
                   />
                 </div>
-
                 <button
                   type="submit"
                   className={`w-full py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold rounded-lg transition-all ${
@@ -221,7 +210,6 @@ const PrayerWall = () => {
         <div className="absolute inset-0 opacity-10">
           <div className="pattern-cross pattern-amber-500 pattern-opacity-10 pattern-size-20"></div>
         </div>
-
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
           animate={{ opacity: 1, y: 0 }} 
@@ -230,15 +218,12 @@ const PrayerWall = () => {
           <motion.div className="inline-block mb-4 bg-amber-500/20 text-amber-400 rounded-full px-4 py-1 text-sm font-medium tracking-wider">
             PRAY WITHOUT CEASING
           </motion.div>
-
           <motion.h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-white">
             Share Your <span className="text-amber-400">Prayer</span> Requests
           </motion.h1>
-
           <motion.p className="max-w-2xl mx-auto text-xl text-amber-400 mb-8">
             Submit your requests and pray for others in our faith community
           </motion.p>
-
           <motion.div 
             className="flex items-center justify-center gap-3 bg-amber-500/20 border border-amber-500/30 px-6 py-2 rounded-full max-w-md mx-auto"
             initial={{ opacity: 0 }}
@@ -267,7 +252,6 @@ const PrayerWall = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            
             <div className="flex gap-3">
               <button 
                 onClick={() => setShowFilters(!showFilters)}
@@ -278,7 +262,6 @@ const PrayerWall = () => {
               </button>
             </div>
           </div>
-          
           {showFilters && (
             <motion.div 
               initial={{ opacity: 0, height: 0 }}
@@ -334,7 +317,6 @@ const PrayerWall = () => {
               Join Us in Prayer
             </motion.h2>
           </div>
-
           {loadingPrayers ? (
             <div className="text-center py-12">
               <div className="animate-spin inline-block w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full mb-4"></div>
@@ -378,11 +360,9 @@ const PrayerWall = () => {
                           </p>
                         </div>
                       </div>
-
                       <p className="text-gray-600 mb-6 relative pl-4 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-amber-500 before:rounded-full">
                         "{prayer.request}"
                       </p>
-
                       <div className="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center">
                         <div className="flex items-center gap-2 text-amber-500">
                           <HeartHandshake size={16} />
@@ -400,7 +380,6 @@ const PrayerWall = () => {
                   </motion.div>
                 ))}
               </div>
-
               {visibleCount < filteredPrayers.length && (
                 <div className="text-center mt-12">
                   <motion.button
@@ -433,7 +412,6 @@ const PrayerWall = () => {
               <h3 className="text-lg font-bold text-[#0c1b33] mb-2">Prayers Answered</h3>
               <p className="text-gray-600">God's faithfulness in our community</p>
             </motion.div>
-            
             <motion.div 
               className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
               initial={{ opacity: 0, y: 20 }}
@@ -444,14 +422,13 @@ const PrayerWall = () => {
               <h3 className="text-lg font-bold text-[#0c1b33] mb-2">Prayers Offered</h3>
               <p className="text-gray-600">By our church members this year</p>
             </motion.div>
-            
             <motion.div 
               className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <div className="text-4xl font-bold text-amber-600 mb极2">12</div>
+              <div className="text-4xl font-bold text-amber-600 mb-2">12</div>
               <h3 className="text-lg font-bold text-[#0c1b33] mb-2">Prayer Categories</h3>
               <p className="text-gray-600">Healing, provision, relationships, and more</p>
             </motion.div>
@@ -489,7 +466,6 @@ const PrayerWall = () => {
           >
             PRAYER CHANGES THINGS
           </motion.div>
-          
           <motion.h2
             className="text-3xl font-bold mb-6 text-[#0c1b33]"
             initial={{ opacity: 0, y: 20 }}
@@ -498,7 +474,6 @@ const PrayerWall = () => {
           >
             Your Prayer Matters
           </motion.h2>
-          
           <motion.p
             className="text-xl text-gray-600 max-w-2xl mx-auto mb-8"
             initial={{ opacity: 0, y: 20 }}
@@ -507,7 +482,6 @@ const PrayerWall = () => {
           >
             Share your request and experience the power of corporate prayer
           </motion.p>
-          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -533,7 +507,6 @@ const PrayerWall = () => {
               </div>
               <p className="text-amber-500/80">Abundant Life Celebration Center</p>
             </div>
-            
             <div className="text-center md:text-right">
               <p className="text-amber-500/80 mb-2">Nairobi, Kenya</p>
               <p className="text-amber-500/80">© {new Date().getFullYear()} ALCC Ministries. All Rights Reserved.</p>
