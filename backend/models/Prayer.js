@@ -1,12 +1,22 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const PrayerSchema = new mongoose.Schema(
-  {
-    name: { type: String, default: "Anonymous" },
-    request: { type: String, required: true },
-    prayedFor: { type: Number, default: 0 }
+const prayerSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
   },
-  { timestamps: true }
-);
+  message: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
 
-export default mongoose.models.Prayer || mongoose.model("Prayer", PrayerSchema);
+const Prayer = mongoose.model('Prayer', prayerSchema);
+
+export default Prayer;
