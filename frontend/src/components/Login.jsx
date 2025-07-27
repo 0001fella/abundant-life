@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Eye, EyeOff, UserPlus, LogIn, Server, WifiOff } from "lucide-react";
+import { Eye, EyeOff, UserPlus, LogIn } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import axios from 'axios';
 
-// Debugging configuration
-const DEBUG_MODE = true;
 const BACKEND_URL = 'https://abundant-life.onrender.com';
 
 const Login = () => {
@@ -26,48 +24,6 @@ const Login = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState(false);
   const [welcomeName, setWelcomeName] = useState("");
-  const [backendStatus, setBackendStatus] = useState(null);
-  const [networkInfo, setNetworkInfo] = useState(null);
-
-  // Check backend status on mount
-  useEffect(() => {
-    const checkBackend = async () => {
-      try {
-        const startTime = Date.now();
-        const response = await axios.get(
-          `${BACKEND_URL}/api/health`, 
-          { 
-            withCredentials: true,
-            timeout: 5000
-          }
-        );
-        const latency = Date.now() - startTime;
-        
-        if (response.status === 200) {
-          setBackendStatus({
-            status: 'online',
-            latency: latency,
-            response: response.data
-          });
-        } else {
-          setBackendStatus({
-            status: 'error',
-            latency: latency,
-            response: response.data
-          });
-        }
-      } catch (err) {
-        setBackendStatus({
-          status: 'offline',
-          latency: null,
-          error: err.message
-        });
-        console.error('Backend health check failed:', err);
-      }
-    };
-
-    checkBackend();
-  }, []);
 
   // Redirect if user is already authenticated
   useEffect(() => {
@@ -124,26 +80,8 @@ const Login = () => {
 
     setIsSubmitted(true);
     setError("");
-    setNetworkInfo(null);
 
     try {
-      // Collect network info for debugging
-      const networkData = {
-        timestamp: new Date().toISOString(),
-        endpoint: `${BACKEND_URL}/api/auth/${formMode === "login" ? "login" : "register"}`,
-        method: "POST",
-        withCredentials: true,
-        origin: window.location.origin,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      if (DEBUG_MODE) {
-        console.debug("Network Request Config:", networkData);
-        setNetworkInfo(networkData);
-      }
-
       if (formMode === "signup") {
         await signup(
           formData.name,
@@ -152,10 +90,7 @@ const Login = () => {
           formData.phone,
           {
             withCredentials: true,
-            timeout: 10000,
-            headers: {
-              'X-Debug-Origin': window.location.origin
-            }
+            timeout: 10000
           }
         );
         setWelcomeName(formData.name);
@@ -167,10 +102,7 @@ const Login = () => {
           formData.password,
           {
             withCredentials: true,
-            timeout: 10000,
-            headers: {
-              'X-Debug-Origin': window.location.origin
-            }
+            timeout: 10000
           }
         );
         setWelcomeName(user.name || "Member");
@@ -186,74 +118,6 @@ const Login = () => {
         (formMode === "signup" 
           ? "Failed to create account. Please try again." 
           : "Invalid email or password");
-      
-      // Enhanced error diagnostics
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        errorMsg = (
-          <div className="space-y-2">
-            <div className="font-bold">Server Response Error:</div>
-            <div>Status: {error.response.status} {error.response.statusText}</div>
-            {error.response.data && (
-              <pre className="text-xs bg-gray-100 p-2 rounded overflow-auto">
-                {JSON.stringify(error.response.data, null, 2)}
-              </pre>
-            )}
-          </div>
-        );
-      } else if (error.request) {
-        // The request was made but no response was received
-        errorMsg = (
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2 font-bold">
-              <WifiOff className="text-red-500" />
-              Network Connection Failed
-            </div>
-            <div className="mt-2 text-sm">
-              <p>• Check your internet connection</p>
-              <p>• Verify backend is running at:</p>
-              <code className="text-xs block bg-gray-100 p-2 mt-1 rounded">
-                {BACKEND_URL}
-              </code>
-              <p className="mt-2">• Ensure cookies are enabled in your browser</p>
-              <p className="mt-2">• Try disabling browser extensions (especially ad blockers)</p>
-            </div>
-          </div>
-        );
-      } else if (error.message.includes('Network Error')) {
-        // Specific network error
-        errorMsg = (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 font-bold">
-              <WifiOff className="text-red-500" />
-              Network Error Detected
-            </div>
-            <div className="text-sm">
-              <p>This usually means:</p>
-              <ul className="list-disc pl-5 mt-2 space-y-1">
-                <li>Backend server is down or unreachable</li>
-                <li>CORS misconfiguration on the backend</li>
-                <li>Firewall blocking the connection</li>
-                <li>DNS resolution failure</li>
-              </ul>
-              <div className="mt-3 p-2 bg-yellow-50 rounded">
-                <p className="font-medium">Troubleshooting Steps:</p>
-                <ol className="list-decimal pl-5 mt-1 space-y-1">
-                  <li>Check backend status at: <a href={BACKEND_URL} target="_blank" rel="noreferrer" className="text-blue-600 underline">{BACKEND_URL}</a></li>
-                  <li>Verify CORS settings allow: {window.location.origin}</li>
-                  <li>Test endpoint in Postman: 
-                    <code className="block bg-gray-100 p-2 mt-1 rounded text-xs">
-                      POST {BACKEND_URL}/api/auth/login<br />
-                      Content-Type: application/json<br />
-                      {"{ \"email\": \"test@example.com\", \"password\": \"password123\" }"}
-                    </code>
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        );
-      }
       
       setError(errorMsg);
     } finally {
@@ -299,31 +163,6 @@ const Login = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#0a142f] to-[#1a2439] flex items-center justify-center p-4 font-sans">
-      {/* Backend status indicator */}
-      <div className="absolute top-4 right-4 z-30">
-        {backendStatus ? (
-          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${
-            backendStatus.status === 'online' 
-              ? 'bg-green-100 text-green-800' 
-              : backendStatus.status === 'error'
-                ? 'bg-yellow-100 text-yellow-800'
-                : 'bg-red-100 text-red-800'
-          }`}>
-            <Server size={16} />
-            {backendStatus.status === 'online' 
-              ? `Backend Online (${backendStatus.latency}ms)`
-              : backendStatus.status === 'error'
-                ? 'Backend Error'
-                : 'Backend Offline'}
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
-            <Server size={16} />
-            Checking backend status...
-          </div>
-        )}
-      </div>
-
       {/* Background elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a142f]/95 to-[#1a2439]/95" />
@@ -679,20 +518,6 @@ const Login = () => {
           </div>
           
           <motion.div 
-            className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm p-3 rounded-xl border border-[#D4AF37]/30 text-[#0A142F] z-10 shadow-lg"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-          >
-            <h4 className="font-bold mb-1 text-[#D4AF37]">Connection Status</h4>
-            <div className="space-y-1 text-xs">
-              <p>• <span className="font-medium">Frontend</span>: {window.location.origin}</p>
-              <p>• <span className="font-medium">Backend</span>: {BACKEND_URL}</p>
-              <p>• <span className="font-medium">Credentials</span>: withCredentials=true</p>
-            </div>
-          </motion.div>
-          
-          <motion.div 
             className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#D4AF37]"
             animate={{ y: [0, -10, 0], opacity: [0.8, 1, 0.8] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -743,42 +568,6 @@ const Login = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Network debug panel */}
-      {networkInfo && (
-        <div className="fixed bottom-4 left-4 right-4 bg-gray-900 text-white p-4 rounded-lg z-30 max-w-md mx-auto shadow-xl">
-          <div className="flex justify-between items-start">
-            <h3 className="font-bold mb-2 text-yellow-400">Network Debug Info</h3>
-            <button 
-              onClick={() => setNetworkInfo(null)}
-              className="text-gray-400 hover:text-white"
-            >
-              ×
-            </button>
-          </div>
-          <div className="text-xs space-y-2 overflow-auto max-h-60">
-            <div><span className="font-mono text-gray-400">Endpoint:</span> {networkInfo.endpoint}</div>
-            <div><span className="font-mono text-gray-400">Method:</span> {networkInfo.method}</div>
-            <div><span className="font-mono text-gray-400">Origin:</span> {networkInfo.origin}</div>
-            <div><span className="font-mono text-gray-400">Credentials:</span> {networkInfo.withCredentials.toString()}</div>
-            <div className="mt-3">
-              <span className="font-mono text-gray-400">Headers:</span>
-              <pre className="bg-gray-800 p-2 rounded mt-1">
-                {JSON.stringify(networkInfo.headers, null, 2)}
-              </pre>
-            </div>
-            <div className="mt-2 text-yellow-200">
-              <p className="font-medium">Troubleshooting Tips:</p>
-              <ul className="list-disc pl-5 mt-1 space-y-1">
-                <li>Check browser console for CORS errors</li>
-                <li>Verify backend CORS allows: {window.location.origin}</li>
-                <li>Test API in Postman with same payload</li>
-                <li>Inspect Render logs for errors</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
