@@ -1,29 +1,33 @@
-import Prayer from '../models/prayer.js'; // ✅ lowercase filename for case-sensitive filesystems
+import Prayer from '../models/Prayer.js';
 
-// GET all prayers
+// @desc    Get all prayer requests
+// @route   GET /api/prayers
 export const getAllPrayers = async (req, res) => {
   try {
     const prayers = await Prayer.find().sort({ createdAt: -1 });
     res.status(200).json(prayers);
-  } catch (error) {
-    console.error('[GET /api/prayers] Error:', error);
-    res.status(500).json({ message: 'Failed to fetch prayers' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch prayers' });
   }
 };
 
-// POST a new prayer
+// @desc    Create a new prayer request
+// @route   POST /api/prayers
 export const createPrayer = async (req, res) => {
   try {
-    const { name, message } = req.body;
+    const { name = 'Anonymous', request } = req.body;
 
-    if (!name || !message) {
-      return res.status(400).json({ message: 'Name and message are required' });
+    if (!request || request.trim() === '') {
+      return res.status(400).json({ error: 'Prayer request text is required' });
     }
 
-    const newPrayer = await Prayer.create({ name, message });
-    res.status(201).json(newPrayer);
-  } catch (error) {
-    console.error('[POST /api/prayers] Error:', error);
-    res.status(500).json({ message: 'Failed to create prayer' });
+    const newPrayer = new Prayer({ name, request });
+    const savedPrayer = await newPrayer.save();
+
+    res.status(201).json(savedPrayer);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to save prayer' });
   }
 };

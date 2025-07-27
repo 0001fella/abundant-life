@@ -2,7 +2,7 @@ import express from 'express';
 import {
   getAllPrayers,
   createPrayer,
-} from '../controllers/prayerController.js'; // ✅ Case-sensitive check: file must be named exactly 'prayerController.js'
+} from '../Controllers/prayerController.js';
 
 const router = express.Router();
 
