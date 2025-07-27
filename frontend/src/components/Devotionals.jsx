@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, CalendarDays, Search, X, Loader2, AlertCircle, CheckCircle } from "lucide-react";
-
 // Define your backend API base URL here.
 // IMPORTANT: Replace this with the actual URL of your Node.js backend.
 // For example, if your backend is running locally on port 5000, it might be "http://localhost:5000/api".
 // If deployed, it would be your deployed backend URL, e.g., "https://your-backend-app.herokuapp.com/api".
 const API_BASE_URL = "http://localhost:5000/api";
-
 // Default devotional data that will be shown if no devotionals are found from API
 const DEFAULT_DEVOTIONALS = [
   {
@@ -83,14 +81,12 @@ const DEFAULT_DEVOTIONALS = [
     readingTime: "4 min read"
   }
 ];
-
 // Notification Component
 const Notification = ({ message, type, onClose }) => {
   const bgColor = type === "success" ? "bg-green-100" : "bg-red-100";
   const textColor = type === "success" ? "text-green-800" : "text-red-800";
   const borderColor = type === "success" ? "border-green-400" : "border-red-400";
   const Icon = type === "success" ? CheckCircle : AlertCircle;
-
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
@@ -107,7 +103,6 @@ const Notification = ({ message, type, onClose }) => {
     </motion.div>
   );
 };
-
 const Devotionals = () => {
   const [devotionals, setDevotionals] = useState([]);
   const [categories, setCategories] = useState(["All Devotionals"]);
@@ -118,7 +113,6 @@ const Devotionals = () => {
   const [error, setError] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
   const [notification, setNotification] = useState(null);
-
   const showNotification = useCallback((message, type = "info") => {
     setNotification({ message, type });
     const timer = setTimeout(() => {
@@ -126,17 +120,14 @@ const Devotionals = () => {
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
-
   // Toggle dark mode
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     setDarkMode(mediaQuery.matches);
-
     const handler = e => setDarkMode(e.matches);
     mediaQuery.addEventListener('change', handler);
     return () => mediaQuery.removeEventListener('change', handler);
   }, []);
-
   // Fetch devotionals from API
   const fetchDevotionals = useCallback(async () => {
     setLoading(true);
@@ -144,14 +135,12 @@ const Devotionals = () => {
     try {
       console.log(`Attempting to fetch devotionals from: ${API_BASE_URL}/devotionals`);
       const response = await fetch(`${API_BASE_URL}/devotionals`);
-
       if (!response.ok) {
         const errorText = await response.text();
         console.error(`Server responded with status ${response.status}:`, errorText);
         throw new Error(`Server error: ${response.status} - ${errorText || response.statusText}`);
       }
       let data = await response.json();
-
       if (!data || data.length === 0) {
         console.warn("No devotionals found from API, using default devotionals.");
         data = DEFAULT_DEVOTIONALS;
@@ -163,7 +152,6 @@ const Devotionals = () => {
           date: new Date(d.date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) // Format date for display
         }));
       }
-
       setDevotionals(data);
       const uniqueCategories = [...new Set(data.map(d => d.category))];
       setCategories(["All Devotionals", ...uniqueCategories]);
@@ -189,11 +177,9 @@ const Devotionals = () => {
       setLoading(false);
     }
   }, [showNotification]);
-
   useEffect(() => {
     fetchDevotionals();
   }, [fetchDevotionals]);
-
   const filteredDevotionals = devotionals.filter(devotional => {
     const matchesCategory = selectedCategory === "All Devotionals" ||
                             devotional.category === selectedCategory;
@@ -202,11 +188,9 @@ const Devotionals = () => {
                           devotional.author.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-
   const loadMore = () => {
     setVisibleDevotionals(prev => prev + 4);
   };
-
   if (loading) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${darkMode ? "bg-gray-900" : "bg-[#d5f5e3]"}`}>
@@ -223,7 +207,6 @@ const Devotionals = () => {
       </div>
     );
   }
-
   if (error) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${darkMode ? "bg-gray-900" : "bg-[#d5f5e3]"}`}>
@@ -249,7 +232,6 @@ const Devotionals = () => {
       </div>
     );
   }
-
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -260,7 +242,6 @@ const Devotionals = () => {
       }
     }
   };
-
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
@@ -271,7 +252,6 @@ const Devotionals = () => {
       }
     }
   };
-
   return (
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? "bg-gray-900 text-gray-200" : "bg-gradient-to-b from-[#d5f5e3] to-white text-gray-800"}`}>
       <AnimatePresence>
@@ -283,7 +263,6 @@ const Devotionals = () => {
           />
         )}
       </AnimatePresence>
-
       {/* Dark mode toggle */}
       <div className="fixed top-4 right-4 z-50">
         <motion.button
@@ -296,11 +275,9 @@ const Devotionals = () => {
           {darkMode ? "☀️" : "🌙"}
         </motion.button>
       </div>
-
       {/* Hero Section */}
       <section className={`relative py-28 px-4 sm:px-6 text-center overflow-hidden ${darkMode ? "bg-gray-800" : "bg-gradient-to-r from-[#145a32] to-[#1d8348]"}`}>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1532626256-3a2c1fa1cfd5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80')] bg-cover bg-center opacity-30"></div>
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -331,7 +308,6 @@ const Devotionals = () => {
               Nourish Your Spirit Daily
             </motion.span>
           </motion.h1>
-
           <motion.p
             className="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-8"
             initial={{ opacity: 0 }}
@@ -342,7 +318,6 @@ const Devotionals = () => {
           </motion.p>
         </motion.div>
       </section>
-
       {/* Main Content */}
       <section className="py-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
@@ -372,7 +347,6 @@ const Devotionals = () => {
                       className={`w-full pl-10 pr-4 py-3 rounded-lg border-2 ${darkMode ? "bg-gray-800 border-gray-700 focus:ring-[#27ae60] focus:border-[#27ae60] text-white" : "border-gray-300 focus:ring-[#27ae60] focus:border-[#27ae60] text-gray-800"}`}
                     />
                   </div>
-
                   <div className="flex flex-wrap gap-2 w-full md:w-auto">
                     {categories.map((category, index) => (
                       <motion.button
@@ -391,7 +365,6 @@ const Devotionals = () => {
                     ))}
                   </div>
                 </div>
-
                 <div className="flex justify-between items-center">
                   <h2 className={`text-2xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>
                     {selectedCategory}
@@ -402,7 +375,6 @@ const Devotionals = () => {
                   </p>
                 </div>
               </motion.div>
-
               {/* Devotionals Grid */}
               <div className="grid gap-8">
                 {filteredDevotionals.length === 0 ? (
@@ -424,7 +396,6 @@ const Devotionals = () => {
                     const layoutClass = index % 2 === 0
                       ? "md:flex"
                       : "md:flex md:flex-row-reverse";
-
                     return (
                       <motion.div
                         key={post.id || post._id} // Use id or _id as key
@@ -452,7 +423,6 @@ const Devotionals = () => {
                               />
                             </motion.div>
                           </div>
-
                           <div className="p-6 md:w-3/5">
                             <div className="flex flex-wrap gap-3 mb-4">
                               <motion.span
@@ -469,25 +439,22 @@ const Devotionals = () => {
                                 {post.readingTime}
                               </span>
                             </div>
-
                             <motion.h3
                               className={`text-xl md:text-2xl font-bold mb-3 ${darkMode ? "text-white" : "text-gray-900"}`}
                               whileHover={{ color: "#27ae60" }}
                             >
                               {post.title}
                             </motion.h3>
-
                             <div className="flex items-center mb-4">
                               <div className={`w-8 h-8 rounded-full mr-3 flex items-center justify-center text-sm font-semibold ${darkMode ? "bg-gray-700 text-gray-200" : "bg-gray-200 text-gray-700"}`}>
-                                {post.author.split(" ").map(n => n[0]).join("")}
+                                {/* FIXED ERROR: Added check for post.author before .split */}
+                                {post.author && typeof post.author === 'string' ? post.author.split(" ").map(n => n[0]).join("") : '?'}
                               </div>
                               <span className={`font-medium ${darkMode ? "text-gray-300" : "text-gray-700"}`}>{post.author}</span>
                             </div>
-
                             <p className={`mb-4 text-base leading-relaxed line-clamp-3 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
                               {post.snippet} {/* Display snippet here */}
                             </p>
-
                             <motion.div
                               className="mt-6"
                               whileHover={{ x: 5 }}
@@ -502,7 +469,6 @@ const Devotionals = () => {
                     );
                   })
                 )}
-
                 {visibleDevotionals < filteredDevotionals.length && filteredDevotionals.length > 0 && (
                   <motion.div
                     className="text-center mt-8"
@@ -526,7 +492,6 @@ const Devotionals = () => {
                 )}
               </div>
             </div>
-
             {/* Sidebar */}
             <div className="lg:w-1/3">
               {/* Popular Categories */}
@@ -555,7 +520,6 @@ const Devotionals = () => {
                   ))}
                 </div>
               </motion.div>
-
               {/* Recent Devotionals */}
               <motion.div
                 variants={itemVariants}
@@ -599,7 +563,6 @@ const Devotionals = () => {
           </motion.div>
         </div>
       </section>
-
       {/* Scripture Section */}
       <section className={`py-16 px-4 sm:px-6 ${darkMode ? "bg-gray-800" : "bg-gradient-to-r from-[#145a32] to-[#1d8348]"} text-white`}>
         <motion.div
@@ -637,5 +600,4 @@ const Devotionals = () => {
     </div>
   );
 };
-
 export default Devotionals;
