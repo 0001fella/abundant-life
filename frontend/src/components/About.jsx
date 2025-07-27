@@ -244,7 +244,7 @@ const About = () => {
                 style={{ color: themeColors.primary }} 
               />
               <p className="font-medium" style={{ color: themeColors.textDark }}>
-                Umoja Three, Chockmart Supermarket, Nairobi, Kenya
+                Umoja Three, Chockmart Supermarket Digital, Nairobi, Kenya
               </p>
             </div>
             <div className="flex justify-center items-center">
@@ -658,16 +658,16 @@ const About = () => {
                 Our Location
               </h3>
               <p className="text-lg leading-relaxed mb-4" style={{ color: themeColors.textDark }}>
-                Find us at Umoja Three, Chockmart Supermarket, Nairobi, Kenya. Our doors are open and we're ready to welcome you.
+                Find us at Umoja Three, Chockmart Supermarket Digital, Nairobi, Kenya. Our doors are open and we're ready to welcome you.
               </p>
               <div className="flex items-center space-x-2 mb-2">
                 <IoLocationSharp style={{ color: themeColors.accent }} className="text-2xl" />
                 <p className="font-semibold" style={{ color: themeColors.textDark }}>
-                  Umoja Three, Chockmart Supermarket, Nairobi, Kenya
+                  Umoja Three, Chockmart Supermarket Digital, Nairobi, Kenya
                 </p>
               </div>
               <a 
-                href="https://www.google.com/maps/dir/?api=1&destination=Abundant+Life+Celebration+Center,+Umoja,+Nairobi" 
+                href="https://www.google.com/maps/dir/?api=1&destination=Chockmart+Supermarket+Digital,+Umoja+Three,+Nairobi,+Kenya" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-block px-6 py-3 mt-4 text-center font-semibold rounded-full shadow-md hover:shadow-lg transition-all transform hover:scale-105"
