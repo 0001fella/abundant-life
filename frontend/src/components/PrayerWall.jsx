@@ -14,20 +14,26 @@ const PrayerWall = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [loadingPrayers, setLoadingPrayers] = useState(true);
 
-  // API configuration
-  const apiBaseUrl = typeof __api_base_url !== 'undefined' ? __api_base_url : '';
-  const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+  // --- Updated API Configuration ---
+  // Use the deployed backend URL for production, localhost for development
+  const apiBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? '' // Relative path for local development
+    : 'https://abundant-life.onrender.com'; // Explicit backend URL for Netlify deployment
+
+  const appId = 'default-app-id'; // You can manage this via environment variables if needed
+  // --- End of Updated API Configuration ---
 
   // Fetch prayers from your Node.js/MongoDB backend
   const fetchPrayers = async () => {
     try {
       const response = await fetch(`${apiBaseUrl}/api/prayers?appId=${appId}`);
-      if (!response.ok) throw new Error('Failed to fetch prayers');
+      if (!response.ok) throw new Error(`Failed to fetch prayers: ${response.status} ${response.statusText}`);
       const data = await response.json();
       setPrayers(data);
       setLoadingPrayers(false);
     } catch (error) {
       console.error("Error fetching prayers:", error);
+      // Optional: Set an error state to display to the user
       setLoadingPrayers(false);
     }
   };
@@ -53,7 +59,7 @@ const PrayerWall = () => {
           name: formData.name.trim() || "Anonymous"
         })
       });
-      if (!response.ok) throw new Error('Submission failed');
+      if (!response.ok) throw new Error(`Submission failed: ${response.status} ${response.statusText}`);
       setFormData({ name: "", text: "" });
       setSuccessMessage(true);
       setShowForm(false);
@@ -61,6 +67,7 @@ const PrayerWall = () => {
       setTimeout(() => setSuccessMessage(false), 3000);
     } catch (error) {
       console.error("Error adding prayer request:", error);
+      // Optional: Display an error message to the user
     } finally {
       setIsSubmitting(false);
     }
@@ -71,15 +78,16 @@ const PrayerWall = () => {
       const response = await fetch(`${apiBaseUrl}/api/prayers/${prayerId}/pray`, {
         method: 'PATCH'
       });
-      if (!response.ok) throw new Error('Prayer update failed');
+      if (!response.ok) throw new Error(`Prayer update failed: ${response.status} ${response.statusText}`);
       // Update local state instead of refetching all prayers
-      setPrayers(prayers.map(prayer => 
-        prayer._id === prayerId 
-          ? { ...prayer, prayerCount: (prayer.prayerCount || 0) + 1 } 
+      setPrayers(prayers.map(prayer =>
+        prayer._id === prayerId
+          ? { ...prayer, prayerCount: (prayer.prayerCount || 0) + 1 }
           : prayer
       ));
     } catch (error) {
       console.error("Error updating prayer count:", error);
+      // Optional: Display an error message to the user
     }
   };
 
@@ -102,7 +110,7 @@ const PrayerWall = () => {
       } else if (sortOption === "oldest") {
         return dateA - dateB;
       } else if (sortOption === "popular") {
-        return b.prayerCount - a.prayerCount;
+        return (b.prayerCount || 0) - (a.prayerCount || 0); // Handle undefined counts
       }
       return 0;
     });
@@ -210,9 +218,9 @@ const PrayerWall = () => {
         <div className="absolute inset-0 opacity-10">
           <div className="pattern-cross pattern-amber-500 pattern-opacity-10 pattern-size-20"></div>
         </div>
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           className="relative max-w-4xl mx-auto"
         >
           <motion.div className="inline-block mb-4 bg-amber-500/20 text-amber-400 rounded-full px-4 py-1 text-sm font-medium tracking-wider">
@@ -224,7 +232,7 @@ const PrayerWall = () => {
           <motion.p className="max-w-2xl mx-auto text-xl text-amber-400 mb-8">
             Submit your requests and pray for others in our faith community
           </motion.p>
-          <motion.div 
+          <motion.div
             className="flex items-center justify-center gap-3 bg-amber-500/20 border border-amber-500/30 px-6 py-2 rounded-full max-w-md mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -253,7 +261,7 @@ const PrayerWall = () => {
               />
             </div>
             <div className="flex gap-3">
-              <button 
+              <button
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center gap-2 px-4 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
               >
@@ -263,7 +271,7 @@ const PrayerWall = () => {
             </div>
           </div>
           {showFilters && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm mb-8"
@@ -281,8 +289,8 @@ const PrayerWall = () => {
                         key={option.value}
                         onClick={() => setSortOption(option.value)}
                         className={`px-4 py-2 text-sm rounded-lg ${
-                          sortOption === option.value 
-                            ? 'bg-amber-500 text-white font-medium' 
+                          sortOption === option.value
+                            ? 'bg-amber-500 text-white font-medium'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                       >
@@ -352,10 +360,10 @@ const PrayerWall = () => {
                         <div>
                           <h3 className="font-bold text-[#0c1b33]">{prayer.name}</h3>
                           <p className="text-sm text-amber-500">
-                            {prayer.date ? new Date(prayer.date).toLocaleDateString('en-US', { 
-                              year: 'numeric', 
-                              month: 'short', 
-                              day: 'numeric' 
+                            {prayer.date ? new Date(prayer.date).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric'
                             }) : 'N/A'}
                           </p>
                         </div>
@@ -368,7 +376,7 @@ const PrayerWall = () => {
                           <HeartHandshake size={16} />
                           <span className="font-medium">{prayer.prayerCount || 0} prayers</span>
                         </div>
-                        <button 
+                        <button
                           onClick={() => handlePray(prayer._id)}
                           className="px-4 py-2 bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 rounded-full text-sm font-medium transition flex items-center"
                         >
@@ -402,7 +410,7 @@ const PrayerWall = () => {
       <section className="py-16 bg-gradient-to-r from-amber-50 to-[#0c1b33]/5">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid md:grid-cols-3 gap-8">
-            <motion.div 
+            <motion.div
               className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -412,7 +420,7 @@ const PrayerWall = () => {
               <h3 className="text-lg font-bold text-[#0c1b33] mb-2">Prayers Answered</h3>
               <p className="text-gray-600">God's faithfulness in our community</p>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -422,7 +430,7 @@ const PrayerWall = () => {
               <h3 className="text-lg font-bold text-[#0c1b33] mb-2">Prayers Offered</h3>
               <p className="text-gray-600">By our church members this year</p>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
