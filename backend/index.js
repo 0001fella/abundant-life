@@ -29,7 +29,7 @@ import userRoutes from './routes/userRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Updated: More forgiving CORS origin matcher
+// ✅ Updated CORS whitelist for Netlify + localhost
 const CLIENT_URLS = [
   'http://localhost:5173',
   'https://alcc-chuch.com',
@@ -38,10 +38,10 @@ const CLIENT_URLS = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || CLIENT_URLS.some(url => origin.startsWith(origin))) {
+    if (!origin || CLIENT_URLS.includes(origin)) {
       return callback(null, true);
     }
-    return callback(new Error(`Not allowed by CORS: ${origin}`));
+    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -88,7 +88,7 @@ app.use('/api/resources', resourceRoutes);
 app.use('/api/members', memberRoutes);
 app.use('/api/users', userRoutes);
 
-// ✅ Health check
+// ✅ Health Check Route
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
@@ -97,14 +97,14 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ✅ Only show API running in production (no frontend serving here)
+// ✅ Just confirm backend root for production — don't try to serve frontend
 if (process.env.NODE_ENV === 'production') {
   app.get('/', (req, res) => {
     res.send('API is running...');
   });
 }
 
-// 404 for API routes
+// 404 for undefined API routes
 app.use('/api/*', (req, res) => {
   res.status(404).json({
     success: false,
@@ -135,9 +135,13 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📁 Static files at: /uploads and /sermons`);
-      console.log(`🌐 CORS whitelist: ${CLIENT_URLS.join(', ')}`);
+      console.log(`
+🚀 Server running on port ${PORT}
+📁 Static files:
+   - Event Images: /uploads → ${publicUploadsDir}
+   - Sermons: /sermons → ${sermonsDir}
+🌐 CORS enabled for: ${CLIENT_URLS.join(', ')}
+`);
     });
   } catch (error) {
     console.error('❌ Server startup failed:', error);
