@@ -17,10 +17,10 @@ body,
   height: 100%;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
-  scroll-behavior: smooth;
   background-color: white;
   color: #0b0b2e;
   transition: background-color 0.3s ease, color 0.3s ease;
+  /* ❌ Removed scroll-behavior: smooth */
 }
 
 html.dark {

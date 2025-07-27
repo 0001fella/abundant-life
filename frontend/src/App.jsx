@@ -48,11 +48,12 @@ const NotFound = () => (
 );
 
 // =======================
-// Public Layout Wrapper
+// Public Page Wrapper
 // =======================
-const PublicLayout = () => (
+const PublicWrapper = () => (
   <>
     <Navbar />
+    <ScrollToTop />
     <main className="min-h-screen">
       <Outlet />
     </main>
@@ -70,9 +71,7 @@ const AppContent = () => {
 
   return (
     <>
-      <ScrollToTop />
       <ToastContainer position="top-right" autoClose={3000} />
-
       <Routes>
         <Route path="/login" element={<Login />} />
 
@@ -83,8 +82,8 @@ const AppContent = () => {
           </Route>
         </Route>
 
-        <Route path="/" element={<PublicLayout />}>
-          <Route index element={<Home />} />
+        <Route element={<PublicWrapper />}>
+          <Route path="/" element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="events" element={<Events />} />
           <Route path="sermons" element={<Sermons />} />

@@ -45,8 +45,8 @@ const About = () => {
   const people = [
     { name: "Ps. Elkanah", title: "Senior Pastor", image: '/pstElkana.jpg' },
     { name: "Dennis", title: "Pastor", image: '/Dennise.jpg' },
-    { name: "Mayaka Moriasi", title: "Pastor", image: '/mayaka.jpg' },
-    { name: "Samuel Otieno", title: "Youth Pastor", image: '/Sam.jpg' },
+    { name: "Justine Mayaka", title: "Pastor", image: '/mayaka.jpg' },
+    { name: "Samwel Masika", title: "Youth Pastor", image: '/Sam.jpg' },
     { name: "Caroline Baraza", title: "Pastress", image: '/mum.jpg' },
   ];
 
@@ -220,7 +220,7 @@ const About = () => {
           
           <motion.h1 
             variants={textVariant(0.3)}
-            className="text-4xl md:text-6xl font-serif font-bold leading-tight mb-4" // Reduced from 5xl/7xl
+            className="text-4xl md:text-6xl font-serif font-bold leading-tight mb-4"
             style={{ color: themeColors.primary }}
           >
             Abundant Life <span style={{ color: themeColors.secondary }}>Celebration Center</span>
@@ -228,7 +228,7 @@ const About = () => {
           
           <motion.p 
             variants={textVariant(0.5)}
-            className="text-xl font-medium mb-8 max-w-3xl mx-auto" // Reduced from xl/2xl
+            className="text-xl font-medium mb-8 max-w-3xl mx-auto"
             style={{ color: themeColors.textDark }}
           >
             A ministry committed to revealing Christ and making disciples for the kingdom.
@@ -243,8 +243,8 @@ const About = () => {
                 className="mr-3 text-2xl" 
                 style={{ color: themeColors.primary }} 
               />
-              <p className="font-medium" style={{ color: themeColors.textDark }}> // Reduced text size
-                Umoja Innercore, Nairobi, Kenya
+              <p className="font-medium" style={{ color: themeColors.textDark }}>
+                Umoja Three, Chockmart Supermarket, Nairobi, Kenya
               </p>
             </div>
             <div className="flex justify-center items-center">
@@ -252,7 +252,7 @@ const About = () => {
                 className="mr-3 text-2xl" 
                 style={{ color: themeColors.primary }} 
               />
-              <p className="font-medium" style={{ color: themeColors.textDark }}> // Reduced text size
+              <p className="font-medium" style={{ color: themeColors.textDark }}>
                 Sundays at 9:00 AM & 11:30 AM
               </p>
             </div>
@@ -658,12 +658,12 @@ const About = () => {
                 Our Location
               </h3>
               <p className="text-lg leading-relaxed mb-4" style={{ color: themeColors.textDark }}>
-                Find us at Umoja Innercore, Nairobi, Kenya. Our doors are open and we're ready to welcome you.
+                Find us at Umoja Three, Chockmart Supermarket, Nairobi, Kenya. Our doors are open and we're ready to welcome you.
               </p>
               <div className="flex items-center space-x-2 mb-2">
                 <IoLocationSharp style={{ color: themeColors.accent }} className="text-2xl" />
                 <p className="font-semibold" style={{ color: themeColors.textDark }}>
-                  Umoja Innercore, Nairobi, Kenya
+                  Umoja Three, Chockmart Supermarket, Nairobi, Kenya
                 </p>
               </div>
               <a 

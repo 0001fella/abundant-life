@@ -2,6 +2,18 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 const Ministries = () => {
+  // Define theme colors as constants
+  const themeColors = {
+    primary: '#0D3B66', // Deep Navy Blue
+    secondary: '#1C6E6E', // Forest Green
+    accent: '#C8A870', // Classic Gold
+    textDark: '#2C3E50', // Dark Charcoal
+    textLight: '#FFFFFF', // White
+    backgroundLight: '#F8F9FA', // Off-White
+    backgroundDark: '#0D1B2A', // Very Dark Blue
+    border: '#E0E0E0',
+  };
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   
@@ -168,33 +180,34 @@ const Ministries = () => {
     return matchesSearch && matchesCategory;
   });
 
-  // Updated category colors
+  // Updated category colors to match theme
   const categoryColors = {
-    Children: "bg-green-500 text-white",
-    Youth: "bg-green-600 text-white",
-    "Young Adults": "bg-green-700 text-white",
-    Men: "bg-green-800 text-white",
-    Women: "bg-pink-500 text-white",
-    "Home Church": "bg-emerald-500 text-white",
-    Outreach: "bg-emerald-600 text-white",
-    Fellowship: "bg-emerald-700 text-white",
-    Prayer: "bg-emerald-800 text-white",
-    Worship: "bg-emerald-900 text-white",
-    Training: "bg-teal-500 text-white",
-    Service: "bg-teal-600 text-white",
-    Administration: "bg-teal-700 text-white"
+    Children: `bg-[${themeColors.accent}] text-[${themeColors.primary}]`,
+    Youth: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`,
+    "Young Adults": `bg-[${themeColors.secondary}] text-[${themeColors.textLight}]`,
+    Men: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`,
+    Women: `bg-[${themeColors.accent}] text-[${themeColors.primary}]`,
+    "Home Church": `bg-[${themeColors.secondary}] text-[${themeColors.textLight}]`,
+    Outreach: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`,
+    Fellowship: `bg-[${themeColors.accent}] text-[${themeColors.primary}]`,
+    Prayer: `bg-[${themeColors.secondary}] text-[${themeColors.textLight}]`,
+    Worship: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`,
+    Training: `bg-[${themeColors.accent}] text-[${themeColors.primary}]`,
+    Service: `bg-[${themeColors.secondary}] text-[${themeColors.textLight}]`,
+    Administration: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`
   };
 
   const categories = ['All', ...new Set(ministries.map(ministry => ministry.category))];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white font-sans">
+    <div className="min-h-screen" style={{ backgroundColor: themeColors.backgroundLight }}>
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80')" }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/90 to-emerald-800/80"></div>
+        <div className="absolute inset-0" style={{ backgroundColor: `${themeColors.primary}CC` }}></div>
         <div className="relative container mx-auto px-4 py-32 lg:py-40 text-center">
           <motion.div
-            className="inline-block mb-6 bg-yellow-400 text-emerald-900 rounded-full px-6 py-2 text-sm font-bold tracking-wider"
+            className="inline-block mb-6 px-6 py-2 rounded-full text-sm font-bold tracking-wider"
+            style={{ backgroundColor: themeColors.accent, color: themeColors.primary }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -203,7 +216,8 @@ const Ministries = () => {
           </motion.div>
           
           <motion.h1 
-            className="text-4xl md:text-6xl font-bold mb-6 text-white font-serif"
+            className="text-4xl md:text-6xl font-bold mb-6 font-serif"
+            style={{ color: themeColors.textLight }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}
@@ -212,7 +226,8 @@ const Ministries = () => {
           </motion.h1>
           
           <motion.p 
-            className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-emerald-100"
+            className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto"
+            style={{ color: themeColors.accent }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -226,7 +241,10 @@ const Ministries = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <button className="px-8 py-4 bg-yellow-400 hover:bg-yellow-300 text-emerald-900 rounded-lg font-bold text-lg transition flex items-center mx-auto">
+            <button 
+              className="px-8 py-4 rounded-lg font-bold text-lg transition flex items-center mx-auto"
+              style={{ backgroundColor: themeColors.accent, color: themeColors.primary }}
+            >
               Explore Ministries 
               <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -237,15 +255,20 @@ const Ministries = () => {
       </section>
 
       {/* Search & Filter Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16" style={{ backgroundColor: themeColors.backgroundLight }}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-10 text-emerald-900 font-serif">Find Your Ministry</h2>
+            <h2 className="text-3xl font-bold text-center mb-10 font-serif" style={{ color: themeColors.primary }}>
+              Find Your Ministry
+            </h2>
             
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-emerald-200">
+            <div 
+              className="rounded-2xl shadow-lg p-6 border"
+              style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
+            >
               <div className="relative mb-8">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
                     <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                   </svg>
                 </div>
@@ -254,7 +277,8 @@ const Ministries = () => {
                   placeholder="Search ministries by name, category, or location..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 border border-emerald-200 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition text-lg bg-emerald-50"
+                  className="w-full pl-12 pr-4 py-4 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition text-lg"
+                  style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border, color: themeColors.textDark }}
                 />
               </div>
               
@@ -265,9 +289,15 @@ const Ministries = () => {
                     onClick={() => setSelectedCategory(category)}
                     className={`px-4 py-2 rounded-xl transition text-sm font-medium ${
                       selectedCategory === category
-                        ? 'bg-yellow-400 text-emerald-900'
-                        : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800'
+                        ? 'text-white' 
+                        : 'text-emerald-800'
                     }`}
+                    style={{
+                      backgroundColor: selectedCategory === category 
+                        ? themeColors.primary 
+                        : themeColors.backgroundLight,
+                      border: `1px solid ${themeColors.border}`
+                    }}
                   >
                     {category}
                   </button>
@@ -279,18 +309,20 @@ const Ministries = () => {
       </section>
 
       {/* Ministries List */}
-      <section className="py-16 bg-gradient-to-b from-white to-emerald-50">
+      <section className="py-16" style={{ backgroundColor: themeColors.backgroundLight }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-emerald-900 font-serif">Our Ministries</h2>
-            <p className="text-xl text-emerald-700 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold mb-4 font-serif" style={{ color: themeColors.primary }}>
+              Our Ministries
+            </h2>
+            <p className="text-xl max-w-3xl mx-auto" style={{ color: themeColors.textDark }}>
               Join one of our vibrant ministries to serve, grow, and connect with others
             </p>
           </div>
           
           {filteredMinistries.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-xl shadow-lg border border-emerald-200">
-              <p className="text-emerald-700 text-xl">No ministries found matching your search</p>
+            <div className="text-center py-12 rounded-xl shadow-lg border" style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}>
+              <p className="text-xl" style={{ color: themeColors.textDark }}>No ministries found matching your search</p>
             </div>
           ) : (
             <div className="space-y-16">
@@ -300,7 +332,8 @@ const Ministries = () => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-10 bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-emerald-200`}
+                  className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-10 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border`}
+                  style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
                 >
                   <div className="w-full md:w-1/2">
                     <div className="relative h-full">
@@ -310,7 +343,10 @@ const Ministries = () => {
                         className="w-full h-full min-h-[350px] object-cover"
                       />
                       <div className="absolute top-4 left-4">
-                        <span className={`${categoryColors[ministry.category]} text-sm font-bold px-4 py-2 rounded-xl`}>
+                        <span className="text-sm font-bold px-4 py-2 rounded-xl" style={{ 
+                          backgroundColor: themeColors.accent,
+                          color: themeColors.primary
+                        }}>
                           {ministry.category}
                         </span>
                       </div>
@@ -318,42 +354,42 @@ const Ministries = () => {
                   </div>
                   
                   <div className="w-full md:w-1/2 p-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 text-emerald-900 font-serif">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-4 font-serif" style={{ color: themeColors.primary }}>
                       {ministry.title}
                     </h2>
                     
-                    <p className="text-emerald-700 mb-6 text-lg">
+                    <p className="mb-6 text-lg" style={{ color: themeColors.textDark }}>
                       {ministry.description}
                     </p>
                     
                     <div className="space-y-4 mb-8">
-                      <div className="flex items-center text-emerald-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-3 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                      <div className="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-3" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
                           <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                         </svg>
                         <div>
-                          <div className="font-medium text-emerald-900">Leader</div>
-                          <div className="font-semibold">{ministry.leader}</div>
+                          <div className="font-medium" style={{ color: themeColors.primary }}>Leader</div>
+                          <div className="font-semibold" style={{ color: themeColors.textDark }}>{ministry.leader}</div>
                         </div>
                       </div>
                       
-                      <div className="flex items-center text-emerald-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-3 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                      <div className="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-3" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                         </svg>
                         <div>
-                          <div className="font-medium text-emerald-900">Meeting Time</div>
-                          <div className="font-semibold">{ministry.meeting}</div>
+                          <div className="font-medium" style={{ color: themeColors.primary }}>Meeting Time</div>
+                          <div className="font-semibold" style={{ color: themeColors.textDark }}>{ministry.meeting}</div>
                         </div>
                       </div>
                       
-                      <div className="flex items-center text-emerald-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-3 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                      <div className="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-3" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
                           <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                         </svg>
                         <div>
-                          <div className="font-medium text-emerald-900">Location</div>
-                          <div className="font-semibold">{ministry.location}</div>
+                          <div className="font-medium" style={{ color: themeColors.primary }}>Location</div>
+                          <div className="font-semibold" style={{ color: themeColors.textDark }}>{ministry.location}</div>
                         </div>
                       </div>
                     </div>
@@ -362,7 +398,8 @@ const Ministries = () => {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
-                        className="px-6 py-3 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl font-bold transition flex items-center"
+                        className="px-6 py-3 rounded-xl font-bold transition flex items-center"
+                        style={{ backgroundColor: themeColors.primary, color: themeColors.textLight }}
                       >
                         Join Ministry
                         <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -373,7 +410,11 @@ const Ministries = () => {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
-                        className="px-6 py-3 bg-transparent border border-emerald-800 text-emerald-800 hover:bg-emerald-50 rounded-xl font-bold transition flex items-center"
+                        className="px-6 py-3 bg-transparent rounded-xl font-bold transition flex items-center"
+                        style={{ 
+                          border: `1px solid ${themeColors.primary}`,
+                          color: themeColors.primary
+                        }}
                       >
                         Learn More
                         <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -390,11 +431,12 @@ const Ministries = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 bg-emerald-900 text-white">
+      <section className="py-20" style={{ backgroundColor: themeColors.primary, color: themeColors.textLight }}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              className="inline-block mb-6 bg-yellow-400 text-emerald-900 rounded-full px-6 py-2 text-sm font-bold tracking-wider"
+              className="inline-block mb-6 px-6 py-2 rounded-full text-sm font-bold tracking-wider"
+              style={{ backgroundColor: themeColors.accent, color: themeColors.primary }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -414,7 +456,8 @@ const Ministries = () => {
             </motion.h2>
             
             <motion.p 
-              className="text-xl mb-10 max-w-3xl mx-auto text-emerald-200"
+              className="text-xl mb-10 max-w-3xl mx-auto"
+              style={{ color: themeColors.accent }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -430,10 +473,19 @@ const Ministries = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              <button className="px-8 py-4 bg-yellow-400 hover:bg-yellow-300 text-emerald-900 rounded-xl font-bold text-lg transition">
+              <button 
+                className="px-8 py-4 rounded-xl font-bold text-lg transition"
+                style={{ backgroundColor: themeColors.accent, color: themeColors.primary }}
+              >
                 Propose a Ministry
               </button>
-              <button className="px-8 py-4 bg-transparent hover:bg-emerald-800 border border-white text-white rounded-xl font-bold text-lg transition">
+              <button 
+                className="px-8 py-4 bg-transparent rounded-xl font-bold text-lg transition"
+                style={{ 
+                  border: `1px solid ${themeColors.textLight}`,
+                  color: themeColors.textLight
+                }}
+              >
                 Ministry Resources
               </button>
             </motion.div>
@@ -442,81 +494,86 @@ const Ministries = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 bg-gradient-to-b from-emerald-50 to-white">
+      <section className="py-16" style={{ backgroundColor: themeColors.backgroundLight }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-emerald-900 font-serif">Ministry Testimonials</h2>
-            <p className="text-xl text-emerald-700 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold mb-4 font-serif" style={{ color: themeColors.primary }}>
+              Ministry Testimonials
+            </h2>
+            <p className="text-xl max-w-3xl mx-auto" style={{ color: themeColors.textDark }}>
               Hear from members who have found purpose and community through our ministries
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div 
-              className="bg-white rounded-2xl shadow-lg p-8 border border-emerald-200"
+              className="rounded-2xl shadow-lg p-8 border"
+              style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-yellow-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: themeColors.backgroundLight }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                   </svg>
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-bold text-lg text-emerald-900">Sarah M.</h4>
-                  <p className="text-emerald-600 text-sm">Youth Ministry</p>
+                  <h4 className="font-bold text-lg" style={{ color: themeColors.primary }}>Sarah M.</h4>
+                  <p className="text-sm" style={{ color: themeColors.secondary }}>Youth Ministry</p>
                 </div>
               </div>
-              <p className="text-emerald-700 italic">
+              <p className="italic" style={{ color: themeColors.textDark }}>
                 "Joining the Youth Ministry transformed my faith journey. I've found lifelong friends and grown spiritually in ways I never imagined."
               </p>
             </motion.div>
             
             <motion.div 
-              className="bg-white rounded-2xl shadow-lg p-8 border border-emerald-200"
+              className="rounded-2xl shadow-lg p-8 border"
+              style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-yellow-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: themeColors.backgroundLight }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                   </svg>
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-bold text-lg text-emerald-900">James K.</h4>
-                  <p className="text-emerald-600 text-sm">Visionaries</p>
+                  <h4 className="font-bold text-lg" style={{ color: themeColors.primary }}>James K.</h4>
+                  <p className="text-sm" style={{ color: themeColors.secondary }}>Visionaries</p>
                 </div>
               </div>
-              <p className="text-emerald-700 italic">
+              <p className="italic" style={{ color: themeColors.textDark }}>
                 "The Visionaries ministry equipped me with leadership skills that have impacted both my spiritual life and career."
               </p>
             </motion.div>
             
             <motion.div 
-              className="bg-white rounded-2xl shadow-lg p-8 border border-emerald-200"
+              className="rounded-2xl shadow-lg p-8 border"
+              style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-yellow-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: themeColors.backgroundLight }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                   </svg>
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-bold text-lg text-emerald-900">Grace W.</h4>
-                  <p className="text-emerald-600 text-sm">Women of Faith</p>
+                  <h4 className="font-bold text-lg" style={{ color: themeColors.primary }}>Grace W.</h4>
+                  <p className="text-sm" style={{ color: themeColors.secondary }}>Women of Faith</p>
                 </div>
               </div>
-              <p className="text-emerald-700 italic">
+              <p className="italic" style={{ color: themeColors.textDark }}>
                 "Through Women of Faith, I've found a supportive community that has helped me through challenging times."
               </p>
             </motion.div>
@@ -525,22 +582,22 @@ const Ministries = () => {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-16 bg-emerald-800 text-white">
+      <section className="py-16" style={{ backgroundColor: themeColors.primary, color: themeColors.textLight }}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-serif">Ministry Impact</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center p-6 bg-emerald-900/50 rounded-2xl">
-              <div className="text-5xl font-bold text-yellow-400 mb-2">15</div>
+            <div className="text-center p-6 rounded-2xl" style={{ backgroundColor: `${themeColors.primary}80` }}>
+              <div className="text-5xl font-bold mb-2" style={{ color: themeColors.accent }}>15</div>
               <h3 className="text-xl font-bold mb-2">Active Ministries</h3>
               <p>Serving various needs in our church and community</p>
             </div>
-            <div className="text-center p-6 bg-emerald-900/50 rounded-2xl">
-              <div className="text-5xl font-bold text-yellow-400 mb-2">350+</div>
+            <div className="text-center p-6 rounded-2xl" style={{ backgroundColor: `${themeColors.primary}80` }}>
+              <div className="text-5xl font-bold mb-2" style={{ color: themeColors.accent }}>350+</div>
               <h3 className="text-xl font-bold mb-2">Volunteers</h3>
               <p>Dedicated members serving across all ministries</p>
             </div>
-            <div className="text-center p-6 bg-emerald-900/50 rounded-2xl">
-              <div className="text-5xl font-bold text-yellow-400 mb-2">20+</div>
+            <div className="text-center p-6 rounded-2xl" style={{ backgroundColor: `${themeColors.primary}80` }}>
+              <div className="text-5xl font-bold mb-2" style={{ color: themeColors.accent }}>20+</div>
               <h3 className="text-xl font-bold mb-2">Weekly Gatherings</h3>
               <p>Opportunities to connect and grow throughout the week</p>
             </div>
