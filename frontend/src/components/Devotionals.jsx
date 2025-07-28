@@ -6,7 +6,7 @@ import { BookOpen, CalendarDays, Search, X, Loader2, AlertCircle, CheckCircle, C
 // Use the deployed backend URL for production, localhost for development
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5000/api' // Adjust this if your local backend port is different
-  : 'https://your-deployed-backend-url.onrender.com/api'; // *** IMPORTANT: Replace with your actual Render backend URL ***
+  : 'https://abundant-life.onrender.com/api'; // *** IMPORTANT: Using your Render backend URL ***
 // --- End of Updated API Configuration ---
 
 // Default devotional data that will be shown if no devotionals are found from API
@@ -544,8 +544,7 @@ const Devotionals = () => {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.6, delay: index * 0.1 }}
                         >
-                          {/* Changed from md:w-2/5 to md:w-1/2 */}
-                          <div className="md:w-1/2">
+                          <div className="md:w-2/5">
                             <motion.div
                               className="h-64 md:h-full overflow-hidden"
                               whileHover={{ scale: 1.03 }}
@@ -559,8 +558,7 @@ const Devotionals = () => {
                               />
                             </motion.div>
                           </div>
-                          {/* Changed from md:w-3/5 to md:w-1/2 */}
-                          <div className="p-6 md:w-1/2">
+                          <div className="p-6 md:w-3/5">
                             <div className="flex flex-wrap gap-3 mb-4">
                               <motion.span
                                 className="px-3 py-1 bg-[#d5f5e3] text-[#145a32] rounded-full text-sm font-medium border border-[#27ae60] shadow-sm"
@@ -596,7 +594,9 @@ const Devotionals = () => {
                               className="mt-6"
                               whileHover={{ x: 5 }}
                             >
-                              {/* Removed explicit "Read More" button as the whole card is now clickable */}
+                              <span className="text-lg font-semibold text-[#27ae60]">
+                                {post.scripture}
+                              </span>
                             </motion.div>
                           </div>
                         </motion.div>
@@ -604,58 +604,133 @@ const Devotionals = () => {
                     );
                   })
                 )}
-              </div>
-
-              {visibleDevotionals < filteredDevotionals.length && (
-                <div className="text-center mt-12">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={loadMore}
-                    className={`px-8 py-3 rounded-full font-semibold transition shadow-lg ${darkMode ? "bg-gray-700 text-white hover:bg-gray-600" : "bg-[#27ae60] text-white hover:bg-[#219653]"}`}
+                {visibleDevotionals < filteredDevotionals.length && filteredDevotionals.length > 0 && (
+                  <motion.div
+                    className="text-center mt-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
                   >
-                    Load More
-                  </motion.button>
-                </div>
-              )}
+                    <motion.button
+                      whileHover={{ scale: 1.05, backgroundColor: darkMode ? "#1a2d4d" : "#d5f5e3" }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={loadMore}
+                      className={`px-6 py-3 font-medium rounded-lg transition ${
+                        darkMode
+                          ? "bg-gray-800 border-2 border-[#27ae60] text-[#27ae60] hover:bg-gray-700"
+                          : "bg-white border-2 border-[#27ae60] text-[#27ae60] hover:bg-[#d5f5e3]"
+                      } shadow-md`}
+                    >
+                      Load More Devotionals
+                    </motion.button>
+                  </motion.div>
+                )}
+              </div>
             </div>
 
-            {/* Side Content/About Section - Stays the same, utilizing remaining 1/3 width */}
-            <motion.div
-              variants={itemVariants}
-              className={`lg:w-1/3 w-full p-6 rounded-2xl shadow-lg ${darkMode ? "bg-gray-800 border border-gray-700" : "bg-white border border-gray-200"} h-fit sticky top-8`}
-            >
-              <h2 className={`text-2xl font-bold mb-6 ${darkMode ? "text-white" : "text-gray-900"}`}>About Daily Devotionals</h2>
-              <p className={`mb-4 leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-                Welcome to our curated collection of daily devotionals, designed to inspire, encourage, and deepen your walk with God. Each devotional offers fresh insights into scripture, practical wisdom for everyday living, and a moment of reflection to connect with your faith.
-              </p>
-              <p className={`mb-6 leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-                Whether you're looking for guidance, comfort, or simply a moment of spiritual nourishment, you'll find a message here to uplift your spirit.
-              </p>
-              <ul className={`list-disc list-inside space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-                <li>Diverse topics from faith to forgiveness.</li>
-                <li>Insights from various authors.</li>
-                <li>Daily spiritual nourishment at your fingertips.</li>
-              </ul>
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className={`mt-8 w-full py-3 rounded-lg font-semibold transition ${darkMode ? "bg-[#219653] text-white hover:bg-[#1d8348]" : "bg-[#27ae60] text-white hover:bg-[#219653]"} shadow-md`}
+            {/* Sidebar */}
+            <div className="lg:w-1/3 w-full"> {/* Ensure full width on smaller screens */}
+              {/* Popular Categories */}
+              <motion.div
+                variants={itemVariants}
+                className={`p-6 rounded-2xl shadow-md border mb-8 ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
               >
-                Start Your Daily Devotion <BookOpen className="inline-block ml-2" size={18} />
-              </motion.button>
-            </motion.div>
+                <h3 className={`text-xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>Popular Categories</h3>
+                <div className="space-y-3">
+                  {categories.slice(1).map((category, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ x: 5 }}
+                      onClick={() => setSelectedCategory(category)}
+                      className={`flex justify-between items-center w-full px-4 py-3 rounded-lg transition ${
+                        selectedCategory === category
+                          ? "bg-[#d5f5e3] text-[#145a32] font-semibold"
+                          : `${darkMode ? "bg-gray-700 text-gray-300 hover:bg-gray-600" : "bg-gray-50 text-gray-700 hover:bg-[#d5f5e3]"}`
+                      }`}
+                    >
+                      <span>{category}</span>
+                      <span className="bg-[#d5f5e3] text-[#145a32] text-xs font-bold px-2 py-1 rounded-full">
+                        {devotionals.filter(d => d.category === category).length}
+                      </span>
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Recent Devotionals */}
+              <motion.div
+                variants={itemVariants}
+                className={`p-6 rounded-2xl shadow-md border ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
+              >
+                <h3 className={`text-xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>Recent Devotionals</h3>
+                <div className="space-y-4">
+                  {devotionals.slice(0, 3).map((post) => (
+                    <motion.div
+                      key={post.id || post._id}
+                      whileHover={{ x: 5 }}
+                      className="flex gap-4 cursor-pointer group"
+                      onClick={() => openDevotionalModal(post)} // *** KEY CHANGE: Open modal on click for recent devotionals too ***
+                    >
+                      <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                        <img
+                          src={post.image || "https://placehold.co/800x600/cccccc/333333?text=Devotional"}
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/800x600/cccccc/333333?text=Devotional"; }}
+                        />
+                      </div>
+                      <div>
+                        <h4 className={`font-semibold group-hover:text-[#27ae60] transition ${darkMode ? "text-white" : "text-gray-900"}`}>
+                          {post.title}
+                        </h4>
+                        <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                          {/* Format date for display on recent devotionals */}
+                          {new Date(post.date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className={`py-8 text-center border-t ${darkMode ? "bg-gray-900 border-gray-700 text-gray-400" : "bg-white border-gray-200 text-gray-600"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <p>&copy; {new Date().getFullYear()} Daily Devotionals. All rights reserved.</p>
-          <p className="mt-2 text-sm">Powered by Faith, Hope, and Love</p>
-        </div>
-      </footer>
+      {/* Scripture Section */}
+      <section className={`py-16 px-4 sm:px-6 ${darkMode ? "bg-gray-800" : "bg-gradient-to-r from-[#145a32] to-[#1d8348]"} text-white`}>
+        <motion.div
+          className="max-w-7xl mx-auto w-full px-4 text-center" // Increased max-width and added padding
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div
+            initial={{ rotate: -10 }}
+            animate={{ rotate: 0 }}
+            transition={{ delay: 0.2, type: "spring" }}
+          >
+            <BookOpen className="mx-auto mb-6 text-[#d5f5e3]" size={40} />
+          </motion.div>
+          <motion.blockquote
+            className="text-2xl md:text-3xl italic mb-6"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            "Your word is a lamp for my feet, a light on my path."
+          </motion.blockquote>
+          <motion.p
+            className="text-xl font-medium"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            - Psalm 119:105
+          </motion.p>
+        </motion.div>
+      </section>
     </div>
   );
 };
