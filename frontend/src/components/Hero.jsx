@@ -7,15 +7,18 @@ import { motion } from "framer-motion";
 const HERO_IMAGE = '/ALCC.jpg';
 const PASTOR_IMAGE = '/pstElkana.jpg';
 
+// --- Updated EVENT_CATEGORY_FALLBACK_IMAGES to match Events.jsx ---
 const EVENT_CATEGORY_FALLBACK_IMAGES = {
     "General Church Events": '/ALCC.jpg',
-    "Youths": "https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    "Teens": "https://images.unsplash.com/photo-1603383928958-c8c3f1db1d5a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVuMHwwfHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    "Sunday School": '/child.jpg',
+    "Youths": "https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
+    "Teens": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
+    "Sunday School": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
     "Women of Faith": '/women.jpg',
     "Visionaries": '/vissionary.jpg',
-    "default": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    "sunday school": '/child.jpg', // Note: lowercase 's'
+    "default": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" // Default fallback
 };
+// --- End of Updated EVENT_CATEGORY_FALLBACK_IMAGES ---
 
 const HARDCODED_FALLBACK_EVENTS = [
     {
@@ -122,7 +125,11 @@ const Hero = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+    // --- Updated backendUrl to match Events.jsx logic ---
+    const backendUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5000'
+        : 'https://abundant-life.onrender.com';
+    // --- End of Updated backendUrl ---
 
     const dateFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
         weekday: 'long',
@@ -136,7 +143,6 @@ const Hero = () => {
         const daysUntilSunday = (7 - now.getDay()) % 7;
         result.setDate(now.getDate() + daysUntilSunday);
         result.setHours(10, 0, 0, 0);
-
         if (daysUntilSunday === 0 && now.getTime() > result.getTime()) {
             result.setDate(now.getDate() + 7);
         }
@@ -148,13 +154,11 @@ const Hero = () => {
         const interval = setInterval(() => {
             const now = new Date();
             const diff = target - now;
-
             if (diff <= 0) {
                 clearInterval(interval);
                 setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
                 return;
             }
-
             setTimeLeft({
                 days: Math.floor(diff / (1000 * 60 * 60 * 24)),
                 hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -162,42 +166,72 @@ const Hero = () => {
                 seconds: Math.floor((diff / 1000) % 60),
             });
         }, 1000);
-
         return () => clearInterval(interval);
     }, [getNextSundayServiceTime]);
 
+    // --- Updated fetchAndFormatEvents to match Events.jsx logic ---
     useEffect(() => {
         const fetchAndFormatEvents = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${backendUrl}/api/events`);
+                // Construct the full API endpoint URL
+                const apiUrl = `${backendUrl}/api/events`;
+                console.log(`Attempting to fetch events from: ${apiUrl}`);
+                const response = await fetch(apiUrl);
+
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                     // If the response is not OK, it means the server responded but with an error status
+                     const errorText = await response.text(); // Get raw text to help debug
+                     throw new Error(`Server responded with status ${response.status}: ${errorText || response.statusText}`);
                 }
+
                 const data = await response.json();
 
+                // --- Filtering and Sorting Logic (like in Events.jsx) ---
                 const now = new Date();
-                const futureEvents = data
-                    .filter(event => new Date(event.date) >= now)
-                    .sort((a, b) => new Date(a.date) - new Date(b.date));
+                now.setHours(0, 0, 0, 0); // Compare dates only
 
+                const futureEvents = data
+                    .filter(event => {
+                        const eventDate = new Date(event.date);
+                        eventDate.setHours(0, 0, 0, 0); // Compare dates only
+                        return eventDate >= now;
+                    })
+                    .sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort by date
+
+                // --- Formatting Logic (similar to Events.jsx) ---
                 const formattedEvents = futureEvents.map(event => {
                     const eventDate = new Date(event.date);
+                    // Use category or fallback to "General Church Events"
+                    const category = event.category || "General Church Events";
+
+                    // Determine image source
+                    let imageUrl;
+                    if (event.image) {
+                        // If image is a full URL, use it directly
+                        if (event.image.startsWith('http')) {
+                            imageUrl = event.image;
+                        } else {
+                            // Otherwise, prepend the backend URL
+                             imageUrl = `${backendUrl}${event.image}`;
+                        }
+                    } else {
+                        // Use fallback image based on category
+                        imageUrl = EVENT_CATEGORY_FALLBACK_IMAGES[category] || EVENT_CATEGORY_FALLBACK_IMAGES.default;
+                    }
+
                     return {
-                        id: event.id,
+                        id: event._id, // Use _id from MongoDB
                         title: event.title,
                         date: dateFormatter.format(eventDate),
-                        time: event.time,
+                        time: event.time, // Assuming time is already formatted correctly from backend
                         location: event.location,
-                        type: event.category || "General Church Events",
-                        image: event.image
-                            ? (event.image.startsWith('http')
-                                ? event.image
-                                : `${backendUrl}${event.image}`)
-                            : (EVENT_CATEGORY_FALLBACK_IMAGES[event.category] || EVENT_CATEGORY_FALLBACK_IMAGES.default)
+                        type: category,
+                        image: imageUrl
                     };
                 });
 
+                // Apply fallback events if needed (limit to 3)
                 if (formattedEvents.length < 3) {
                     const remainingSlots = 3 - formattedEvents.length;
                     const fillerEvents = HARDCODED_FALLBACK_EVENTS.filter(
@@ -207,9 +241,9 @@ const Hero = () => {
                 } else {
                     setUpcomingEvents(formattedEvents.slice(0, 3));
                 }
-
             } catch (error) {
                 console.error('Error fetching events:', error);
+                // Fallback to hardcoded events on error
                 setUpcomingEvents(HARDCODED_FALLBACK_EVENTS);
             } finally {
                 setLoading(false);
@@ -218,6 +252,7 @@ const Hero = () => {
 
         fetchAndFormatEvents();
     }, [backendUrl, dateFormatter]);
+    // --- End of Updated fetchAndFormatEvents ---
 
     return (
         <div className="min-h-screen bg-white text-gray-800 font-sans scroll-smooth">
@@ -233,7 +268,6 @@ const Hero = () => {
                     {/* Cleaner overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-slate-900/20"></div>
                 </div>
-
                 <div className="relative z-20 container mx-auto px-4 py-32 lg:py-40 text-center">
                     <motion.div
                         className={SECTION_BADGE_CLASSES}
@@ -243,7 +277,6 @@ const Hero = () => {
                     >
                         Preaching Christ To The World
                     </motion.div>
-
                     <motion.h1
                         className="text-4xl md:text-6xl font-bold mb-2 text-white"
                         initial={{ opacity: 0, y: 40 }}
@@ -253,7 +286,6 @@ const Hero = () => {
                         Welcome to Abundant
                         <span className="block text-[#43b9c7] mt-2 font-light"> Life Celebration Center</span>
                     </motion.h1>
-                    
                     {/* Added Bible Verse - John 10:10 */}
                     <motion.div
                         className="max-w-2xl mx-auto mb-6"
@@ -262,11 +294,10 @@ const Hero = () => {
                         transition={{ delay: 0.4, duration: 0.7 }}
                     >
                         <p className="text-[#f3d17a] italic font-serif text-lg md:text-xl">
-                            "The thief comes only to steal and kill and destroy; I have come that they may have life, 
+                            "The thief comes only to steal and kill and destroy; I have come that they may have life,
                             and have it to the full." - John 10:10
                         </p>
                     </motion.div>
-
                     <motion.p
                         className="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-gray-200 font-light"
                         initial={{ opacity: 0 }}
@@ -275,7 +306,6 @@ const Hero = () => {
                     >
                         Join our vibrant community of faith, hope, and love in the heart of the city.
                     </motion.p>
-
                     <motion.div
                         className="flex flex-col sm:flex-row gap-3 justify-center"
                         initial={{ opacity: 0, y: 20 }}
@@ -302,7 +332,6 @@ const Hero = () => {
                             Watch Sermons
                         </motion.button>
                     </motion.div>
-
                     <motion.div
                         className="mt-12 bg-white/20 backdrop-blur-lg rounded-xl p-4 max-w-3xl mx-auto border border-white/30"
                         initial={{ opacity: 0, y: 20 }}
@@ -368,7 +397,6 @@ const Hero = () => {
                             A personal message to you and your family.
                         </p>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center bg-white rounded-xl shadow-sm border border-gray-200">
                         <div className="md:col-span-2 h-full">
                             <motion.div
@@ -386,7 +414,6 @@ const Hero = () => {
                                 />
                             </motion.div>
                         </div>
-
                         <div className="md:col-span-3 p-8">
                             <motion.div
                                 className="relative"
@@ -402,10 +429,9 @@ const Hero = () => {
                                     viewport={{ once: true, amount: 0.5 }}
                                     transition={{ delay: 0.4, duration: 0.5 }}
                                 >
-                                    <span className="mr-2 text-[#006d7e]">✝</span>
+                                    <span className="mr-2 text-[#006d7e]">âœ</span>
                                     Dear Friend,
                                 </motion.h3>
-
                                 <motion.p
                                     className="text-gray-600 mb-4 leading-relaxed text-lg relative pl-4 border-l-2 border-[#84d9e6]"
                                     initial={{ opacity: 0, y: 20 }}
@@ -417,7 +443,6 @@ const Hero = () => {
                                     We are a family of believers committed to sharing the love of Christ and making
                                     disciples who impact the world.
                                 </motion.p>
-
                                 <motion.p
                                     className="text-gray-600 mb-4 leading-relaxed text-lg relative pl-4 border-l-2 border-[#84d9e6]"
                                     initial={{ opacity: 0, y: 20 }}
@@ -428,7 +453,6 @@ const Hero = () => {
                                     Whether you are seeking spiritual growth, meaningful relationships, or a place
                                     to serve, you are at home here. Our doors are open wide to you and your family.
                                 </motion.p>
-
                                 <motion.p
                                     className="text-gray-600 mb-6 leading-relaxed text-lg relative pl-4 border-l-2 border-[#84d9e6]"
                                     initial={{ opacity: 0, y: 20 }}
@@ -438,7 +462,6 @@ const Hero = () => {
                                 >
                                     I invite you to join us this Sunday for a life-changing encounter with God.
                                 </motion.p>
-
                                 <motion.div
                                     className="mt-8"
                                     initial={{ opacity: 0 }}
@@ -464,6 +487,7 @@ const Hero = () => {
             </section>
 
             {/* Upcoming Events - Minimalist Cards */}
+            {/* --- This section has been updated --- */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="text-center mb-12">
@@ -481,7 +505,6 @@ const Hero = () => {
                             Join us for upcoming services and special events.
                         </p>
                     </div>
-
                     {loading ? (
                         <div className="grid md:grid-cols-3 gap-6 mb-8">
                             {[1, 2, 3].map((_, index) => (
@@ -500,7 +523,7 @@ const Hero = () => {
                         <div className="grid md:grid-cols-3 gap-6 mb-8">
                             {upcomingEvents.map((event, index) => (
                                 <motion.div
-                                    key={event.id}
+                                    key={event.id} // Use event.id (_id from backend or fallback id)
                                     className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-200"
                                     whileHover={{ y: -5 }}
                                     initial={{ opacity: 0, y: 30 }}
@@ -515,8 +538,9 @@ const Hero = () => {
                                             className="w-full h-full object-cover"
                                             loading="lazy"
                                             onError={(e) => {
+                                                // Fallback to category image if loading fails
                                                 e.target.src = EVENT_CATEGORY_FALLBACK_IMAGES[event.type] || EVENT_CATEGORY_FALLBACK_IMAGES.default;
-                                                e.target.onerror = null;
+                                                e.target.onerror = null; // Prevent infinite loop if fallback also fails
                                             }}
                                         />
                                         <div className="absolute top-3 left-3 bg-white text-[#006d7e] rounded-full px-3 py-1 text-xs font-bold shadow-sm">
@@ -549,7 +573,6 @@ const Hero = () => {
                             ))}
                         </div>
                     )}
-
                     <div className="text-center">
                         <motion.button
                             whileHover={{ scale: 1.05 }}
@@ -567,6 +590,7 @@ const Hero = () => {
                     </div>
                 </div>
             </section>
+            {/* --- End of Updated Events Section --- */}
 
             {/* Quick Actions - Clean Cards */}
             <section className="py-16 bg-white">
@@ -586,7 +610,6 @@ const Hero = () => {
                             Explore key areas of our ministry and quickly find what you need.
                         </p>
                     </div>
-
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {QUICK_ACTIONS.map((action, index) => (
                             <motion.div
@@ -627,7 +650,6 @@ const Hero = () => {
                             We're excited to have you! Here's a glimpse of what your first visit will be like.
                         </p>
                     </div>
-
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {WHAT_TO_EXPECT_ITEMS.map((item, index) => (
                             <motion.div
@@ -648,7 +670,6 @@ const Hero = () => {
                             </motion.div>
                         ))}
                     </div>
-
                     <div className="text-center mt-12">
                         <motion.button
                             whileHover={{ scale: 1.05 }}
