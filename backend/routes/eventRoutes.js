@@ -13,6 +13,7 @@ const router = express.Router();
 router.get('/', getEvents);
 
 // Use centralized upload middleware
+// Ensure the form field name for the image is 'image'
 router.post('/', upload.single('image'), createEvent);
 router.put('/:id', upload.single('image'), updateEvent);
 router.delete('/:id', deleteEvent);

@@ -17,7 +17,7 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: [
-      'General Church Events',
+      'General',
       'Men',
       'Women',
       'Children',
@@ -25,7 +25,7 @@ const eventSchema = new mongoose.Schema({
       'Teens',
       'Visionaries'
     ],
-    default: 'General Church Events'
+    default: 'General '
   }
 });
 
