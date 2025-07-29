@@ -49,7 +49,7 @@ const teamsData = [
     title: "Ushering Department",
     category: "Service",
     icon: <HeartHandshake />,
-    leader: "Mama Naomi",
+    leader: "Mary Mayaka",
     phone: "+254 722 555 666",
     roles: ["Welcomer", "Offering Collector", "Seating Assistant"],
     description: "Create a welcoming environment and assist attendees during services. You're the first friendly face people see!",

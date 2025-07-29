@@ -27,7 +27,7 @@ const Ministries = () => {
       location: "Education Wing",
       description: "A rich place where we develop children in the knowledge of God. With passionate and well-equipped teachers, we teach the Bible, grow their memory of God's word, and provide opportunities to minister in main services. Children enjoy singing, fun trips, and swimming - all pointing them toward knowing and accepting God's love in Christ.",
       category: "Children",
-      image: '/child.jpg', // Placeholder for /child.jpg
+      image: '/children.jpg', // Placeholder for /child.jpg
     },
     {
       id: 2,
@@ -37,7 +37,7 @@ const Ministries = () => {
       location: "Youth Hall",
       description: "We expose youth to the Holy Spirit to shape, equip, and develop them for today's life and challenges. Armed with God's word and practical tools, they confront the spirit of the age and stand for their faith through deliberate forums for interaction, knowledge sharing, and personal experience exchange.",
       category: "Youth",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Youth+Ministry' // Placeholder for /Sam.jpg
+      image: '/youth1.jpg', // Placeholder for /Sam.jpg
     },
     {
       id: 3,
@@ -47,7 +47,7 @@ const Ministries = () => {
       location: "Fellowship Hall",
       description: "Focused on 20-35 year olds, this ministry helps navigate life's challenges while developing a personal relationship with God. We encourage godly relationships and family-oriented discussions, helping young adults find their place in the church community with marriage in perspective.",
       category: "Young Adults",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Adult+Youth' // Placeholder for /adult_youth.jpg
+      image: '/youths.jpg', // Placeholder for /adult_youth.jpg
     },
     {
       id: 4,
@@ -77,7 +77,7 @@ const Ministries = () => {
       location: "Ushindi, Imani, Ebenezer",
       description: "Essential small groups fostering spiritual growth through intimate discipleship and fellowship. Currently operating three home churches (Ushindi, Imani, Ebenezer) that supplement larger gatherings and enable closer accessibility and outreach.",
       category: "Home Church",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Home+Church' // Placeholder for /home_church.jpg
+      image: '/bible.jpg', // Placeholder for /home_church.jpg
     },
     {
       id: 7,
@@ -87,7 +87,7 @@ const Ministries = () => {
       location: "Community Park",
       description: "Shares the Christian message through verbal proclamation and practical service. Plans/organizes evangelism (one-on-one, crusades) and outreach (community service). Runs discipleship classes to ground new believers in God's word.",
       category: "Outreach",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Outreach+Ministry' // Placeholder for /outreach.jpg
+      image: '/outreach.jpg', // Placeholder for /outreach.jpg
     },
     {
       id: 8,
@@ -97,7 +97,7 @@ const Ministries = () => {
       location: "Fellowship Hall",
       description: "Strengthens marriages through support, education, counseling and fellowship. Offers premarital counseling, marriage enrichment programs, and connection opportunities to build healthy, God-centered relationships.",
       category: "Fellowship",
-      image:'https://placehold.co/600x400/000000/FFFFFF?text=Couples+Ministry' // Placeholder for /couples.jpg
+      image:'/couples.jpg',// Placeholder for /couples.jpg
     },
     {
       id: 9,
@@ -107,7 +107,7 @@ const Ministries = () => {
       location: "Prayer Room",
       description: "Dedicated to continuous, fervent prayer for the church, leaders, and community. Plans/coordinates all prayer ventures, focuses on intercessory prayer, and trains members to cultivate a prayer culture.",
       category: "Prayer",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Prayer+Ministry' // Placeholder for /prayer.jpg
+      image: '/prayer.jpg', // Placeholder for /prayer.jpg
     },
     {
       id: 10,
@@ -117,7 +117,7 @@ const Ministries = () => {
       location: "Sanctuary",
       description: "Leads congregational worship through music and expressions of faith. Creates atmosphere for connecting with God while training others in musical instrument skills.",
       category: "Worship",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Worship+Ministry' // Placeholder for /worship.jpg
+      image: '/worship.jpg', // Placeholder for /worship.jpg
     },
     {
       id: 11,
@@ -127,7 +127,7 @@ const Ministries = () => {
       location: "Church Campus",
       description: "Equipping servants of God through structured programs to become effective global ministers of the Gospel (Launching soon).",
       category: "Training",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Training+Ministry' // Placeholder for /training.jpg
+      image: '/school.jpg', // Placeholder for /training.jpg
     },
     {
       id: 12,
@@ -137,7 +137,7 @@ const Ministries = () => {
       location: "Main Lobby",
       description: "Creates welcoming environments and assists attendees during services. Responsible for greeting, seating, offerings, and service flow - serving as the first point of contact while maintaining order and reverence.",
       category: "Service",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Hospitality+Ministry' // Placeholder for /ushers.jpg
+      image: '/hospital.jpg', // Placeholder for /ushers.jpg
     },
     {
       id: 13,
@@ -157,7 +157,7 @@ const Ministries = () => {
       location: "Church Office",
       description: "Oversees physical development, property maintenance, and fundraising for projects. Ensures facilities are suitable for worship and activities while identifying improvement areas.",
       category: "Administration",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Development+Ministry' // Placeholder for /development.jpg
+      image: 'develope.jpg', // Placeholder for /development.jpg
     },
     {
       id: 15,
@@ -167,7 +167,7 @@ const Ministries = () => {
       location: "Media Booth",
       description: "Manages technical aspects of services/events (audio, video, lighting, streaming). Ensures effective message communication through various media channels both onsite and online.",
       category: "Service",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Media+Ministry' // Placeholder for /media.jpg
+      image: '/media.jpg', // Placeholder for /media.jpg
     }
   ];
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { FaPlay, FaBookOpen, FaUsers, FaPrayingHands, FaCalendarAlt, FaSpinner, FaChild, FaChurch, FaHandshake, FaMusic } from "react-icons/fa";
+import React, { useState, useEffect, useCallback } from "react";
+import { FaPlay, FaBookOpen, FaUsers, FaPrayingHands, FaCalendarAlt, FaChurch, FaHandshake, FaMusic, FaChild } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -7,19 +7,7 @@ import { motion } from "framer-motion";
 const HERO_IMAGE = '/ALCC.jpg';
 const PASTOR_IMAGE = '/pstElkana.jpg';
 
-// --- Updated EVENT_CATEGORY_FALLBACK_IMAGES to match Events.jsx ---
-const EVENT_CATEGORY_FALLBACK_IMAGES = {
-    "General Church Events": '/ALCC.jpg',
-    "Youths": "https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-    "Teens": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-    "Women ": '/women.jpg',
-    "Men": '/vissionary.jpg',
-    "Children": '/child.jpg', // Note: lowercase 's'
-    "default": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" // Default fallback
-};
-// --- End of Updated EVENT_CATEGORY_FALLBACK_IMAGES ---
-
-const HARDCODED_RECURRING_EVENTS = [
+const HARDCODED_WEEKLY_EVENTS = [
     {
         id: 1,
         title: "Evening Fellowships",
@@ -27,7 +15,8 @@ const HARDCODED_RECURRING_EVENTS = [
         time: "6:30 PM",
         location: "Main Sanctuary, ALCC",
         type: "General Church Events",
-        image: EVENT_CATEGORY_FALLBACK_IMAGES["General Church Events"]
+        image:'/homechurch.jpg',
+        description: "Join us for an intimate time of worship, prayer, and biblical teaching every Tuesday evening."
     },
     {
         id: 2,
@@ -36,7 +25,8 @@ const HARDCODED_RECURRING_EVENTS = [
         time: "8:00 PM",
         location: "ALCC Church",
         type: "Youths",
-        image: EVENT_CATEGORY_FALLBACK_IMAGES["Youths"]
+        image: '/kesha.jpg',
+        description: "A powerful night of prayer and worship designed specifically for our youth community."
     },
     {
         id: 3,
@@ -45,7 +35,8 @@ const HARDCODED_RECURRING_EVENTS = [
         time: "6:30 PM",
         location: "House Holds",
         type: "General Church Events",
-        image: EVENT_CATEGORY_FALLBACK_IMAGES["General Church Events"]
+        image: '/bible.jpg',
+        description: "Experience fellowship and Bible study in small group settings throughout our community."
     }
 ];
 
@@ -120,21 +111,7 @@ const SECTION_BADGE_CLASSES = "inline-block mb-4 bg-[#006d7e]/10 text-[#006d7e] 
 
 const Hero = () => {
     const [timeLeft, setTimeLeft] = useState({});
-    const [upcomingEvents, setUpcomingEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-
-    // --- Updated backendUrl to match Events.jsx logic ---
-    const backendUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:5000'
-        : 'https://abundant-life.onrender.com';
-    // --- End of Updated backendUrl ---
-
-    const dateFormatter = useMemo(() => new Intl.DateTimeFormat('en-US', {
-        weekday: 'long',
-        month: 'short',
-        day: 'numeric'
-    }), []);
 
     const getNextSundayServiceTime = useCallback(() => {
         const now = new Date();
@@ -167,91 +144,6 @@ const Hero = () => {
         }, 1000);
         return () => clearInterval(interval);
     }, [getNextSundayServiceTime]);
-
-    // --- Updated fetchAndFormatEvents to match Events.jsx logic ---
-    useEffect(() => {
-        const fetchAndFormatEvents = async () => {
-            setLoading(true);
-            try {
-                // Construct the full API endpoint URL
-                const apiUrl = `${backendUrl}/api/events`;
-                console.log(`Attempting to fetch events from: ${apiUrl}`);
-                const response = await fetch(apiUrl);
-
-                if (!response.ok) {
-                     // If the response is not OK, it means the server responded but with an error status
-                     const errorText = await response.text(); // Get raw text to help debug
-                     throw new Error(`Server responded with status ${response.status}: ${errorText || response.statusText}`);
-                }
-
-                const data = await response.json();
-
-                // --- Filtering and Sorting Logic (like in Events.jsx) ---
-                const now = new Date();
-                now.setHours(0, 0, 0, 0); // Compare dates only
-
-                const futureEvents = data
-                    .filter(event => {
-                        const eventDate = new Date(event.date);
-                        eventDate.setHours(0, 0, 0, 0); // Compare dates only
-                        return eventDate >= now;
-                    })
-                    .sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort by date
-
-                // --- Formatting Logic (similar to Events.jsx) ---
-                const formattedEvents = futureEvents.map(event => {
-                    const eventDate = new Date(event.date);
-                    // Use category or fallback to "General Church Events"
-                    const category = event.category || "General Church Events";
-
-                    // Determine image source
-                    let imageUrl;
-                    if (event.image) {
-                        // If image is a full URL, use it directly
-                        if (event.image.startsWith('http')) {
-                            imageUrl = event.image;
-                        } else {
-                            // Otherwise, prepend the backend URL
-                             imageUrl = `${backendUrl}${event.image}`;
-                        }
-                    } else {
-                        // Use fallback image based on category
-                        imageUrl = EVENT_CATEGORY_FALLBACK_IMAGES[category] || EVENT_CATEGORY_FALLBACK_IMAGES.default;
-                    }
-
-                    return {
-                        id: event._id, // Use _id from MongoDB
-                        title: event.title,
-                        date: dateFormatter.format(eventDate),
-                        time: event.time, // Assuming time is already formatted correctly from backend
-                        location: event.location,
-                        type: category,
-                        image: imageUrl
-                    };
-                });
-
-                // Apply fallback events if needed (limit to 3)
-                if (formattedEvents.length < 3) {
-                    const remainingSlots = 3 - formattedEvents.length;
-                    const fillerEvents = HARDCODED_RECURRING_EVENTS.filter(
-                        fallbackEvent => !formattedEvents.some(fe => fe.title === fallbackEvent.title)
-                    ).slice(0, remainingSlots);
-                    setUpcomingEvents([...formattedEvents, ...fillerEvents]);
-                } else {
-                    setUpcomingEvents(formattedEvents.slice(0, 3));
-                }
-            } catch (error) {
-                console.error('Error fetching events:', error);
-                // Fallback to hardcoded events on error
-                setUpcomingEvents(HARDCODED_RECURRING_EVENTS.slice(0, 3));
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchAndFormatEvents();
-    }, [backendUrl, dateFormatter]);
-    // --- End of Updated fetchAndFormatEvents ---
 
     return (
         <div className="min-h-screen bg-white text-gray-800 font-sans scroll-smooth">
@@ -485,10 +377,10 @@ const Hero = () => {
                 </div>
             </section>
 
-            {/* Upcoming Events - Minimalist Cards */}
+            {/* Weekly Events Section - Clean, container-free layout */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4 max-w-6xl">
-                    <div className="text-center mb-12">
+                    <div className="text-center mb-16">
                         <motion.div
                             className={SECTION_BADGE_CLASSES}
                             initial={{ opacity: 0, y: 20 }}
@@ -496,157 +388,72 @@ const Hero = () => {
                             viewport={{ once: true, amount: 0.5 }}
                             transition={{ duration: 0.5 }}
                         >
-                            JOIN US
+                            REGULAR GATHERINGS
                         </motion.div>
-                        <h2 className="text-3xl font-bold mb-4 text-gray-800">Upcoming Events</h2>
+                        <h2 className="text-3xl font-bold mb-4 text-gray-800">Weekly Events</h2>
                         <p className="text-gray-600 max-w-2xl mx-auto text-sm">
-                            Join us for upcoming services and special events.
+                            Our regular weekly gatherings you can always join.
                         </p>
                     </div>
                     
-                    {/* Upcoming Events Section */}
-                    {loading ? (
-                        <div className="grid md:grid-cols-3 gap-6 mb-8">
-                            {[1, 2, 3].map((_, index) => (
-                                <div key={index} className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 animate-pulse">
-                                    <div className="relative h-52 mb-4 rounded-xl bg-gray-100"></div>
-                                    <div className="h-6 bg-gray-200 rounded w-3/4 mb-3"></div>
-                                    <div className="space-y-2">
-                                        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                                        <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-                                        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                                    </div>
+                    <div className="space-y-24">
+                        {HARDCODED_WEEKLY_EVENTS.map((event, index) => (
+                            <motion.div
+                                key={event.id}
+                                className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-10`}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                            >
+                                {/* Event Image - Sharp and full width */}
+                                <div className="w-full md:w-1/2 h-96 overflow-hidden rounded-xl">
+                                    <img
+                                        src={event.image}
+                                        alt={`Event: ${event.title}`}
+                                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                                        loading="lazy"
+                                    />
                                 </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="grid md:grid-cols-3 gap-6 mb-8">
-                            {upcomingEvents.map((event, index) => (
-                                <motion.div
-                                    key={event.id}
-                                    className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-200"
-                                    whileHover={{ y: -5 }}
-                                    initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                                >
-                                    <div className="relative h-52 mb-4 rounded-xl overflow-hidden">
-                                        <img
-                                            src={event.image}
-                                            alt={`Event: ${event.title}`}
-                                            className="w-full h-full object-cover"
-                                            loading="lazy"
-                                            onError={(e) => {
-                                                e.target.src = EVENT_CATEGORY_FALLBACK_IMAGES[event.type] || EVENT_CATEGORY_FALLBACK_IMAGES.default;
-                                                e.target.onerror = null;
-                                            }}
-                                        />
-                                        <div className="absolute top-3 left-3 bg-white text-[#006d7e] rounded-full px-3 py-1 text-xs font-bold shadow-sm">
-                                            {event.type}
-                                        </div>
-                                    </div>
-                                    <h3 className="text-lg font-bold mb-3 text-gray-800">{event.title}</h3>
-                                    <div className="space-y-2">
-                                        <div className="flex items-center text-gray-600 text-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                
+                                {/* Event Details */}
+                                <div className="w-full md:w-1/2">
+                                    <div className="text-[#006d7e] font-medium mb-3">{event.type}</div>
+                                    <h3 className="text-2xl font-bold mb-4 text-gray-800">{event.title}</h3>
+                                    
+                                    <div className="space-y-3 mb-5">
+                                        <div className="flex items-center text-gray-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
                                             {event.date}
                                         </div>
-                                        <div className="flex items-center text-gray-600 text-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div className="flex items-center text-gray-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                             {event.time}
                                         </div>
-                                        <div className="flex items-center text-gray-600 text-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div className="flex items-center text-gray-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
                                             {event.location}
                                         </div>
                                     </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    )}
-                    
-                    {/* Recurring Events Section */}
-                    <div className="text-center mb-12 mt-20">
-                        <motion.div
-                            className={SECTION_BADGE_CLASSES}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.5 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            WEEKLY GATHERINGS
-                        </motion.div>
-                        <h2 className="text-3xl font-bold mb-4 text-gray-800">Recurring Events</h2>
-                        <p className="text-gray-600 max-w-2xl mx-auto text-sm">
-                            Our regular weekly gatherings you can always join.
-                        </p>
-                    </div>
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {HARDCODED_RECURRING_EVENTS.map((event, index) => (
-                            <motion.div
-                                key={event.id}
-                                className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-200"
-                                whileHover={{ y: -5 }}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.3, delay: index * 0.1 }}
-                            >
-                                <div className="relative h-52 mb-4 rounded-xl overflow-hidden">
-                                    <img
-                                        src={event.image}
-                                        alt={`Event: ${event.title}`}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
-                                        onError={(e) => {
-                                            e.target.src = EVENT_CATEGORY_FALLBACK_IMAGES[event.type] || EVENT_CATEGORY_FALLBACK_IMAGES.default;
-                                            e.target.onerror = null;
-                                        }}
-                                    />
-                                    <div className="absolute top-3 left-3 bg-white text-[#006d7e] rounded-full px-3 py-1 text-xs font-bold shadow-sm">
-                                        {event.type}
-                                    </div>
-                                </div>
-                                <h3 className="text-lg font-bold mb-3 text-gray-800">{event.title}</h3>
-                                <div className="space-y-2">
-                                    <div className="flex items-center text-gray-600 text-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                        {event.date}
-                                    </div>
-                                    <div className="flex items-center text-gray-600 text-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        {event.time}
-                                    </div>
-                                    <div className="flex items-center text-gray-600 text-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                        {event.location}
-                                    </div>
-                                    <div className="mt-2">
-                                        <span className="inline-block bg-[#e6f7f9] text-[#006d7e] rounded-full px-3 py-1 text-xs font-medium">
-                                            Weekly Event
-                                        </span>
+                                    
+                                    <p className="text-gray-600 mb-6 leading-relaxed">{event.description}</p>
+                                    
+                                    <div className="inline-block bg-[#e6f7f9] text-[#006d7e] rounded-full px-4 py-2 text-sm font-medium">
+                                        Weekly Event
                                     </div>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
 
-                    <div className="text-center mt-12">
+                    <div className="text-center mt-16">
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}

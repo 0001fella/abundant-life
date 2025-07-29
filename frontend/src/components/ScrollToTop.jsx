@@ -1,3 +1,4 @@
+// src/components/ScrollToTop.jsx (or your chosen path)
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -9,10 +10,11 @@ const ScrollToTop = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "auto" // or "smooth" if you want animation
+      behavior: "auto" // or "smooth"
     });
-  }, [pathname]);
+  }, [pathname]); // Dependency ensures it runs on route change
 
+  // This component doesn't render anything visible
   return null;
 };
 
