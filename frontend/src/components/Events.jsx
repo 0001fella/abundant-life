@@ -24,14 +24,14 @@ const Events = () => {
   const [visibleEvents, setVisibleEvents] = useState(6);
 
   // Updated categories and fallback images
-  const categories = ['All', 'General Church Events', 'Youths', 'Teens', 'Sunday School', 'Women of Faith', 'Visionaries'];
+  const categories = ['All', 'General', 'Youths', 'Teens', 'Children', 'Women', 'Men'];
   const fallbackImages = {
-    "General Church Events": '/ALCC.jpg',
+    "General ": '/ALCC.jpg',
     "Youths": "https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
     "Teens": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-    "Women of Faith": '/women.jpg',
-    "Visionaries": '/vissionary.jpg',
-    "Sunday School": '/child.jpg',
+    "Women": '/women.jpg',
+    "Men": '/vissionary.jpg',
+    "Children": '/child.jpg',
     "default": '/ALCC.jpg'
   };
 
