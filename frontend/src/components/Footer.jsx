@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
-// Removed FaChurch, FaPrayingHands, FaHeart, FaUsers, FaCalendarAlt, FaBookOpen, FaMapMarkerAlt, FaPhone, FaEnvelope, FaFacebookF, FaTwitter, FaInstagram, FaYoutube imports
 import { motion } from 'framer-motion';
+// Importing Lucide React icons for a more professional look
+import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 
 const Footer = () => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  const primaryBlue = '#3498db'; // A nice shade of blue
-  const lightBlue = '#eaf6fa'; // A very light blue for subtle backgrounds
+
+  // Updated color palette for the black background and blue/white/green theme
+  const primaryAccentBlue = '#3B82F6'; // A vibrant blue for accents and highlights
+  const primaryAccentGreen = '#10B981'; // A vibrant green for accents and highlights
+  const mainTextColor = '#FFFFFF'; // Pure white for primary text on dark background
+  const secondaryTextColor = '#E0E0E0'; // Light gray for subtle text
+  const blackBg = '#000000'; // Explicit black background
+  const glassBg = 'rgba(0, 0, 0, 0.4)'; // More transparent black for glass effect
+  const glassBorder = 'rgba(255, 255, 255, 0.15)'; // Slightly more visible white border for glass effect
+  const glassShadow = 'rgba(0, 0, 0, 0.6)'; // Stronger dark shadow for depth
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
@@ -13,66 +22,80 @@ const Footer = () => {
 
   return (
     <motion.footer
-      className="bg-white text-gray-800 relative pt-24 pb-8 overflow-hidden border-t border-gray-100"
+      className="relative pt-24 pb-8 overflow-hidden z-10 font-inter"
+      style={{
+        backgroundColor: blackBg,
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        borderTop: `1px solid ${glassBorder}`,
+        boxShadow: `0 8px 32px 0 ${glassShadow}`,
+        color: mainTextColor,
+      }}
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      {/* Blue Wave Animation Background */}
+      {/* Glowing Blue and Green Curved Wave Animation Background */}
       <div className="absolute inset-x-0 bottom-0 top-0 overflow-hidden pointer-events-none z-0">
-        <div className="wave-container absolute bottom-0 left-0 w-full h-full">
-          {/* Wave 1 */}
-          <div
-            className="wave absolute w-[200%] h-[200px] bg-gradient-to-r from-blue-300 to-blue-500 opacity-30"
-            style={{
-              animation: 'wave 15s linear infinite',
-              borderRadius: '50%',
-              transform: 'translate3d(0, 0, 0) rotate(0deg) scale(2, 1)',
-              bottom: '-50px', // Adjust position
-              left: '-50%',
-            }}
-          ></div>
-          {/* Wave 2 */}
-          <div
-            className="wave absolute w-[200%] h-[200px] bg-gradient-to-r from-blue-400 to-blue-600 opacity-20"
-            style={{
-              animation: 'wave 20s linear infinite reverse',
-              borderRadius: '50%',
-              transform: 'translate3d(0, 0, 0) rotate(0deg) scale(2, 1)',
-              bottom: '-80px', // Adjust position
-              left: '-50%',
-            }}
-          ></div>
-          {/* Wave 3 */}
-          <div
-            className="wave absolute w-[200%] h-[200px] bg-gradient-to-r from-blue-500 to-blue-700 opacity-10"
-            style={{
-              animation: 'wave 25s linear infinite',
-              borderRadius: '50%',
-              transform: 'translate3d(0, 0, 0) rotate(0deg) scale(2, 1)',
-              bottom: '-110px', // Adjust position
-              left: '-50%',
-            }}
-          ></div>
-        </div>
+        {/* Blue Wave */}
+        <div
+          className="absolute w-[150%] h-[300px] rounded-[50%] opacity-0"
+          style={{
+            background: `radial-gradient(circle at center, ${primaryAccentBlue}40 0%, transparent 70%)`,
+            animation: 'glowingWaveBlue 20s linear infinite alternate',
+            bottom: '-150px',
+            left: '-25%',
+          }}
+        ></div>
+        {/* Green Wave */}
+        <div
+          className="absolute w-[150%] h-[300px] rounded-[50%] opacity-0"
+          style={{
+            background: `radial-gradient(circle at center, ${primaryAccentGreen}40 0%, transparent 70%)`,
+            animation: 'glowingWaveGreen 25s linear infinite alternate-reverse',
+            bottom: '-100px',
+            left: '-75%',
+            animationDelay: '2s',
+          }}
+        ></div>
       </div>
 
-      {/* Custom CSS for Wave Animation - moved to standard style tag */}
+      {/* Custom CSS for Glowing Wave Animations */}
       <style>
         {`
-        @keyframes wave {
+        @keyframes glowingWaveBlue {
           0% {
-            transform: translate3d(-50%, 0, 0) rotate(0deg) scale(2, 1);
+            transform: translateX(-10%) scale(0.9) rotate(5deg);
+            opacity: 0.15;
+          }
+          50% {
+            transform: translateX(10%) scale(1.1) rotate(-5deg);
+            opacity: 0.3;
           }
           100% {
-            transform: translate3d(50%, 0, 0) rotate(0deg) scale(2, 1);
+            transform: translateX(-10%) scale(0.9) rotate(5deg);
+            opacity: 0.15;
+          }
+        }
+        @keyframes glowingWaveGreen {
+          0% {
+            transform: translateX(10%) scale(0.95) rotate(-3deg);
+            opacity: 0.1;
+          }
+          50% {
+            transform: translateX(-10%) scale(1.05) rotate(3deg);
+            opacity: 0.25;
+          }
+          100% {
+            transform: translateX(10%) scale(0.95) rotate(-3deg);
+            opacity: 0.1;
           }
         }
         `}
       </style>
 
-      {/* Decorative pattern at top - now white/transparent */}
-      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/50 to-transparent z-10"></div>
+      {/* Decorative pattern at top - now subtle dark gradient */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black/80 to-transparent z-0"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         {/* Footer Content */}
@@ -86,35 +109,35 @@ const Footer = () => {
           >
             <div className="flex items-center">
               <motion.div 
-                className="p-2 text-white rounded-lg mr-3"
-                style={{ backgroundColor: primaryBlue }}
+                className="p-2 rounded-lg mr-3"
+                style={{ backgroundColor: primaryAccentBlue, color: blackBg }}
                 whileHover={{ rotate: 10, scale: 1.1 }}
               >
-                {/* Replaced FaChurch with emoji */}
                 <span className="text-xl">⛪</span>
               </motion.div>
-              <span className="text-2xl font-bold font-serif text-gray-900">Abundant Life Celebration Center</span>
+              <span className="text-2xl font-bold font-serif" style={{ color: primaryAccentBlue }}>Abundant Life Celebration Center</span>
             </div>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed" style={{ color: secondaryTextColor }}>
               A place of worship, fellowship, and spiritual growth. 
               We're dedicated to serving God and serving people.
             </p>
             <div className="flex space-x-4">
               {[
-                { icon: 'FB', color: '#3b5998' }, // Replaced FaFacebookF with text
-                { icon: 'X', color: '#1da1f2' },   // Replaced FaTwitter with text
-                { icon: 'IG', color: '#e1306c' },  // Replaced FaInstagram with text
-                { icon: 'YT', color: '#ff0000' }   // Replaced FaYoutube with text
+                { icon: <Facebook size={20} />, name: 'Facebook', color: '#3b5998' },
+                { icon: <Twitter size={20} />, name: 'Twitter', color: '#1da1f2' },
+                { icon: <Instagram size={20} />, name: 'Instagram', color: '#e1306c' },
+                { icon: <Youtube size={20} />, name: 'YouTube', color: '#ff0000' }
               ].map((social, index) => (
                 <motion.a 
                   key={index}
                   href="#"
-                  className="p-3 bg-gray-100 text-gray-600 rounded-full hover:text-white transition-colors flex items-center justify-center" // Added flex for centering
-                  style={{ backgroundColor: social.color + '0d' }}
+                  className="p-3 rounded-full flex items-center justify-center text-white"
+                  style={{ backgroundColor: `${social.color}30`, border: `1px solid ${social.color}50` }}
                   whileHover={{ 
                     backgroundColor: social.color,
-                    scale: 1.1,
-                    rotate: 10
+                    scale: 1.2,
+                    rotate: 360,
+                    transition: { duration: 0.5, ease: "easeInOut" }
                   }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -130,24 +153,24 @@ const Footer = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <h3 className="text-lg font-bold font-serif mb-6 pb-2 border-b-2 inline-block text-gray-900" style={{ borderColor: primaryBlue }}>Quick Links</h3>
+            <h3 className="text-lg font-bold font-serif mb-6 pb-2 border-b-2 inline-block" style={{ borderColor: primaryAccentGreen, color: primaryAccentGreen }}>Quick Links</h3>
             <ul className="space-y-4">
               {[
-                { name: 'About Us', icon: '❤️' }, // Replaced FaHeart with emoji
-                { name: 'Our Beliefs', icon: '📖' }, // Replaced FaBookOpen with emoji
-                { name: 'Ministries', icon: '👥' }, // Replaced FaUsers with emoji
-                { name: 'Sermons', icon: '🙏' }, // Replaced FaPrayingHands with emoji
-                { name: 'Events', icon: '📅' }, // Replaced FaCalendarAlt with emoji
+                { name: 'About Us', icon: '❤️' },
+                { name: 'Our Beliefs', icon: '📖' },
+                { name: 'Ministries', icon: '👥' },
+                { name: 'Sermons', icon: '🙏' },
+                { name: 'Events', icon: '📅' },
               ].map((item, index) => (
                 <motion.li 
                   key={index}
-                  whileHover={{ x: 5 }}
+                  whileHover={{ x: 8 }}
                 >
-                  <a href="#" className="flex items-center text-gray-600 transition-colors group" style={{ '--tw-text-opacity': 1, color: `rgba(var(--tw-text-opacity), ${primaryBlue})` }}>
-                    <span className="mr-3 group-hover:scale-110 transition-transform" style={{ color: primaryBlue }}>
+                  <a href="#" className="flex items-center transition-colors group" style={{ color: secondaryTextColor }}>
+                    <span className="mr-3 group-hover:scale-125 transition-transform" style={{ color: primaryAccentGreen }}>
                       {item.icon}
                     </span>
-                    <span className="group-hover:font-medium">{item.name}</span>
+                    <span className="group-hover:font-semibold" style={{ color: mainTextColor }}>{item.name}</span>
                   </a>
                 </motion.li>
               ))}
@@ -160,7 +183,7 @@ const Footer = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <h3 className="text-lg font-bold font-serif mb-6 pb-2 border-b-2 inline-block text-gray-900" style={{ borderColor: primaryBlue }}>Ministries</h3>
+            <h3 className="text-lg font-bold font-serif mb-6 pb-2 border-b-2 inline-block" style={{ borderColor: primaryAccentBlue, color: primaryAccentBlue }}>Ministries</h3>
             <ul className="space-y-3">
               {[
                 'Children Ministry',
@@ -172,15 +195,15 @@ const Footer = () => {
               ].map((ministry, index) => (
                 <motion.li 
                   key={index}
-                  whileHover={{ x: 5 }}
+                  whileHover={{ x: 8 }}
                 >
-                  <a href="#" className="text-gray-600 transition-colors flex items-center group" style={{ '--tw-text-opacity': 1, color: `rgba(var(--tw-text-opacity), ${primaryBlue})` }}>
+                  <a href="#" className="transition-colors flex items-center group" style={{ color: secondaryTextColor }}>
                     <motion.span 
-                      className="w-2 h-2 rounded-full mr-3"
-                      style={{ backgroundColor: primaryBlue }}
-                      whileHover={{ scale: 1.5 }}
+                      className="w-2.5 h-2.5 rounded-full mr-3"
+                      style={{ backgroundColor: primaryAccentBlue }}
+                      whileHover={{ scale: 1.8 }}
                     ></motion.span>
-                    <span className="group-hover:font-medium">{ministry}</span>
+                    <span className="group-hover:font-semibold" style={{ color: mainTextColor }}>{ministry}</span>
                   </a>
                 </motion.li>
               ))}
@@ -193,64 +216,67 @@ const Footer = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <h3 className="text-lg font-bold font-serif mb-6 pb-2 border-b-2 inline-block text-gray-900" style={{ borderColor: primaryBlue }}>Contact Us</h3>
+            <h3 className="text-lg font-bold font-serif mb-6 pb-2 border-b-2 inline-block" style={{ borderColor: primaryAccentGreen, color: primaryAccentGreen }}>Contact Us</h3>
             <ul className="space-y-4">
               <motion.li 
                 className="flex items-start"
-                whileHover={{ x: 5 }}
+                whileHover={{ x: 8 }}
               >
-                {/* Replaced FaMapMarkerAlt with emoji */}
-                <span className="mt-1 mr-3" style={{ color: primaryBlue }}>📍</span>
-                <span className="text-gray-600">Umoja Three, Chockmart</span>
+                <span className="mt-1 mr-3" style={{ color: primaryAccentGreen }}>📍</span>
+                <span style={{ color: secondaryTextColor }}>Umoja Three, Chockmart</span>
               </motion.li>
               <motion.li 
                 className="flex items-center"
-                whileHover={{ x: 5 }}
+                whileHover={{ x: 8 }}
               >
-                {/* Replaced FaPhone with emoji */}
-                <span className="mr-3" style={{ color: primaryBlue }}>📞</span>
-                <span className="text-gray-600">(555) 123-4567</span>
+                <span className="mr-3" style={{ color: primaryAccentGreen }}>📞</span>
+                <span style={{ color: secondaryTextColor }}>(555) 123-4567</span>
               </motion.li>
               <motion.li 
                 className="flex items-center"
-                whileHover={{ x: 5 }}
+                whileHover={{ x: 8 }}
               >
-                {/* Replaced FaEnvelope with emoji */}
-                <span className="mr-3" style={{ color: primaryBlue }}>✉️</span>
-                <span className="text-gray-600">info@abundantlife.com</span>
+                <span className="mr-3" style={{ color: primaryAccentGreen }}>✉️</span>
+                <span style={{ color: secondaryTextColor }}>info@abundantlife.com</span>
               </motion.li>
             </ul>
             
             <motion.div 
-              className="mt-8 rounded-xl p-6 border shadow-sm"
-              style={{ backgroundColor: lightBlue, borderColor: `${primaryBlue}30` }}
+              className="mt-8 rounded-xl p-6 border shadow-lg"
+              style={{ 
+                backgroundColor: glassBg,
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                borderColor: glassBorder,
+                boxShadow: `0 6px 20px ${glassShadow}`
+              }}
               whileHover={{ 
-                y: -5,
-                boxShadow: `0 10px 25px -5px ${primaryBlue}1A` // Subtle blue shadow
+                y: -8,
+                boxShadow: `0 15px 35px -5px ${primaryAccentGreen}30` // Use green for hover shadow
               }}
             >
-              <h4 className="font-bold font-serif mb-3 text-gray-900">Service Times</h4>
-              <ul className="space-y-2 text-gray-600">
+              <h4 className="font-bold font-serif mb-3" style={{ color: primaryAccentGreen }}>Service Times</h4>
+              <ul className="space-y-2" style={{ color: secondaryTextColor }}>
                 <motion.li 
                   className="flex justify-between"
                   whileHover={{ x: 5 }}
                 >
                   <span>Sunday Worship</span>
-                  <span className="font-medium" style={{ color: primaryBlue }}>10:00 AM</span>
+                  <span className="font-medium" style={{ color: primaryAccentGreen }}>10:00 AM</span>
                 </motion.li>
                 <motion.li 
                   className="flex justify-between"
                   whileHover={{ x: 5 }}
                 >
                   <span>Wednesday Bible Study</span>
-                  <span className="font-medium" style={{ color: primaryBlue }}>7:00 PM</span>
+                  <span className="font-medium" style={{ color: primaryAccentBlue }}>7:00 PM</span>
                 </motion.li>
                 <motion.li 
                   className="flex justify-between"
                   whileHover={{ x: 5 }}
                 >
                   <span>Friday Prayer</span>
-                  <span className="font-medium" style={{ color: primaryBlue }}>6:30 PM</span>
+                  <span className="font-medium" style={{ color: primaryAccentGreen }}>6:30 PM</span>
                 </motion.li>
               </ul>
             </motion.div>
@@ -259,7 +285,8 @@ const Footer = () => {
         
         {/* Divider */}
         <motion.div 
-          className="border-t border-gray-200 my-8"
+          className="my-8"
+          style={{ borderTop: `1px solid ${glassBorder}` }}
           initial={{ width: 0 }}
           animate={{ width: "100%" }}
           transition={{ duration: 0.8 }}
@@ -272,7 +299,7 @@ const Footer = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
+          <p className="text-sm mb-4 md:mb-0" style={{ color: secondaryTextColor }}>
             © {currentYear} Abundant Life Celebration Center. All Rights Reserved.
           </p>
           <div className="flex space-x-6">
@@ -280,10 +307,12 @@ const Footer = () => {
               <motion.a 
                 key={index}
                 href="#"
-                className="text-gray-500 hover:text-blue-500 text-sm transition-colors"
+                className="text-sm transition-colors"
+                style={{ color: secondaryTextColor }}
                 whileHover={{ 
-                  y: -3,
-                  fontWeight: 600
+                  y: -5,
+                  fontWeight: 700,
+                  color: primaryAccentBlue // Hover accent color
                 }}
               >
                 {item}
@@ -293,12 +322,14 @@ const Footer = () => {
         </motion.div>
       </div>
       
-      {/* Floating decorative elements - now blue */}
+      {/* Floating decorative elements - now blue and green for glass effect */}
       <motion.div 
-        className="absolute bottom-10 right-10 w-8 h-8 rounded-full bg-blue-500/10"
+        className="absolute bottom-10 right-10 w-8 h-8 rounded-full"
+        style={{ backgroundColor: `${primaryAccentBlue}1A`, border: `1px solid ${primaryAccentBlue}30` }}
         animate={{ 
           scale: [1, 1.5, 1],
-          opacity: [0.3, 0.1, 0.3]
+          opacity: [0.3, 0.1, 0.3],
+          rotate: [0, 90, 0] // Added rotation
         }}
         transition={{ 
           duration: 4,
@@ -307,10 +338,12 @@ const Footer = () => {
         }}
       ></motion.div>
       <motion.div 
-        className="absolute bottom-20 left-16 w-6 h-6 rounded-full bg-blue-500/10"
+        className="absolute bottom-20 left-16 w-6 h-6 rounded-full"
+        style={{ backgroundColor: `${primaryAccentGreen}1A`, border: `1px solid ${primaryAccentGreen}30` }}
         animate={{ 
           scale: [1, 1.8, 1],
-          opacity: [0.2, 0.05, 0.2]
+          opacity: [0.2, 0.05, 0.2],
+          rotate: [0, -90, 0] // Added rotation
         }}
         transition={{ 
           duration: 5,

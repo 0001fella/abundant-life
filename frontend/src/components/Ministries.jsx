@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { Search, Users, Clock, MapPin, PlusCircle, BookOpen, ArrowRight } from "lucide-react"; // Import Lucide icons, including ArrowRight
 
 const Ministries = () => {
-  // Define theme colors as constants
-  const themeColors = {
-    primary: '#0D3B66', // Deep Navy Blue
-    secondary: '#1C6E6E', // Forest Green
-    accent: '#C8A870', // Classic Gold
-    textDark: '#2C3E50', // Dark Charcoal
-    textLight: '#FFFFFF', // White
-    backgroundLight: '#F8F9FA', // Off-White
-    backgroundDark: '#0D1B2A', // Very Dark Blue
-    border: '#E0E0E0',
-  };
+  // Define theme colors as constants from the Contact/Footer components
+  const primaryAccentBlue = '#3B82F6'; // A vibrant blue for accents and highlights
+  const primaryAccentGreen = '#10B981'; // A vibrant green for accents and highlights
+  const mainTextColor = '#FFFFFF'; // Pure white for primary text on dark background
+  const secondaryTextColor = '#E0E0E0'; // Light gray for subtle text
+  const blackBg = '#000000'; // Explicit black background
+  const glassBg = 'rgba(0, 0, 0, 0.4)'; // More transparent black for glass effect
+  const glassBorder = 'rgba(255, 255, 255, 0.15)'; // Slightly more visible white border for glass effect
+  const glassShadow = 'rgba(0, 0, 0, 0.6)'; // Stronger dark shadow for depth
+  const inputBg = 'rgba(255, 255, 255, 0.1)'; // Light transparent background for inputs
+  const inputBorder = 'rgba(255, 255, 255, 0.2)'; // Light transparent border for inputs
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -21,12 +22,12 @@ const Ministries = () => {
     {
       id: 1,
       title: "Sunday School",
-      leader: "Sister Grace Wambui",
+      leader: "Sister Joan",
       meeting: "Sundays 9-11AM",
       location: "Education Wing",
       description: "A rich place where we develop children in the knowledge of God. With passionate and well-equipped teachers, we teach the Bible, grow their memory of God's word, and provide opportunities to minister in main services. Children enjoy singing, fun trips, and swimming - all pointing them toward knowing and accepting God's love in Christ.",
       category: "Children",
-      image: '/child.jpg'
+      image: '/child.jpg', // Placeholder for /child.jpg
     },
     {
       id: 2,
@@ -36,87 +37,87 @@ const Ministries = () => {
       location: "Youth Hall",
       description: "We expose youth to the Holy Spirit to shape, equip, and develop them for today's life and challenges. Armed with God's word and practical tools, they confront the spirit of the age and stand for their faith through deliberate forums for interaction, knowledge sharing, and personal experience exchange.",
       category: "Youth",
-      image: '/Sam.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Youth+Ministry' // Placeholder for /Sam.jpg
     },
     {
       id: 3,
       title: "Adult Youth",
-      leader: "Pastor Daniel Kimani",
+      leader: "Pastor Samwel",
       meeting: "Sundays 2-4PM",
       location: "Fellowship Hall",
       description: "Focused on 20-35 year olds, this ministry helps navigate life's challenges while developing a personal relationship with God. We encourage godly relationships and family-oriented discussions, helping young adults find their place in the church community with marriage in perspective.",
       category: "Young Adults",
-      image: '/adult_youth.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Adult+Youth' // Placeholder for /adult_youth.jpg
     },
     {
       id: 4,
       title: "Visionaries (Men)",
-      leader: "Elder James Mwangi",
+      leader: "Amphore",
       meeting: "Wednesdays 5-7PM",
       location: "Leadership Room",
       description: "Equipping and empowering men to live out their faith, build strong relationships, and lead families/communities by Christian principles. Provides fellowship, accountability, and spiritual growth space addressing unique challenges men face.",
       category: "Men",
-      image: '/vissionary.jpg'
+      image: 'vissionary.jpg', // Placeholder for /vissionary.jpg
     },
     {
       id: 5,
       title: "Women of Faith",
-      leader: "Deaconess Mary Otieno",
+      leader: "Caroline Barasa",
       meeting: "Thursdays 10AM-12PM",
       location: "Prayer Room",
       description: "A supportive environment for women to grow in faith, build community, and address spiritual, emotional, and practical needs. Women connect, study the Bible, pray together, and find encouragement and empowerment.",
       category: "Women",
-      image: '/women.jpg'
+      image: '/women.jpg', // Placeholder for /women.jpg
     },
     {
       id: 6,
       title: "Home Bible Churches",
-      leader: "Elder Thomas Owino",
+      leader: "",
       meeting: "Tuesdays 6-8PM",
       location: "Ushindi, Imani, Ebenezer",
       description: "Essential small groups fostering spiritual growth through intimate discipleship and fellowship. Currently operating three home churches (Ushindi, Imani, Ebenezer) that supplement larger gatherings and enable closer accessibility and outreach.",
       category: "Home Church",
-      image: '/home_church.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Home+Church' // Placeholder for /home_church.jpg
     },
     {
       id: 7,
       title: "Evangelism, Outreach and Discipleship",
-      leader: "Evangelist Paul Ochieng",
+      leader: "Pastor Dennise",
       meeting: "Saturdays 10AM",
       location: "Community Park",
       description: "Shares the Christian message through verbal proclamation and practical service. Plans/organizes evangelism (one-on-one, crusades) and outreach (community service). Runs discipleship classes to ground new believers in God's word.",
       category: "Outreach",
-      image: '/outreach.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Outreach+Ministry' // Placeholder for /outreach.jpg
     },
     {
       id: 8,
       title: "Couples Ministry",
-      leader: "Bro. & Sis. Kamau",
+      leader: "",
       meeting: "1st Saturday monthly",
       location: "Fellowship Hall",
       description: "Strengthens marriages through support, education, counseling and fellowship. Offers premarital counseling, marriage enrichment programs, and connection opportunities to build healthy, God-centered relationships.",
       category: "Fellowship",
-      image:'/couples.jpg'
+      image:'https://placehold.co/600x400/000000/FFFFFF?text=Couples+Ministry' // Placeholder for /couples.jpg
     },
     {
       id: 9,
       title: "Prayer and Intercession",
-      leader: "Elder Sarah Njeri",
+      leader: "",
       meeting: "Daily 6AM & Wednesdays 7PM",
       location: "Prayer Room",
       description: "Dedicated to continuous, fervent prayer for the church, leaders, and community. Plans/coordinates all prayer ventures, focuses on intercessory prayer, and trains members to cultivate a prayer culture.",
       category: "Prayer",
-      image: '/prayer.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Prayer+Ministry' // Placeholder for /prayer.jpg
     },
     {
       id: 10,
       title: "Praise and Worship",
-      leader: "Minister David Omondi",
+      leader: "",
       meeting: "Sundays 8-10AM & Wednesdays 5-7PM",
       location: "Sanctuary",
       description: "Leads congregational worship through music and expressions of faith. Creates atmosphere for connecting with God while training others in musical instrument skills.",
       category: "Worship",
-      image: '/worship.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Worship+Ministry' // Placeholder for /worship.jpg
     },
     {
       id: 11,
@@ -126,17 +127,17 @@ const Ministries = () => {
       location: "Church Campus",
       description: "Equipping servants of God through structured programs to become effective global ministers of the Gospel (Launching soon).",
       category: "Training",
-      image: '/training.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Training+Ministry' // Placeholder for /training.jpg
     },
     {
       id: 12,
       title: "Hospitality and Ushering",
-      leader: "Deaconess Jane Akinyi",
+      leader: "",
       meeting: "Sundays 7:30AM & Special Events",
       location: "Main Lobby",
       description: "Creates welcoming environments and assists attendees during services. Responsible for greeting, seating, offerings, and service flow - serving as the first point of contact while maintaining order and reverence.",
       category: "Service",
-      image: '/ushers.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Hospitality+Ministry' // Placeholder for /ushers.jpg
     },
     {
       id: 13,
@@ -146,27 +147,27 @@ const Ministries = () => {
       location: "Church Office",
       description: "Manages financial resources with transparency and accountability. Handles budgeting, financial reporting, fundraising, and asset management to support the church's mission.",
       category: "Administration",
-      image: '/finance.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Finance+Ministry' // Placeholder for /finance.jpg
     },
     {
       id: 14,
       title: "Development Department",
-      leader: "Bro. Michael Odhiambo",
+      leader: "",
       meeting: "Monthly meetings",
       location: "Church Office",
       description: "Oversees physical development, property maintenance, and fundraising for projects. Ensures facilities are suitable for worship and activities while identifying improvement areas.",
       category: "Administration",
-      image: '/development.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Development+Ministry' // Placeholder for /development.jpg
     },
     {
       id: 15,
       title: "Equipment/Media",
-      leader: "Sister Linda Atieno",
+      leader: "",
       meeting: "Sundays before service & as needed",
       location: "Media Booth",
       description: "Manages technical aspects of services/events (audio, video, lighting, streaming). Ensures effective message communication through various media channels both onsite and online.",
       category: "Service",
-      image: '/media.jpg'
+      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Media+Ministry' // Placeholder for /media.jpg
     }
   ];
 
@@ -180,34 +181,24 @@ const Ministries = () => {
     return matchesSearch && matchesCategory;
   });
 
-  // Updated category colors to match theme
-  const categoryColors = {
-    Children: `bg-[${themeColors.accent}] text-[${themeColors.primary}]`,
-    Youth: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`,
-    "Young Adults": `bg-[${themeColors.secondary}] text-[${themeColors.textLight}]`,
-    Men: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`,
-    Women: `bg-[${themeColors.accent}] text-[${themeColors.primary}]`,
-    "Home Church": `bg-[${themeColors.secondary}] text-[${themeColors.textLight}]`,
-    Outreach: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`,
-    Fellowship: `bg-[${themeColors.accent}] text-[${themeColors.primary}]`,
-    Prayer: `bg-[${themeColors.secondary}] text-[${themeColors.textLight}]`,
-    Worship: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`,
-    Training: `bg-[${themeColors.accent}] text-[${themeColors.primary}]`,
-    Service: `bg-[${themeColors.secondary}] text-[${themeColors.textLight}]`,
-    Administration: `bg-[${themeColors.primary}] text-[${themeColors.textLight}]`
-  };
-
   const categories = ['All', ...new Set(ministries.map(ministry => ministry.category))];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: themeColors.backgroundLight }}>
+    <div
+      className="min-h-screen font-inter" // Apply Inter font globally
+      style={{
+        background: `linear-gradient(to bottom right, ${blackBg}, #1a202c, ${primaryAccentBlue}20)`, // Blue and black gradient background
+        color: mainTextColor, // Default text color for the page
+      }}
+    >
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80')" }}>
-        <div className="absolute inset-0" style={{ backgroundColor: `${themeColors.primary}CC` }}></div>
-        <div className="relative container mx-auto px-4 py-32 lg:py-40 text-center">
+      <section className="relative overflow-hidden bg-cover bg-center py-20 px-4 sm:px-6">
+        {/* Overlay for the hero section, using blue with transparency */}
+        <div className="absolute inset-0" style={{ backgroundColor: `${primaryAccentBlue}CC` }}></div>
+        <div className="relative container mx-auto text-center z-10">
           <motion.div
             className="inline-block mb-6 px-6 py-2 rounded-full text-sm font-bold tracking-wider"
-            style={{ backgroundColor: themeColors.accent, color: themeColors.primary }}
+            style={{ backgroundColor: primaryAccentGreen, color: blackBg }} // Green tag on black background
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -217,7 +208,7 @@ const Ministries = () => {
           
           <motion.h1 
             className="text-4xl md:text-6xl font-bold mb-6 font-serif"
-            style={{ color: themeColors.textLight }}
+            style={{ color: mainTextColor }} // White text
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}
@@ -227,7 +218,7 @@ const Ministries = () => {
           
           <motion.p 
             className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto"
-            style={{ color: themeColors.accent }}
+            style={{ color: secondaryTextColor }} // Light gray text
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -241,66 +232,79 @@ const Ministries = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <button 
-              className="px-8 py-4 rounded-lg font-bold text-lg transition flex items-center mx-auto"
-              style={{ backgroundColor: themeColors.accent, color: themeColors.primary }}
+            <motion.button 
+              className="px-8 py-4 rounded-lg font-bold text-lg transition flex items-center mx-auto group"
+              style={{ backgroundColor: primaryAccentGreen, color: blackBg }} // Green button with black text
+              whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentGreen}40` }}
+              whileTap={{ scale: 0.95 }}
             >
               Explore Ministries 
-              <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </button>
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
           </motion.div>
         </div>
       </section>
 
       {/* Search & Filter Section */}
-      <section className="py-16" style={{ backgroundColor: themeColors.backgroundLight }}>
-        <div className="container mx-auto px-4">
+      <section className="py-16 px-4 sm:px-6">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-10 font-serif" style={{ color: themeColors.primary }}>
+            <h2 className="text-3xl font-bold text-center mb-10 font-serif" style={{ color: mainTextColor }}>
               Find Your Ministry
             </h2>
             
             <div 
               className="rounded-2xl shadow-lg p-6 border"
-              style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
+              style={{ 
+                backgroundColor: glassBg, 
+                borderColor: glassBorder,
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                boxShadow: `0 8px 30px ${glassShadow}`,
+              }}
             >
               <div className="relative mb-8">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
-                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                  </svg>
+                  <Search className="h-5 w-5" style={{ color: primaryAccentGreen }} />
                 </div>
                 <input
                   type="text"
                   placeholder="Search ministries by name, category, or location..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 border rounded-xl focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none transition text-lg"
-                  style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border, color: themeColors.textDark }}
+                  className="w-full pl-12 pr-4 py-4 border rounded-xl focus:ring-2 outline-none transition text-lg"
+                  style={{ 
+                    backgroundColor: inputBg, 
+                    borderColor: inputBorder, 
+                    color: mainTextColor,
+                    '--tw-ring-color': primaryAccentBlue,
+                    '--tw-focus-border-color': primaryAccentBlue,
+                  }}
                 />
               </div>
               
               <div className="flex flex-wrap justify-center gap-3">
                 {categories.map((category) => (
-                  <button
+                  <motion.button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
                     className={`px-4 py-2 rounded-xl transition text-sm font-medium ${
                       selectedCategory === category
                         ? 'text-white' 
-                        : 'text-emerald-800'
+                        : 'text-white' // All category buttons text will be white
                     }`}
                     style={{
                       backgroundColor: selectedCategory === category 
-                        ? themeColors.primary 
-                        : themeColors.backgroundLight,
-                      border: `1px solid ${themeColors.border}`
+                        ? primaryAccentBlue // Selected category is blue
+                        : glassBg, // Unselected is glass
+                      border: `1px solid ${selectedCategory === category ? primaryAccentBlue : glassBorder}`,
+                      boxShadow: selectedCategory === category ? `0 2px 8px ${primaryAccentBlue}40` : 'none',
                     }}
+                    whileHover={{ scale: 1.05, boxShadow: `0 2px 10px ${primaryAccentBlue}40` }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     {category}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>
@@ -309,20 +313,27 @@ const Ministries = () => {
       </section>
 
       {/* Ministries List */}
-      <section className="py-16" style={{ backgroundColor: themeColors.backgroundLight }}>
-        <div className="container mx-auto px-4">
+      <section className="py-16 px-4 sm:px-6">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 font-serif" style={{ color: themeColors.primary }}>
+            <h2 className="text-4xl font-bold mb-4 font-serif" style={{ color: mainTextColor }}>
               Our Ministries
             </h2>
-            <p className="text-xl max-w-3xl mx-auto" style={{ color: themeColors.textDark }}>
+            <p className="text-xl max-w-3xl mx-auto" style={{ color: secondaryTextColor }}>
               Join one of our vibrant ministries to serve, grow, and connect with others
             </p>
           </div>
           
           {filteredMinistries.length === 0 ? (
-            <div className="text-center py-12 rounded-xl shadow-lg border" style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}>
-              <p className="text-xl" style={{ color: themeColors.textDark }}>No ministries found matching your search</p>
+            <div className="text-center py-12 rounded-xl shadow-lg border" 
+                 style={{ 
+                   backgroundColor: glassBg, 
+                   borderColor: glassBorder,
+                   backdropFilter: 'blur(8px)',
+                   WebkitBackdropFilter: 'blur(8px)',
+                   boxShadow: `0 8px 30px ${glassShadow}`,
+                 }}>
+              <p className="text-xl" style={{ color: mainTextColor }}>No ministries found matching your search</p>
             </div>
           ) : (
             <div className="space-y-16">
@@ -332,20 +343,28 @@ const Ministries = () => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-10 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border`}
-                  style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
+                  className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-10 rounded-2xl shadow-xl overflow-hidden transition-all duration-300 border`}
+                  style={{ 
+                    backgroundColor: glassBg, 
+                    borderColor: glassBorder,
+                    backdropFilter: 'blur(8px)',
+                    WebkitBackdropFilter: 'blur(8px)',
+                    boxShadow: `0 8px 30px ${glassShadow}`,
+                  }}
+                  whileHover={{ boxShadow: `0 12px 40px ${primaryAccentBlue}40` }} // Stronger blue shadow on hover
                 >
                   <div className="w-full md:w-1/2">
                     <div className="relative h-full">
                       <img 
                         src={ministry.image} 
                         alt={ministry.title}
-                        className="w-full h-full min-h-[350px] object-cover"
+                        className="w-full h-full min-h-[350px] object-cover rounded-t-2xl md:rounded-tr-none md:rounded-bl-2xl" // Apply rounded corners
+                        onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/600x400/000000/FFFFFF?text=Image+Not+Found" }} // Fallback image
                       />
                       <div className="absolute top-4 left-4">
                         <span className="text-sm font-bold px-4 py-2 rounded-xl" style={{ 
-                          backgroundColor: themeColors.accent,
-                          color: themeColors.primary
+                          backgroundColor: primaryAccentGreen, // Green tag
+                          color: blackBg
                         }}>
                           {ministry.category}
                         </span>
@@ -354,72 +373,62 @@ const Ministries = () => {
                   </div>
                   
                   <div className="w-full md:w-1/2 p-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 font-serif" style={{ color: themeColors.primary }}>
+                    <h2 className="text-2xl md:text-3xl font-bold mb-4 font-serif" style={{ color: primaryAccentBlue }}>
                       {ministry.title}
                     </h2>
                     
-                    <p className="mb-6 text-lg" style={{ color: themeColors.textDark }}>
+                    <p className="mb-6 text-lg" style={{ color: secondaryTextColor }}>
                       {ministry.description}
                     </p>
                     
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-3" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
-                          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                        </svg>
+                        <Users className="w-5 h-5 mr-3" style={{ color: primaryAccentGreen }} />
                         <div>
-                          <div className="font-medium" style={{ color: themeColors.primary }}>Leader</div>
-                          <div className="font-semibold" style={{ color: themeColors.textDark }}>{ministry.leader}</div>
+                          <div className="font-medium" style={{ color: mainTextColor }}>Leader</div>
+                          <div className="font-semibold" style={{ color: secondaryTextColor }}>{ministry.leader}</div>
                         </div>
                       </div>
                       
                       <div className="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-3" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                        </svg>
+                        <Clock className="w-5 h-5 mr-3" style={{ color: primaryAccentBlue }} />
                         <div>
-                          <div className="font-medium" style={{ color: themeColors.primary }}>Meeting Time</div>
-                          <div className="font-semibold" style={{ color: themeColors.textDark }}>{ministry.meeting}</div>
+                          <div className="font-medium" style={{ color: mainTextColor }}>Meeting Time</div>
+                          <div className="font-semibold" style={{ color: secondaryTextColor }}>{ministry.meeting}</div>
                         </div>
                       </div>
                       
                       <div className="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 mr-3" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
-                          <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                        </svg>
+                        <MapPin className="w-5 h-5 mr-3" style={{ color: primaryAccentGreen }} />
                         <div>
-                          <div className="font-medium" style={{ color: themeColors.primary }}>Location</div>
-                          <div className="font-semibold" style={{ color: themeColors.textDark }}>{ministry.location}</div>
+                          <div className="font-medium" style={{ color: mainTextColor }}>Location</div>
+                          <div className="font-semibold" style={{ color: secondaryTextColor }}>{ministry.location}</div>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 flex-wrap">
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentBlue}40` }}
                         whileTap={{ scale: 0.98 }}
                         className="px-6 py-3 rounded-xl font-bold transition flex items-center"
-                        style={{ backgroundColor: themeColors.primary, color: themeColors.textLight }}
+                        style={{ backgroundColor: primaryAccentBlue, color: mainTextColor }}
                       >
                         Join Ministry
-                        <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
-                        </svg>
+                        <PlusCircle className="ml-2 h-4 w-4" />
                       </motion.button>
                       
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentGreen}40` }}
                         whileTap={{ scale: 0.98 }}
                         className="px-6 py-3 bg-transparent rounded-xl font-bold transition flex items-center"
                         style={{ 
-                          border: `1px solid ${themeColors.primary}`,
-                          color: themeColors.primary
+                          border: `1px solid ${primaryAccentGreen}`,
+                          color: primaryAccentGreen
                         }}
                       >
                         Learn More
-                        <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
+                        <BookOpen className="ml-2 h-4 w-4" />
                       </motion.button>
                     </div>
                   </div>
@@ -431,12 +440,21 @@ const Ministries = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20" style={{ backgroundColor: themeColors.primary, color: themeColors.textLight }}>
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
+      <section className="py-20 px-4 sm:px-6">
+        <div className="container mx-auto">
+          <div 
+            className="max-w-4xl mx-auto text-center p-10 rounded-2xl"
+            style={{
+              backgroundColor: glassBg,
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: `1px solid ${glassBorder}`,
+              boxShadow: `0 8px 30px ${glassShadow}`,
+            }}
+          >
             <motion.div
               className="inline-block mb-6 px-6 py-2 rounded-full text-sm font-bold tracking-wider"
-              style={{ backgroundColor: themeColors.accent, color: themeColors.primary }}
+              style={{ backgroundColor: primaryAccentGreen, color: blackBg }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -447,6 +465,7 @@ const Ministries = () => {
             
             <motion.h2 
               className="text-4xl font-bold mb-6 font-serif"
+              style={{ color: mainTextColor }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -457,7 +476,7 @@ const Ministries = () => {
             
             <motion.p 
               className="text-xl mb-10 max-w-3xl mx-auto"
-              style={{ color: themeColors.accent }}
+              style={{ color: secondaryTextColor }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -473,34 +492,38 @@ const Ministries = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              <button 
+              <motion.button 
                 className="px-8 py-4 rounded-xl font-bold text-lg transition"
-                style={{ backgroundColor: themeColors.accent, color: themeColors.primary }}
+                style={{ backgroundColor: primaryAccentBlue, color: mainTextColor }}
+                whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentBlue}40` }}
+                whileTap={{ scale: 0.98 }}
               >
                 Propose a Ministry
-              </button>
-              <button 
+              </motion.button>
+              <motion.button 
                 className="px-8 py-4 bg-transparent rounded-xl font-bold text-lg transition"
                 style={{ 
-                  border: `1px solid ${themeColors.textLight}`,
-                  color: themeColors.textLight
+                  border: `1px solid ${primaryAccentGreen}`,
+                  color: primaryAccentGreen
                 }}
+                whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentGreen}40` }}
+                whileTap={{ scale: 0.98 }}
               >
                 Ministry Resources
-              </button>
+              </motion.button>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-16" style={{ backgroundColor: themeColors.backgroundLight }}>
-        <div className="container mx-auto px-4">
+      <section className="py-16 px-4 sm:px-6">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 font-serif" style={{ color: themeColors.primary }}>
+            <h2 className="text-4xl font-bold mb-4 font-serif" style={{ color: mainTextColor }}>
               Ministry Testimonials
             </h2>
-            <p className="text-xl max-w-3xl mx-auto" style={{ color: themeColors.textDark }}>
+            <p className="text-xl max-w-3xl mx-auto" style={{ color: secondaryTextColor }}>
               Hear from members who have found purpose and community through our ministries
             </p>
           </div>
@@ -508,98 +531,134 @@ const Ministries = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div 
               className="rounded-2xl shadow-lg p-8 border"
-              style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
+              style={{ 
+                backgroundColor: glassBg, 
+                borderColor: glassBorder,
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                boxShadow: `0 8px 30px ${glassShadow}`,
+              }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
+              whileHover={{ y: -5, boxShadow: `0 8px 20px ${primaryAccentGreen}30` }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: themeColors.backgroundLight }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
-                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                  </svg>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${primaryAccentGreen}20` }}>
+                  <Users className="w-6 h-6" style={{ color: primaryAccentGreen }} />
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-bold text-lg" style={{ color: themeColors.primary }}>Sarah M.</h4>
-                  <p className="text-sm" style={{ color: themeColors.secondary }}>Youth Ministry</p>
+                  <h4 className="font-bold text-lg" style={{ color: mainTextColor }}>Sarah M.</h4>
+                  <p className="text-sm" style={{ color: secondaryTextColor }}>Youth Ministry</p>
                 </div>
               </div>
-              <p className="italic" style={{ color: themeColors.textDark }}>
+              <motion.p className="italic" style={{ color: secondaryTextColor }}> {/* Changed to motion.p */}
                 "Joining the Youth Ministry transformed my faith journey. I've found lifelong friends and grown spiritually in ways I never imagined."
-              </p>
+              </motion.p>
             </motion.div>
             
             <motion.div 
               className="rounded-2xl shadow-lg p-8 border"
-              style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
+              style={{ 
+                backgroundColor: glassBg, 
+                borderColor: glassBorder,
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                boxShadow: `0 8px 30px ${glassShadow}`,
+              }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
+              whileHover={{ y: -5, boxShadow: `0 8px 20px ${primaryAccentBlue}30` }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: themeColors.backgroundLight }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
-                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                  </svg>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${primaryAccentBlue}20` }}>
+                  <Users className="w-6 h-6" style={{ color: primaryAccentBlue }} />
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-bold text-lg" style={{ color: themeColors.primary }}>James K.</h4>
-                  <p className="text-sm" style={{ color: themeColors.secondary }}>Visionaries</p>
+                  <h4 className="font-bold text-lg" style={{ color: mainTextColor }}>James K.</h4>
+                  <p className="text-sm" style={{ color: secondaryTextColor }}>Visionaries</p>
                 </div>
               </div>
-              <p className="italic" style={{ color: themeColors.textDark }}>
+              <motion.p className="italic" style={{ color: secondaryTextColor }}> {/* Changed to motion.p */}
                 "The Visionaries ministry equipped me with leadership skills that have impacted both my spiritual life and career."
-              </p>
+              </motion.p>
             </motion.div>
             
             <motion.div 
               className="rounded-2xl shadow-lg p-8 border"
-              style={{ backgroundColor: themeColors.backgroundLight, borderColor: themeColors.border }}
+              style={{ 
+                backgroundColor: glassBg, 
+                borderColor: glassBorder,
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                boxShadow: `0 8px 30px ${glassShadow}`,
+              }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -5, boxShadow: `0 8px 20px ${primaryAccentGreen}30` }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: themeColors.backgroundLight }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20" fill="currentColor" style={{ color: themeColors.accent }}>
-                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                  </svg>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${primaryAccentGreen}20` }}>
+                  <Users className="w-6 h-6" style={{ color: primaryAccentGreen }} />
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-bold text-lg" style={{ color: themeColors.primary }}>Grace W.</h4>
-                  <p className="text-sm" style={{ color: themeColors.secondary }}>Women of Faith</p>
+                  <h4 className="font-bold text-lg" style={{ color: mainTextColor }}>Grace W.</h4>
+                  <p className="text-sm" style={{ color: secondaryTextColor }}>Women of Faith</p>
                 </div>
               </div>
-              <p className="italic" style={{ color: themeColors.textDark }}>
+              <motion.p className="italic" style={{ color: secondaryTextColor }}> {/* Changed to motion.p */}
                 "Through Women of Faith, I've found a supportive community that has helped me through challenging times."
-              </p>
+              </motion.p>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Statistics Section */}
-      <section className="py-16" style={{ backgroundColor: themeColors.primary, color: themeColors.textLight }}>
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-serif">Ministry Impact</h2>
+      <section className="py-16 px-4 sm:px-6">
+        <div className="container mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-serif" style={{ color: mainTextColor }}>Ministry Impact</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center p-6 rounded-2xl" style={{ backgroundColor: `${themeColors.primary}80` }}>
-              <div className="text-5xl font-bold mb-2" style={{ color: themeColors.accent }}>15</div>
-              <h3 className="text-xl font-bold mb-2">Active Ministries</h3>
-              <p>Serving various needs in our church and community</p>
+            <div className="text-center p-6 rounded-2xl" 
+                 style={{ 
+                   backgroundColor: glassBg, 
+                   border: `1px solid ${glassBorder}`,
+                   backdropFilter: 'blur(8px)',
+                   WebkitBackdropFilter: 'blur(8px)',
+                   boxShadow: `0 4px 15px ${glassShadow}`,
+                 }}>
+              <div className="text-5xl font-bold mb-2" style={{ color: primaryAccentGreen }}>15</div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: mainTextColor }}>Active Ministries</h3>
+              <p style={{ color: secondaryTextColor }}>Serving various needs in our church and community</p>
             </div>
-            <div className="text-center p-6 rounded-2xl" style={{ backgroundColor: `${themeColors.primary}80` }}>
-              <div className="text-5xl font-bold mb-2" style={{ color: themeColors.accent }}>350+</div>
-              <h3 className="text-xl font-bold mb-2">Volunteers</h3>
-              <p>Dedicated members serving across all ministries</p>
+            <div className="text-center p-6 rounded-2xl" 
+                 style={{ 
+                   backgroundColor: glassBg, 
+                   border: `1px solid ${glassBorder}`,
+                   backdropFilter: 'blur(8px)',
+                   WebkitBackdropFilter: 'blur(8px)',
+                   boxShadow: `0 4px 15px ${glassShadow}`,
+                 }}>
+              <div className="text-5xl font-bold mb-2" style={{ color: primaryAccentBlue }}>350+</div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: mainTextColor }}>Volunteers</h3>
+              <p style={{ color: secondaryTextColor }}>Dedicated members serving across all ministries</p>
             </div>
-            <div className="text-center p-6 rounded-2xl" style={{ backgroundColor: `${themeColors.primary}80` }}>
-              <div className="text-5xl font-bold mb-2" style={{ color: themeColors.accent }}>20+</div>
-              <h3 className="text-xl font-bold mb-2">Weekly Gatherings</h3>
-              <p>Opportunities to connect and grow throughout the week</p>
+            <div className="text-center p-6 rounded-2xl" 
+                 style={{ 
+                   backgroundColor: glassBg, 
+                   border: `1px solid ${glassBorder}`,
+                   backdropFilter: 'blur(8px)',
+                   WebkitBackdropFilter: 'blur(8px)',
+                   boxShadow: `0 4px 15px ${glassShadow}`,
+                 }}>
+              <div className="text-5xl font-bold mb-2" style={{ color: primaryAccentGreen }}>20+</div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: mainTextColor }}>Weekly Gatherings</h3>
+              <p style={{ color: secondaryTextColor }}>Opportunities to connect and grow throughout the week</p>
             </div>
           </div>
         </div>

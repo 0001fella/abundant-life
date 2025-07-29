@@ -12,39 +12,38 @@ const EVENT_CATEGORY_FALLBACK_IMAGES = {
     "General Church Events": '/ALCC.jpg',
     "Youths": "https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
     "Teens": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-    "Sunday School": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80",
-    "Women of Faith": '/women.jpg',
-    "Visionaries": '/vissionary.jpg',
-    "sunday school": '/child.jpg', // Note: lowercase 's'
+    "Women ": '/women.jpg',
+    "Men": '/vissionary.jpg',
+    "Children": '/child.jpg', // Note: lowercase 's'
     "default": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" // Default fallback
 };
 // --- End of Updated EVENT_CATEGORY_FALLBACK_IMAGES ---
 
-const HARDCODED_FALLBACK_EVENTS = [
+const HARDCODED_RECURRING_EVENTS = [
     {
         id: 1,
-        title: "Sunday Celebration Service",
-        date: "Every Sunday",
-        time: "10:00 AM",
+        title: "Evening Fellowships",
+        date: "Every Tuesday",
+        time: "6:30 PM",
         location: "Main Sanctuary, ALCC",
         type: "General Church Events",
         image: EVENT_CATEGORY_FALLBACK_IMAGES["General Church Events"]
     },
     {
         id: 2,
-        title: "Youth Empowerment Night",
-        date: "Friday, July 19",
-        time: "7:00 PM",
-        location: "Youth Hall, ALCC Campus",
+        title: "Kesha",
+        date: "Every Friday",
+        time: "8:00 PM",
+        location: "ALCC Church",
         type: "Youths",
         image: EVENT_CATEGORY_FALLBACK_IMAGES["Youths"]
     },
     {
         id: 3,
-        title: "Mid-Week Prayer & Bible Study",
-        date: "Monday, July 22",
-        time: "6:00 AM",
-        location: "Prayer Room (Hybrid: In-Person & Online)",
+        title: "Home Bible Churches",
+        date: "Every Wednesday",
+        time: "6:30 PM",
+        location: "House Holds",
         type: "General Church Events",
         image: EVENT_CATEGORY_FALLBACK_IMAGES["General Church Events"]
     }
@@ -234,7 +233,7 @@ const Hero = () => {
                 // Apply fallback events if needed (limit to 3)
                 if (formattedEvents.length < 3) {
                     const remainingSlots = 3 - formattedEvents.length;
-                    const fillerEvents = HARDCODED_FALLBACK_EVENTS.filter(
+                    const fillerEvents = HARDCODED_RECURRING_EVENTS.filter(
                         fallbackEvent => !formattedEvents.some(fe => fe.title === fallbackEvent.title)
                     ).slice(0, remainingSlots);
                     setUpcomingEvents([...formattedEvents, ...fillerEvents]);
@@ -244,7 +243,7 @@ const Hero = () => {
             } catch (error) {
                 console.error('Error fetching events:', error);
                 // Fallback to hardcoded events on error
-                setUpcomingEvents(HARDCODED_FALLBACK_EVENTS);
+                setUpcomingEvents(HARDCODED_RECURRING_EVENTS.slice(0, 3));
             } finally {
                 setLoading(false);
             }
@@ -429,7 +428,7 @@ const Hero = () => {
                                     viewport={{ once: true, amount: 0.5 }}
                                     transition={{ delay: 0.4, duration: 0.5 }}
                                 >
-                                    <span className="mr-2 text-[#006d7e]">âœ</span>
+                                    <span className="mr-2 text-[#006d7e]">❤️</span>
                                     Dear Friend,
                                 </motion.h3>
                                 <motion.p
@@ -487,7 +486,6 @@ const Hero = () => {
             </section>
 
             {/* Upcoming Events - Minimalist Cards */}
-            {/* --- This section has been updated --- */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="text-center mb-12">
@@ -505,6 +503,8 @@ const Hero = () => {
                             Join us for upcoming services and special events.
                         </p>
                     </div>
+                    
+                    {/* Upcoming Events Section */}
                     {loading ? (
                         <div className="grid md:grid-cols-3 gap-6 mb-8">
                             {[1, 2, 3].map((_, index) => (
@@ -523,7 +523,7 @@ const Hero = () => {
                         <div className="grid md:grid-cols-3 gap-6 mb-8">
                             {upcomingEvents.map((event, index) => (
                                 <motion.div
-                                    key={event.id} // Use event.id (_id from backend or fallback id)
+                                    key={event.id}
                                     className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-200"
                                     whileHover={{ y: -5 }}
                                     initial={{ opacity: 0, y: 30 }}
@@ -538,9 +538,8 @@ const Hero = () => {
                                             className="w-full h-full object-cover"
                                             loading="lazy"
                                             onError={(e) => {
-                                                // Fallback to category image if loading fails
                                                 e.target.src = EVENT_CATEGORY_FALLBACK_IMAGES[event.type] || EVENT_CATEGORY_FALLBACK_IMAGES.default;
-                                                e.target.onerror = null; // Prevent infinite loop if fallback also fails
+                                                e.target.onerror = null;
                                             }}
                                         />
                                         <div className="absolute top-3 left-3 bg-white text-[#006d7e] rounded-full px-3 py-1 text-xs font-bold shadow-sm">
@@ -573,7 +572,81 @@ const Hero = () => {
                             ))}
                         </div>
                     )}
-                    <div className="text-center">
+                    
+                    {/* Recurring Events Section */}
+                    <div className="text-center mb-12 mt-20">
+                        <motion.div
+                            className={SECTION_BADGE_CLASSES}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.5 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            WEEKLY GATHERINGS
+                        </motion.div>
+                        <h2 className="text-3xl font-bold mb-4 text-gray-800">Recurring Events</h2>
+                        <p className="text-gray-600 max-w-2xl mx-auto text-sm">
+                            Our regular weekly gatherings you can always join.
+                        </p>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {HARDCODED_RECURRING_EVENTS.map((event, index) => (
+                            <motion.div
+                                key={event.id}
+                                className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-200"
+                                whileHover={{ y: -5 }}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.3, delay: index * 0.1 }}
+                            >
+                                <div className="relative h-52 mb-4 rounded-xl overflow-hidden">
+                                    <img
+                                        src={event.image}
+                                        alt={`Event: ${event.title}`}
+                                        className="w-full h-full object-cover"
+                                        loading="lazy"
+                                        onError={(e) => {
+                                            e.target.src = EVENT_CATEGORY_FALLBACK_IMAGES[event.type] || EVENT_CATEGORY_FALLBACK_IMAGES.default;
+                                            e.target.onerror = null;
+                                        }}
+                                    />
+                                    <div className="absolute top-3 left-3 bg-white text-[#006d7e] rounded-full px-3 py-1 text-xs font-bold shadow-sm">
+                                        {event.type}
+                                    </div>
+                                </div>
+                                <h3 className="text-lg font-bold mb-3 text-gray-800">{event.title}</h3>
+                                <div className="space-y-2">
+                                    <div className="flex items-center text-gray-600 text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        {event.date}
+                                    </div>
+                                    <div className="flex items-center text-gray-600 text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        {event.time}
+                                    </div>
+                                    <div className="flex items-center text-gray-600 text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        {event.location}
+                                    </div>
+                                    <div className="mt-2">
+                                        <span className="inline-block bg-[#e6f7f9] text-[#006d7e] rounded-full px-3 py-1 text-xs font-medium">
+                                            Weekly Event
+                                        </span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    <div className="text-center mt-12">
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -590,7 +663,6 @@ const Hero = () => {
                     </div>
                 </div>
             </section>
-            {/* --- End of Updated Events Section --- */}
 
             {/* Quick Actions - Clean Cards */}
             <section className="py-16 bg-white">

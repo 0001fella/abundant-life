@@ -11,10 +11,9 @@ const leaders = [
     image: '/pstElkana.jpg',
     bio: "A visionary leader passionate about revival, purpose, and Kingdom living. With over 15 years of ministry experience, Pastor Elkana has a heart for discipleship and community transformation.",
     email: "pastor@alcc.org",
-    phone: "+254 700 123 456",
+    phone: "+254 789569030",
     social: {
-      twitter: "https://twitter.com/pastormark",
-      facebook: "https://facebook.com/pastormark.alcc"
+      
     },
     ministryInvolvement: [
       "Sunday Services",
@@ -31,9 +30,9 @@ const leaders = [
     image: '/mum.jpg',
     bio: "Tasked with organizing and running the Women's Ministry, Caroline facilitates regular women's services and checks on the individual growth and development of women in the church. She proposes calendar events, identifies growth opportunities, and nurtures young ladies transitioning from the youth ministry. Caroline cultivates warmth and unity, advises leadership on ministry development, maintains clear records, attends to cases requiring attention, and provides monthly progress reports to the Pastor.",
     email: "women@alcc.org",
-    phone: "+254 711 234 567",
+    phone: "+254 701445864",
     social: {
-      instagram: "https://instagram.com/caroline.alcc"
+      
     },
     ministryInvolvement: [
       "Organizing & Running Women's Ministry",
@@ -52,14 +51,13 @@ const leaders = [
   {
     id: 3,
     name: "Samuel Masika",
-    role: "The Youth Leader",
+    role: "The Youth Pastor",
     image: '/Sam.jpg',
     bio: "Samuel is tasked with organizing and running the youth Ministry, facilitating regular youth services, and checking on the individual growth and development of the youth. He provides a platform for growing youth ministers, nurtures gifts and talents, and receives graduating teenagers into the youth team. Samuel also shares information on relationships with the Youth Patron/Pastor, plans outreach and missions, proposes ministry growth plans and calendars, works on youth budgets, ensures coordination with parents, establishes clear coordination with Sunday school, advises on discipline, maintains member records, and gives monthly progress reports.",
     email: "youth@alcc.org",
     phone: "+254 722 345 678",
     social: {
-      twitter: "https://twitter.com/samuelkiptoo",
-      youtube: "https://youtube.com/samuelkiptoo"
+      
     },
     ministryInvolvement: [
       "Organizing & Running Youth Ministry",
@@ -83,14 +81,14 @@ const leaders = [
   },
   {
     id: 4,
-    name: "Esther Mugo",
-    role: "Worship Director",
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80",
+    name: "Finidy George",
+    role: "Worship Leader",
+    image: '/',
     bio: "Hearts are lifted when she leads — anointed in voice and spirit. Esther creates an atmosphere where people can encounter God through worship.",
     email: "worship@alcc.org",
-    phone: "+254 733 456 789",
+    phone: "+254 711834206",
     social: {
-      instagram: "https://instagram.com/esthermugo.worship"
+  
     },
     ministryInvolvement: [
       "Worship Team",
@@ -102,15 +100,14 @@ const leaders = [
   },
   {
     id: 5,
-    name: "Joel Mwangi",
-    role: "IT & Media Director",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+    name: "Brother Oliva",
+    role: "IT & Media director",
+    image: "",
     bio: "Manages all tech and stream setups — making the gospel digital. Joel ensures our message reaches beyond our walls through technology.",
     email: "media@alcc.org",
-    phone: "+254 744 567 890",
+    phone: "+254 716475995",
     social: {
-      linkedin: "https://linkedin.com/in/joelmwangi",
-      github: "https://github.com/joelmwangi"
+
     },
     ministryInvolvement: [
       "Live Streaming",
@@ -122,14 +119,14 @@ const leaders = [
   },
   {
     id: 6,
-    name: "Grace Moraa",
+    name: "Teacher Joan",
     role: "The Leader of Sunday school",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+    image: "",
     bio: "Grace is responsible for receiving young kids, organizing and running the Sunday school Ministry, and facilitating regular, consistent meetings. She ensures the security and safety of children during services, maintains them in their classes to prevent loitering, and facilitates a clean learning environment. Grace also designs and initiates programs that stimulate the growth of the Sunday school Ministry.",
     email: "children@alcc.org",
     phone: "+254 755 678 901",
     social: {
-      instagram: "https://instagram.com/gracechildren"
+      
     },
     ministryInvolvement: [
       "Receiving Young Kids",
@@ -144,9 +141,9 @@ const leaders = [
   },
   {
     id: 7,
-    name: "David Kimani", // Placeholder name
+    name: "Amphor", // Placeholder name
     role: "Leader of Men’s Ministry - Visionaries’",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80", // Placeholder image
+    image: "", // Placeholder image
     bio: "David is dedicated to organizing and running the Men's Ministry, facilitating regular men's meetings, and checking on the individual growth of all men in the church. He focuses on growing and expanding the Men's Ministry by coming up with activities, events, and ideas as led by the spirit to foster spiritual development among the men.",
     email: "men@alcc.org",
     phone: "+254 766 789 012",
