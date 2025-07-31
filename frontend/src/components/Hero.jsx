@@ -564,7 +564,7 @@ const Hero = () => {
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => navigate('/plan-your-visit')}
+                            onClick={() => navigate('')}
                             aria-label="Learn More About Your Visit"
                             className={BUTTON_CLASSES}
                             initial={{ opacity: 0, y: 20 }}
@@ -572,7 +572,7 @@ const Hero = () => {
                             viewport={{ once: true, amount: 0.5 }}
                             transition={{ delay: 0.3 }}
                         >
-                            Plan Your Visit
+                            
                         </motion.button>
                     </div>
                 </div>

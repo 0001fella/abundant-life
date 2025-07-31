@@ -117,7 +117,7 @@ const Login = () => {
       let errorMsg = error.message || 
         (formMode === "signup" 
           ? "Failed to create account. Please try again." 
-          : "Invalid email or password");
+          : "Invalid email or password 😔");
       
       setError(errorMsg);
     } finally {
@@ -201,7 +201,7 @@ const Login = () => {
               <div className="bg-gradient-to-r from-[#D4AF37] to-[#C19A30] w-10 h-10 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">A</span>
               </div>
-              <h1 className="text-xl sm:text-2xl font-bold text-[#0A142F]">Abundant Life Christian Center</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-[#0A142F]">Abundant Life Celebration Center</h1>
             </motion.div>
 
             <motion.div
@@ -227,10 +227,11 @@ const Login = () => {
 
               {error && (
                 <motion.div 
-                  className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4"
+                  className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 flex items-center"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
+                  <span className="mr-2">😔</span>
                   {error}
                 </motion.div>
               )}
@@ -247,7 +248,7 @@ const Login = () => {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-[#e2e8f0] bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
                       />
                       <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#94a3b8]">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -268,7 +269,7 @@ const Login = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-[#e2e8f0] bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
                     />
                     <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#94a3b8]">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -289,7 +290,7 @@ const Login = () => {
                         placeholder="+254 700 000 000"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-lg border border-[#e2e8f0] bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
                       />
                       <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#94a3b8]">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -311,7 +312,7 @@ const Login = () => {
                       onChange={handleChange}
                       required
                       minLength={8}
-                      className="w-full px-4 py-3 pr-12 rounded-lg border border-[#e2e8f0] bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
+                      className="w-full px-4 py-3 pr-12 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
                     />
                     <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#94a3b8]">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -340,7 +341,7 @@ const Login = () => {
                         onChange={handleChange}
                         required
                         minLength={8}
-                        className="w-full px-4 py-3 pr-12 rounded-lg border border-[#e2e8f0] bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
+                        className="w-full px-4 py-3 pr-12 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37] transition-all duration-300 pl-12 text-[#0A142F]"
                       />
                       <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#94a3b8]">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -368,7 +369,7 @@ const Login = () => {
                         id="remember"
                         name="remember"
                         type="checkbox"
-                        className="h-4 w-4 text-[#D4AF37] focus:ring-[#D4AF37] border-[#e2e8f0] rounded"
+                        className="h-4 w-4 text-[#D4AF37] focus:ring-[#D4AF37] border-gray-300 rounded"
                       />
                       <label htmlFor="remember" className="ml-2 block text-sm text-[#0A142F]">
                         Remember me
@@ -529,22 +530,25 @@ const Login = () => {
         </div>
       </motion.div>
       
-      {/* Success message */}
+      {/* Success message - Updated with centered position */}
       <AnimatePresence>
         {successMessage && (
           <motion.div 
-            className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-20"
+            className="fixed inset-0 flex items-center justify-center z-50 bg-black/60"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="absolute inset-0 bg-black/60" />
             <motion.div 
-              className="bg-white p-8 rounded-2xl shadow-2xl max-w-md mx-4 text-center relative z-10"
+              className="bg-white p-8 rounded-2xl shadow-2xl max-w-md mx-4 text-center relative"
               initial={{ scale: 0.8, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ 
+                type: "spring",
+                damping: 25,
+                stiffness: 300
+              }}
             >
               <div className="w-16 h-16 bg-gradient-to-r from-[#D4AF37] to-[#C19A30] rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor">
@@ -558,8 +562,8 @@ const Login = () => {
               </h3>
               <p className="mb-6 text-[#5A5A5A]">
                 {formMode === "signup" 
-                  ? "Your account has been created successfully. Redirecting you..."
-                  : "You're being redirected to your dashboard..."}
+                  ? "Your account has been created successfully"
+                  : `Redirecting ${welcomeName} to the dashboard...`}
               </p>
               <div className="flex justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#D4AF37]"></div>
