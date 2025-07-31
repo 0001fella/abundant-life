@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FaPlay, FaBookOpen, FaUsers, FaPrayingHands, FaCalendarAlt, FaChurch, FaHandshake, FaMusic, FaChild } from "react-icons/fa";
+import { FaPlay, FaBookOpen, FaUsers, FaPrayingHands, FaCalendarAlt, FaChurch, FaHandshake, FaMusic, FaChild, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -111,6 +111,7 @@ const SECTION_BADGE_CLASSES = "inline-block mb-4 bg-[#006d7e]/10 text-[#006d7e] 
 
 const Hero = () => {
     const [timeLeft, setTimeLeft] = useState({});
+    const [selectedEvent, setSelectedEvent] = useState(null);
     const navigate = useNavigate();
 
     const getNextSundayServiceTime = useCallback(() => {
@@ -145,8 +146,44 @@ const Hero = () => {
         return () => clearInterval(interval);
     }, [getNextSundayServiceTime]);
 
+    // Close modal when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (selectedEvent && e.target.classList.contains('modal-backdrop')) {
+                setSelectedEvent(null);
+            }
+        };
+        
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [selectedEvent]);
+
     return (
         <div className="min-h-screen bg-white text-gray-800 font-sans scroll-smooth">
+            {/* Image Modal */}
+            {selectedEvent && (
+                <div className="fixed inset-0 z-50 modal-backdrop bg-black/90 flex items-center justify-center p-4">
+                    <div className="relative max-w-4xl w-full max-h-[90vh]">
+                        <button 
+                            className="absolute -top-10 right-0 text-white z-50"
+                            onClick={() => setSelectedEvent(null)}
+                            aria-label="Close image"
+                        >
+                            <FaTimes className="w-8 h-8" />
+                        </button>
+                        <img 
+                            src={selectedEvent.image} 
+                            alt={selectedEvent.title}
+                            className="w-full h-full object-contain max-h-[80vh]"
+                        />
+                        <div className="text-white text-center mt-4">
+                            <h3 className="text-xl font-bold">{selectedEvent.title}</h3>
+                            <p className="text-gray-300">{selectedEvent.description}</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Hero Section - Modernized */}
             <section className="relative overflow-hidden border-t-0 -mt-[1px]">
                 <div className="absolute inset-0">
@@ -188,40 +225,6 @@ const Hero = () => {
                             "The thief comes only to steal and kill and destroy; I have come that they may have life,
                             and have it to the full." - John 10:10
                         </p>
-                    </motion.div>
-                    <motion.p
-                        className="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-gray-200 font-light"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 0.7 }}
-                    >
-                        Join our vibrant community of faith, hope, and love in the heart of the city.
-                    </motion.p>
-                    <motion.div
-                        className="flex flex-col sm:flex-row gap-3 justify-center"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5, duration: 0.5 }}
-                    >
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => navigate('/login')}
-                            aria-label="Join Our Family"
-                            className={`${BUTTON_CLASSES} relative overflow-hidden`}
-                        >
-                            Join Our Family
-                        </motion.button>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => navigate('/sermons')}
-                            aria-label="Watch Sermons"
-                            className={OUTLINE_BUTTON_CLASSES}
-                        >
-                            <FaPlay className="mr-2" />
-                            Watch Sermons
-                        </motion.button>
                     </motion.div>
                     <motion.div
                         className="mt-12 bg-white/20 backdrop-blur-lg rounded-xl p-4 max-w-3xl mx-auto border border-white/30"
@@ -377,7 +380,7 @@ const Hero = () => {
                 </div>
             </section>
 
-            {/* Weekly Events Section - Clean, container-free layout */}
+            {/* Weekly Events Section with Gallery Effect */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="text-center mb-16">
@@ -406,14 +409,22 @@ const Hero = () => {
                                 viewport={{ once: true, amount: 0.3 }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                             >
-                                {/* Event Image - Sharp and full width */}
-                                <div className="w-full md:w-1/2 h-96 overflow-hidden rounded-xl">
+                                {/* Event Image with Gallery Effect */}
+                                <div 
+                                    className="w-full md:w-1/2 h-96 overflow-hidden cursor-pointer relative"
+                                    onClick={() => setSelectedEvent(event)}
+                                >
                                     <img
                                         src={event.image}
                                         alt={`Event: ${event.title}`}
                                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                                         loading="lazy"
                                     />
+                                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                        <span className="text-white font-bold text-lg bg-black/50 px-4 py-2 rounded-lg">
+                                            View Full Image
+                                        </span>
+                                    </div>
                                 </div>
                                 
                                 {/* Event Details */}
@@ -511,7 +522,7 @@ const Hero = () => {
                 </div>
             </section>
 
-            {/* What to Expect Section - Light Theme */}
+            {/* What to Expect Section - Reverted to original format */}
             <section className="py-16 bg-gray-50 border-t border-b border-gray-200">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="text-center mb-12">

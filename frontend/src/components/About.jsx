@@ -204,24 +204,46 @@ const About = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, type: "spring" }}
           >
-            <div 
+            <motion.div 
               className="p-6 rounded-full border-4 shadow-xl"
               style={{ 
                 borderColor: themeColors.accent,
                 backgroundColor: themeColors.primary 
+              }}
+              animate={{ 
+                rotate: [0, 10, 0, -10, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "easeInOut"
               }}
             >
               <BiSolidChurch 
                 className="text-6xl" 
                 style={{ color: themeColors.accent }} 
               />
-            </div>
+            </motion.div>
           </motion.div>
           
           <motion.h1 
             variants={textVariant(0.3)}
             className="text-4xl md:text-6xl font-serif font-bold leading-tight mb-4"
             style={{ color: themeColors.primary }}
+            animate={{
+              textShadow: [
+                "0 0 0px rgba(0,0,0,0)",
+                `0 0 10px ${themeColors.accent}`,
+                "0 0 0px rgba(0,0,0,0)"
+              ]
+            }}
+            transition={{ 
+              duration: 3, 
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
           >
             Abundant Life <span style={{ color: themeColors.secondary }}>Celebration Center</span>
           </motion.h1>
@@ -273,6 +295,18 @@ const About = () => {
               variants={buttonHover}
               whileHover="hover"
               whileTap="tap"
+              animate={{
+                boxShadow: [
+                  `0 5px 15px ${hexToRgba(themeColors.secondary, 0.3)}`,
+                  `0 10px 25px ${hexToRgba(themeColors.secondary, 0.5)}`,
+                  `0 5px 15px ${hexToRgba(themeColors.secondary, 0.3)}`
+                ]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
             >
               <span className="relative z-10 flex items-center justify-center">
                 Join Us This Sunday
@@ -291,6 +325,18 @@ const About = () => {
               variants={buttonHover}
               whileHover="hover"
               whileTap="tap"
+              animate={{
+                boxShadow: [
+                  `0 5px 15px ${hexToRgba(themeColors.primary, 0.2)}`,
+                  `0 10px 25px ${hexToRgba(themeColors.primary, 0.4)}`,
+                  `0 5px 15px ${hexToRgba(themeColors.primary, 0.2)}`
+                ]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
             >
               <span className="relative z-10 flex items-center justify-center">
                 Learn About Our Church
@@ -328,10 +374,14 @@ const About = () => {
 
           <div className="relative">
             {/* Vertical timeline line */}
-            <div 
+            <motion.div 
               className="absolute left-1/2 transform -translate-x-1/2 h-full w-1" 
               style={{ backgroundColor: themeColors.accent }}
-            ></div>
+              initial={{ height: 0 }}
+              whileInView={{ height: '100%' }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+            ></motion.div>
             
             <div className="space-y-12 md:space-y-0">
               {historyTimeline.map((item, index) => (
@@ -339,15 +389,27 @@ const About = () => {
                   key={index}
                   variants={fadeIn(index % 2 === 0 ? "left" : "right", "spring", index * 0.2, 0.8)}
                   className={`flex flex-col md:flex-row items-center justify-between ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.5 }}
                 >
                   <div className={`md:w-5/12 p-6 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
                     <div className="inline-block relative">
-                      <span 
+                      <motion.span 
                         className="absolute -top-8 left-1/2 transform -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
                         style={{ backgroundColor: themeColors.primary }}
+                        animate={{ 
+                          scale: [1, 1.1, 1],
+                          rotate: [0, 5, 0, -5, 0]
+                        }}
+                        transition={{ 
+                          duration: 2, 
+                          repeat: Infinity,
+                          repeatType: "reverse"
+                        }}
                       >
                         {item.year}
-                      </span>
+                      </motion.span>
                       <h3 
                         className="text-2xl font-serif font-bold mt-6 mb-3" 
                         style={{ color: themeColors.accent }}
@@ -357,27 +419,47 @@ const About = () => {
                       <p className="mb-4" style={{ color: themeColors.textLight }}>
                         {item.description}
                       </p>
-                      <div className="bg-gray-800 p-4 rounded-lg">
+                      <motion.div 
+                        className="bg-gray-800 p-4 rounded-lg"
+                        whileHover={{ 
+                          y: -5,
+                          boxShadow: `0 10px 25px ${hexToRgba(themeColors.accent, 0.2)}`
+                        }}
+                        transition={{ duration: 0.3 }}
+                      >
                         <p className="font-semibold" style={{ color: themeColors.accent }}>
                           {item.verse}
                         </p>
                         <p className="text-sm italic" style={{ color: themeColors.textLight }}>
                           "{item.verseText}"
                         </p>
-                      </div>
+                      </motion.div>
                     </div>
                   </div>
                   
                   {/* Timeline dot */}
                   <div className="md:w-2/12 flex justify-center relative">
-                    <div 
+                    <motion.div 
                       className="w-6 h-6 rounded-full absolute top-1/2 transform -translate-y-1/2 z-10" 
                       style={{ backgroundColor: themeColors.accent }}
-                    ></div>
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        boxShadow: [
+                          `0 0 0 0 ${hexToRgba(themeColors.accent, 0.4)}`,
+                          `0 0 0 10px ${hexToRgba(themeColors.accent, 0)}`,
+                          `0 0 0 0 ${hexToRgba(themeColors.accent, 0)}`
+                        ]
+                      }}
+                      transition={{ 
+                        duration: 2, 
+                        repeat: Infinity,
+                        ease: "easeOut"
+                      }}
+                    ></motion.div>
                   </div>
                   
                   <div className="md:w-5/12 p-6">
-                    <div 
+                    <motion.div 
                       className="h-64 rounded-xl overflow-hidden shadow-xl"
                       style={{ 
                         backgroundImage: `url('${item.image}')`,
@@ -385,7 +467,15 @@ const About = () => {
                         backgroundPosition: 'center',
                         filter: "grayscale(50%) brightness(70%)"
                       }}
-                    ></div>
+                      whileHover={{ 
+                        filter: "grayscale(0%) brightness(100%)",
+                        scale: 1.05
+                      }}
+                      transition={{ duration: 0.5 }}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                    ></motion.div>
                   </div>
                 </motion.div>
               ))}
@@ -402,7 +492,7 @@ const About = () => {
         />
       </div>
 
-      {/* FOUNDATIONS SECTION */}
+      {/* FOUNDATIONS SECTION - Updated to match Quick Actions */}
       <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: themeColors.backgroundLight }}>
         <motion.div
           variants={staggerContainer(0.1, 0.1)}
@@ -411,154 +501,309 @@ const About = () => {
           viewport={{ once: true, amount: 0.25 }}
           className="max-w-7xl mx-auto"
         >
+          <motion.div
+            className="inline-block mb-4 rounded-lg px-4 py-2 text-xs font-medium tracking-wider border"
+            style={{ 
+              backgroundColor: `${themeColors.primary}10`,
+              color: themeColors.primary,
+              borderColor: `${themeColors.primary}20`
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            OUR FOUNDATIONS
+          </motion.div>
+          
           <motion.h2 
             variants={textVariant(0.2)} 
-            className="text-4xl md:text-5xl font-serif font-bold text-center mb-12"
+            className="text-3xl font-bold text-center mb-12"
             style={{ color: themeColors.textDark }}
           >
-            Our <span style={{ color: themeColors.secondary }}>Foundations</span>
+            Our <span style={{ color: themeColors.secondary }}>Core Beliefs</span>
           </motion.h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <motion.div 
-              variants={fadeIn("right", "spring", 0.2, 0.8)} 
-              className="bg-white rounded-xl shadow-lg p-8 transform hover:scale-105 transition-transform duration-300 relative overflow-hidden group border"
-              style={{ 
-                borderColor: themeColors.border,
-                '&:hover': { borderColor: themeColors.secondary }
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.div
+              variants={fadeIn("up", "spring", 0.2, 0.7)}
+              className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-all border border-gray-200"
+              whileHover={{ y: -5 }}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              animate={{
+                boxShadow: [
+                  "0 5px 15px rgba(0,0,0,0.05)",
+                  "0 10px 25px rgba(0,0,0,0.1)",
+                  "0 5px 15px rgba(0,0,0,0.05)"
+                ]
               }}
-              whileHover={cardHover.hover}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
             >
-              <div 
-                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ 
-                  background: `linear-gradient(to bottom right, ${hexToRgba(themeColors.secondary, 0.05)}, transparent)` 
-                }}
-              />
-              <h3 className="text-3xl font-serif font-bold mb-4 flex items-center" style={{ color: themeColors.primary }}>
-                <FaEye className="text-4xl mr-3" style={{ color: themeColors.accent }} /> Our Vision
+              <div className="flex justify-center mb-4">
+                <motion.div 
+                  className="p-3 rounded-full"
+                  style={{ 
+                    backgroundColor: `${themeColors.primary}10`, 
+                    color: themeColors.primary 
+                  }}
+                  animate={{ rotate: [0, 10, 0, -10, 0] }}
+                  transition={{ 
+                    duration: 4, 
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                >
+                  <FaEye className="text-2xl" />
+                </motion.div>
+              </div>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: themeColors.textDark }}>
+                Our Vision
               </h3>
-              <p className="text-lg leading-relaxed" style={{ color: themeColors.textDark }}>
+              <p className="text-gray-600 text-sm">
                 To reveal Christ the author of life to the dying world.
               </p>
             </motion.div>
 
-            <motion.div 
-              variants={fadeIn("left", "spring", 0.2, 0.8)} 
-              className="bg-white rounded-xl shadow-lg p-8 transform hover:scale-105 transition-transform duration-300 relative overflow-hidden group border"
-              style={{ borderColor: themeColors.border }}
-              whileHover={cardHover.hover}
+            <motion.div
+              variants={fadeIn("up", "spring", 0.4, 0.7)}
+              className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-all border border-gray-200"
+              whileHover={{ y: -5 }}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              animate={{
+                boxShadow: [
+                  "0 5px 15px rgba(0,0,0,0.05)",
+                  "0 10px 25px rgba(0,0,0,0.1)",
+                  "0 5px 15px rgba(0,0,0,0.05)"
+                ]
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity,
+                repeatType: "reverse",
+                delay: 0.5
+              }}
             >
-              <div 
-                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ 
-                  background: `linear-gradient(to bottom right, ${hexToRgba(themeColors.primary, 0.05)}, transparent)` 
-                }}
-              />
-              <h3 className="text-3xl font-serif font-bold mb-4 flex items-center" style={{ color: themeColors.primary }}>
-                <FaRocket className="text-4xl mr-3" style={{ color: themeColors.accent }} /> Our Mission
+              <div className="flex justify-center mb-4">
+                <motion.div 
+                  className="p-3 rounded-full"
+                  style={{ 
+                    backgroundColor: `${themeColors.primary}10`, 
+                    color: themeColors.primary 
+                  }}
+                  animate={{ 
+                    rotate: [0, 20, 0],
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                >
+                  <FaRocket className="text-2xl" />
+                </motion.div>
+              </div>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: themeColors.textDark }}>
+                Our Mission
               </h3>
-              <p className="text-lg leading-relaxed" style={{ color: themeColors.textDark }}>
-                To make disciples by teaching, training, equipping and establishing the saints into a personal relationship with God which unleashes them to their full potential to live in the liberty of God and heal the oppressed world by demonstrating the power of the Holy Spirit.
+              <p className="text-gray-600 text-sm">
+                To make disciples by teaching, training, equipping and establishing the saints.
               </p>
             </motion.div>
 
-            <motion.div 
-              variants={fadeIn("up", "spring", 0.4, 0.8)} 
-              className="lg:col-span-2 bg-white rounded-xl shadow-lg p-8 transform hover:scale-105 transition-transform duration-300 relative overflow-hidden group border"
-              style={{ borderColor: themeColors.border }}
-              whileHover={cardHover.hover}
+            <motion.div
+              variants={fadeIn("up", "spring", 0.6, 0.7)}
+              className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-all border border-gray-200"
+              whileHover={{ y: -5 }}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              animate={{
+                boxShadow: [
+                  "0 5px 15px rgba(0,0,0,0.05)",
+                  "0 10px 25px rgba(0,0,0,0.1)",
+                  "0 5px 15px rgba(0,0,0,0.05)"
+                ]
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity,
+                repeatType: "reverse",
+                delay: 1
+              }}
             >
-              <div 
-                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ 
-                  background: `linear-gradient(to bottom right, ${hexToRgba(themeColors.secondary, 0.05)}, transparent)` 
-                }}
-              />
-              <h3 className="text-3xl font-serif font-bold mb-4 flex items-center" style={{ color: themeColors.primary }}>
-                <FaScroll className="text-4xl mr-3" style={{ color: themeColors.accent }} /> Our Mandate
+              <div className="flex justify-center mb-4">
+                <motion.div 
+                  className="p-3 rounded-full"
+                  style={{ 
+                    backgroundColor: `${themeColors.primary}10`, 
+                    color: themeColors.primary 
+                  }}
+                  animate={{ 
+                    rotate: [0, -10, 0, 10, 0],
+                    scale: [1, 1.05, 1]
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                >
+                  <FaScroll className="text-2xl" />
+                </motion.div>
+              </div>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: themeColors.textDark }}>
+                Our Mandate
               </h3>
-              <ul className="list-disc list-inside text-lg leading-relaxed space-y-2 pl-4" style={{ color: themeColors.textDark }}>
-                <li>Evangelize the world</li>
-                <li>Train, nurture, develop and equip the born again</li>
-                <li>Influence society for the kingdom</li>
-                <li>Love God's people</li>
-              </ul>
+              <p className="text-gray-600 text-sm">
+                Evangelize the world, train believers, influence society, and love God's people.
+              </p>
             </motion.div>
 
-            <motion.div 
-              variants={fadeIn("up", "spring", 0.6, 0.8)} 
-              className="lg:col-span-2 bg-white rounded-xl shadow-lg p-8 transform hover:scale-105 transition-transform duration-300 relative overflow-hidden group border"
-              style={{ borderColor: themeColors.border }}
-              whileHover={cardHover.hover}
+            <motion.div
+              variants={fadeIn("up", "spring", 0.8, 0.7)}
+              className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-all border border-gray-200"
+              whileHover={{ y: -5 }}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              animate={{
+                boxShadow: [
+                  "0 5px 15px rgba(0,0,0,0.05)",
+                  "0 10px 25px rgba(0,0,0,0.1)",
+                  "0 5px 15px rgba(0,0,0,0.05)"
+                ]
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity,
+                repeatType: "reverse",
+                delay: 1.5
+              }}
             >
-              <div 
-                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ 
-                  background: `linear-gradient(to bottom right, ${hexToRgba(themeColors.primary, 0.05)}, transparent)` 
-                }}
-              />
-              <h3 className="text-3xl font-serif font-bold mb-4 flex items-center" style={{ color: themeColors.primary }}>
-                <FaHeart className="text-4xl mr-3" style={{ color: themeColors.accent }} /> Our Core Values
+              <div className="flex justify-center mb-4">
+                <motion.div 
+                  className="p-3 rounded-full"
+                  style={{ 
+                    backgroundColor: `${themeColors.primary}10`, 
+                    color: themeColors.primary 
+                  }}
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 5, 0, -5, 0]
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                >
+                  <FaHeart className="text-2xl" />
+                </motion.div>
+              </div>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: themeColors.textDark }}>
+                Our Core Values
               </h3>
-              <ul className="list-disc list-inside text-lg leading-relaxed space-y-2 pl-4" style={{ color: themeColors.textDark }}>
-                <li>Obedience - to God</li>
-                <li>Integrity - Lifestyle</li>
-                <li>Prayerfulness - In life</li>
-              </ul>
-              <p className="text-lg leading-relaxed mt-4 font-semibold" style={{ color: themeColors.textDark }}>
-                In everything we do, everyone we meet, everywhere we go: We are Christ's hand and feet on earth.
+              <p className="text-gray-600 text-sm">
+                Obedience to God, integrity in lifestyle, and prayerfulness in all we do.
               </p>
             </motion.div>
           </div>
         </motion.div>
       </section>
 
-      {/* STATEMENT OF FAITH SECTION */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: themeColors.backgroundDark, color: themeColors.textLight }}>
+      {/* STATEMENT OF FAITH SECTION - Updated to match "What to Expect" */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: themeColors.backgroundLight }}>
         <motion.div
           variants={staggerContainer(0.1, 0.1)}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
-          className="max-w-7xl mx-auto text-center"
+          className="max-w-7xl mx-auto"
         >
+          <motion.div
+            className="inline-block mb-4 rounded-lg px-4 py-2 text-xs font-medium tracking-wider border"
+            style={{ 
+              backgroundColor: `${themeColors.primary}10`,
+              color: themeColors.primary,
+              borderColor: `${themeColors.primary}20`
+            }}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            OUR BELIEFS
+          </motion.div>
+          
           <motion.h2 
             variants={textVariant(0.2)} 
-            className="text-4xl md:text-5xl font-serif font-bold mb-12"
-            style={{ color: themeColors.textLight }}
+            className="text-3xl font-bold text-center mb-12"
+            style={{ color: themeColors.textDark }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            Our Statement of <span style={{ color: themeColors.accent }}>Faith</span>
+            Statement of <span style={{ color: themeColors.secondary }}>Faith</span>
           </motion.h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {statementsOfFaith.map((statement) => (
               <motion.div
                 key={statement.id}
                 variants={fadeIn("up", "spring", statement.id * 0.1, 0.7)}
-                className="rounded-xl shadow-lg p-8 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300 relative overflow-hidden group border border-transparent"
-                style={{ backgroundColor: themeColors.primary }}
-                whileHover={cardHover.hover}
+                className="bg-white rounded-xl p-6 text-center shadow-sm border border-gray-200"
+                whileHover={{ y: -5 }}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                animate={{
+                  boxShadow: [
+                    "0 5px 15px rgba(0,0,0,0.05)",
+                    "0 10px 25px rgba(0,0,0,0.1)",
+                    "0 5px 15px rgba(0,0,0,0.05)"
+                  ]
+                }}
+                transition={{ 
+                  duration: 3, 
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  delay: statement.id * 0.1
+                }}
               >
-                <div 
-                  className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ 
-                    background: `linear-gradient(to bottom right, ${hexToRgba(themeColors.secondary, 0.05)}, transparent)` 
-                  }}
-                />
-                <div 
-                  className="p-4 rounded-full mb-6 text-4xl"
-                  style={{ 
-                    backgroundColor: themeColors.accent,
-                    color: themeColors.primary
-                  }}
-                >
-                  {statement.icon}
+                <div className="flex justify-center mb-4">
+                  <motion.div 
+                    className="p-3 rounded-full"
+                    style={{ 
+                      backgroundColor: `${themeColors.primary}10`, 
+                      color: themeColors.primary 
+                    }}
+                    animate={{ 
+                      rotate: [0, 15, 0, -15, 0],
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{ 
+                      duration: 4, 
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
+                  >
+                    {statement.icon}
+                  </motion.div>
                 </div>
-                <h3 className="text-2xl font-serif font-bold mb-3" style={{ color: themeColors.textLight }}>
+                <h3 className="text-xl font-bold mb-3" style={{ color: themeColors.primary }}>
                   {statement.title}
                 </h3>
-                <p className="leading-relaxed" style={{ color: `${themeColors.textLight}90` }}>
+                <p className="text-gray-600 text-base">
                   {statement.description}
                 </p>
               </motion.div>
@@ -567,7 +812,7 @@ const About = () => {
         </motion.div>
       </section>
 
-      {/* LEADERSHIP SECTION - Removed white backgrounds */}
+      {/* LEADERSHIP SECTION - Updated styling */}
       <section id="leadership" className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: themeColors.backgroundLight }}>
         <motion.div
           variants={staggerContainer(0.1, 0.1)}
@@ -576,12 +821,27 @@ const About = () => {
           viewport={{ once: true, amount: 0.25 }}
           className="max-w-7xl mx-auto"
         >
+          <motion.div
+            className="inline-block mb-4 rounded-lg px-4 py-2 text-xs font-medium tracking-wider border"
+            style={{ 
+              backgroundColor: `${themeColors.primary}10`,
+              color: themeColors.primary,
+              borderColor: `${themeColors.primary}20`
+            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            OUR TEAM
+          </motion.div>
+          
           <motion.h2 
             variants={textVariant(0.2)} 
-            className="text-4xl md:text-5xl font-serif font-bold text-center mb-12"
+            className="text-3xl font-bold text-center mb-12"
             style={{ color: themeColors.textDark }}
           >
-            Meet Our <span style={{ color: themeColors.secondary }}>Pastors</span>
+            Church <span style={{ color: themeColors.secondary }}>Leadership</span>
           </motion.h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-12 justify-items-center">
@@ -590,24 +850,65 @@ const About = () => {
                 key={index}
                 variants={zoomIn(index * 0.1, 0.5)}
                 className="text-center"
-                whileHover={{ scale: 1.05 }}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                whileHover={{ 
+                  scale: 1.05,
+                  y: -10,
+                  transition: { duration: 0.3 }
+                }}
               >
                 <div className="relative mb-6">
-                  {/* Circular image container without background */}
-                  <img 
+                  <motion.img 
                     src={person.image} 
                     alt={person.name} 
-                    className="w-48 h-48 rounded-full mx-auto object-cover border-4 transition-transform duration-300 hover:scale-105"
+                    className="w-48 h-48 rounded-full mx-auto object-cover border-4"
                     style={{ borderColor: themeColors.primary }}
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = `https://placehold.co/150x150/${themeColors.backgroundLight.slice(1)}/${themeColors.textDark.slice(1)}?text=Image`;
                     }}
+                    animate={{
+                      borderWidth: [3, 4, 3],
+                      borderColor: [
+                        themeColors.primary,
+                        themeColors.accent,
+                        themeColors.primary
+                      ]
+                    }}
+                    transition={{ 
+                      duration: 2, 
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
                   />
+                  <motion.div 
+                    className="absolute inset-0 rounded-full bg-white/20 backdrop-blur-sm opacity-0 group-hover:opacity-100 flex items-center justify-center"
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <span className="text-white font-bold text-lg">View Profile</span>
+                  </motion.div>
                 </div>
-                <h3 className="text-2xl font-serif font-bold mb-1" style={{ color: themeColors.primary }}>
+                <motion.h3 
+                  className="text-2xl font-bold mb-1" 
+                  style={{ color: themeColors.primary }}
+                  animate={{
+                    textShadow: [
+                      "0 0 0px rgba(0,0,0,0)",
+                      `0 0 8px ${themeColors.primary}`,
+                      "0 0 0px rgba(0,0,0,0)"
+                    ]
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                >
                   {person.name}
-                </h3>
+                </motion.h3>
                 <p className="text-sm uppercase font-semibold tracking-wider" style={{ color: themeColors.secondary }}>
                   {person.title}
                 </p>
@@ -617,7 +918,7 @@ const About = () => {
         </motion.div>
       </section>
 
-      {/* VISIT US SECTION */}
+      {/* VISIT US SECTION - Updated styling */}
       <section id="visit" className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: themeColors.backgroundLight }}>
         <motion.div
           variants={staggerContainer(0.1, 0.1)}
@@ -626,12 +927,31 @@ const About = () => {
           viewport={{ once: true, amount: 0.25 }}
           className="max-w-7xl mx-auto text-center"
         >
+          <motion.div
+            className="inline-block mb-4 rounded-lg px-4 py-2 text-xs font-medium tracking-wider border"
+            style={{ 
+              backgroundColor: `${themeColors.primary}10`,
+              color: themeColors.primary,
+              borderColor: `${themeColors.primary}20`
+            }}
+            initial={{ opacity: 0, rotate: -10 }}
+            whileInView={{ opacity: 1, rotate: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            JOIN US
+          </motion.div>
+          
           <motion.h2 
             variants={textVariant(0.2)} 
-            className="text-4xl md:text-5xl font-serif font-bold mb-4"
+            className="text-3xl font-bold mb-4"
             style={{ color: themeColors.textDark }}
+            initial={{ letterSpacing: "0em" }}
+            whileInView={{ letterSpacing: "0.05em" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            Come Worship With <span style={{ color: themeColors.primary }}>Us</span>
+            Visit Our <span style={{ color: themeColors.primary }}>Church</span>
           </motion.h2>
           <motion.p 
             variants={textVariant(0.4)} 
@@ -647,6 +967,9 @@ const About = () => {
               className="bg-white rounded-xl shadow-lg p-8 transform hover:scale-105 transition-transform duration-300 relative overflow-hidden group border"
               style={{ borderColor: themeColors.border }}
               whileHover={cardHover.hover}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
             >
               <div 
                 className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -654,30 +977,47 @@ const About = () => {
                   background: `linear-gradient(to bottom right, ${hexToRgba(themeColors.secondary, 0.05)}, transparent)` 
                 }}
               />
-              <h3 className="text-3xl font-serif font-bold mb-4" style={{ color: themeColors.primary }}>
+              <h3 className="text-2xl font-bold mb-4" style={{ color: themeColors.primary }}>
                 Our Location
               </h3>
-              <p className="text-lg leading-relaxed mb-4" style={{ color: themeColors.textDark }}>
+              <p className="text-gray-600 mb-4">
                 Find us at Umoja Three, Chockmart Supermarket Digital, Nairobi, Kenya. Our doors are open and we're ready to welcome you.
               </p>
               <div className="flex items-center space-x-2 mb-2">
                 <IoLocationSharp style={{ color: themeColors.accent }} className="text-2xl" />
-                <p className="font-semibold" style={{ color: themeColors.textDark }}>
+                <p className="font-semibold">
                   Umoja Three, Chockmart Supermarket Digital, Nairobi, Kenya
                 </p>
               </div>
-              <a 
+              <motion.a 
                 href="https://www.google.com/maps/dir/?api=1&destination=Chockmart+Supermarket+Digital,+Umoja+Three,+Nairobi,+Kenya" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-block px-6 py-3 mt-4 text-center font-semibold rounded-full shadow-md hover:shadow-lg transition-all transform hover:scale-105"
+                className="inline-block px-6 py-3 mt-4 text-center font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
                 style={{ 
                   backgroundColor: themeColors.secondary,
                   color: themeColors.textLight
                 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  backgroundColor: themeColors.primary
+                }}
+                whileTap={{ scale: 0.95 }}
+                animate={{
+                  boxShadow: [
+                    `0 5px 15px ${hexToRgba(themeColors.secondary, 0.3)}`,
+                    `0 10px 25px ${hexToRgba(themeColors.secondary, 0.5)}`,
+                    `0 5px 15px ${hexToRgba(themeColors.secondary, 0.3)}`
+                  ]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
               >
                 Get Directions
-              </a>
+              </motion.a>
             </motion.div>
 
             <motion.div 
@@ -685,6 +1025,9 @@ const About = () => {
               className="bg-white rounded-xl shadow-lg p-8 transform hover:scale-105 transition-transform duration-300 relative overflow-hidden group border"
               style={{ borderColor: themeColors.border }}
               whileHover={cardHover.hover}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
             >
               <div 
                 className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -692,21 +1035,21 @@ const About = () => {
                   background: `linear-gradient(to bottom right, ${hexToRgba(themeColors.primary, 0.05)}, transparent)` 
                 }}
               />
-              <h3 className="text-3xl font-serif font-bold mb-4" style={{ color: themeColors.primary }}>
+              <h3 className="text-2xl font-bold mb-4" style={{ color: themeColors.primary }}>
                 Service Times
               </h3>
-              <p className="text-lg leading-relaxed mb-4" style={{ color: themeColors.textDark }}>
+              <p className="text-gray-600 mb-4">
                 Join us for a spirit-filled service every Sunday.
               </p>
               <div className="flex items-center space-x-2 mb-2">
                 <IoTimeSharp style={{ color: themeColors.accent }} className="text-2xl" />
-                <p className="font-semibold" style={{ color: themeColors.textDark }}>
+                <p className="font-semibold">
                   First Service: 9:00 AM - 11:00 AM
                 </p>
               </div>
               <div className="flex items-center space-x-2">
                 <IoTimeSharp style={{ color: themeColors.accent }} className="text-2xl" />
-                <p className="font-semibold" style={{ color: themeColors.textDark }}>
+                <p className="font-semibold">
                   Second Service: 11:30 AM - 1:30 PM
                 </p>
               </div>

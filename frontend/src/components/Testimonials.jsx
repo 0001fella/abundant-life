@@ -1,30 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, User, Star, Search, Filter, ChevronDown, X, CheckCircle, AlertCircle } from "lucide-react";
+import { MessageSquare, User, Search, Filter, ChevronDown, X, CheckCircle, AlertCircle, Share2, Copy, Heart, BookOpen, ChevronRight, ChevronLeft } from "lucide-react";
 
 // --- Updated API Configuration ---
-// Use the deployed backend URL for production, localhost for development
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? '' // Relative path for local development
-  : 'https://abundant-life.onrender.com'; // Explicit backend URL for Netlify deployment
+  ? '' 
+  : 'https://abundant-life.onrender.com';
 // --- End of Updated API Configuration ---
 
-// Testimonial Card Component (for reusability)
-const TestimonialCard = ({ testimonial, index }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: index * 0.1 }}
-    whileHover={{ y: -5 }}
-    className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden"
-  >
-    <div className="p-6">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-3">
+// Enhanced Testimonial Card Component
+const TestimonialCard = ({ testimonial, index }) => {
+  const [copied, setCopied] = useState(false);
+  const [liked, setLiked] = useState(false);
+  
+  const handleCopy = () => {
+    navigator.clipboard.writeText(testimonial.message);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: `Testimony from ${testimonial.name}`,
+        text: testimonial.message,
+        url: window.location.href
+      });
+    } else {
+      handleCopy();
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+      whileHover={{ y: -5 }}
+      className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex flex-col h-full"
+    >
+      <div className="p-6 flex-grow">
+        <div className="flex items-center space-x-3 mb-4">
           <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
             {testimonial.name.charAt(0)}
           </div>
-          <div>
+          <div className="flex-grow">
             <h3 className="font-bold text-gray-900">{testimonial.name}</h3>
             <p className="text-sm text-gray-500">
               {testimonial.date ? new Date(testimonial.date).toLocaleDateString('en-US', {
@@ -35,21 +55,44 @@ const TestimonialCard = ({ testimonial, index }) => (
             </p>
           </div>
         </div>
-        <div className="flex items-center text-emerald-500">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={i < testimonial.rating ? "fill-current" : "stroke-current"}
-              size={16}
-              aria-label={`${testimonial.rating} out of 5 stars`}
-            />
-          ))}
+        <p className="text-gray-700 italic mb-4">"{testimonial.message}"</p>
+      </div>
+      
+      {/* Card Footer with Actions */}
+      <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+        <div className="flex items-center space-x-2">
+          <button 
+            onClick={() => setLiked(!liked)}
+            className={`p-2 rounded-full ${liked ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
+            aria-label={liked ? "Unlike testimony" : "Like testimony"}
+          >
+            <Heart className={`${liked ? 'fill-current' : ''}`} size={18} />
+          </button>
+          <div className="text-sm text-gray-500">
+            {liked ? 'You liked this' : 'Like testimony'}
+          </div>
+        </div>
+        
+        <div className="flex space-x-2">
+          <button 
+            onClick={handleCopy}
+            className="p-2 text-gray-500 hover:text-emerald-600 rounded-full hover:bg-emerald-50"
+            aria-label={copied ? "Copied!" : "Copy testimony"}
+          >
+            {copied ? <CheckCircle size={18} className="text-emerald-500" /> : <Copy size={18} />}
+          </button>
+          <button 
+            onClick={handleShare}
+            className="p-2 text-gray-500 hover:text-emerald-600 rounded-full hover:bg-emerald-50"
+            aria-label="Share testimony"
+          >
+            <Share2 size={18} />
+          </button>
         </div>
       </div>
-      <p className="text-gray-700 italic">"{testimonial.message}"</p>
-    </div>
-  </motion.div>
-);
+    </motion.div>
+  );
+};
 
 // Main Testimonials Page Component
 const ALCC_Testimonials = () => {
@@ -59,34 +102,30 @@ const ALCC_Testimonials = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(6); // Increased initial count for a fuller page
+  const [visibleCount, setVisibleCount] = useState(6);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("newest");
-  const [filterOption, setFilterOption] = useState("all");
-  const [error, setError] = useState(null); // State for API errors
+  const [error, setError] = useState(null);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
 
   // Function to fetch testimonials from the backend
   const fetchTestimonials = async () => {
-    setError(null); // Clear previous error
+    setError(null);
     try {
-      console.log(`Attempting to fetch testimonials from: ${API_BASE_URL}/api/testimonials`);
       const response = await fetch(`${API_BASE_URL}/api/testimonials`);
       if (!response.ok) {
-        // If the response is not OK, it means the server responded but with an error status
-        const errorText = await response.text(); // Get raw text to help debug
+        const errorText = await response.text();
         throw new Error(`Server responded with status ${response.status}: ${errorText || response.statusText}`);
       }
       const data = await response.json();
-      // Map MongoDB's _id to id for consistency if needed, and ensure date is handled
       const formattedData = data.map(t => ({
         ...t,
-        id: t._id, // Use _id from MongoDB as id
-        date: t.date ? new Date(t.date) : new Date(), // Ensure date is a Date object or default
+        id: t._id,
+        date: t.date ? new Date(t.date) : new Date(),
       }));
       setTestimonials(formattedData);
     } catch (err) {
       console.error("Failed to fetch testimonials:", err);
-      // Provide more specific error message for network issues
       if (err.message.includes("Failed to fetch")) {
         setError("Could not connect to the backend server. Please ensure your Node.js backend is running and accessible, and check your API_BASE_URL and CORS settings.");
       } else {
@@ -98,22 +137,19 @@ const ALCC_Testimonials = () => {
   // Fetch testimonials on component mount
   useEffect(() => {
     fetchTestimonials();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
   // Handle testimonial submission to backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(null); // Clear previous errors
+    setError(null);
     const newTestimonialData = {
       name: name.trim() || "Anonymous",
       message: message.trim(),
-      // Backend should handle date creation, but sending it from frontend as fallback
       date: new Date().toISOString(),
-      rating: 5, // Default rating for new submissions
     };
     try {
-      console.log(`Attempting to submit testimonial to: ${API_BASE_URL}/api/testimonials`);
       const response = await fetch(`${API_BASE_URL}/api/testimonials`, {
         method: "POST",
         headers: {
@@ -126,13 +162,11 @@ const ALCC_Testimonials = () => {
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       const submittedTestimonial = await response.json();
-      // Add the newly submitted testimonial to the beginning of the list
       setTestimonials([{ ...submittedTestimonial, id: submittedTestimonial._id, date: new Date(submittedTestimonial.date) }, ...testimonials]);
       setName("");
       setMessage("");
       setIsLoading(false);
-      setIsSubmitted(true); // Show success message
-      // Hide success message and form after a delay
+      setIsSubmitted(true);
       setTimeout(() => {
         setShowForm(false);
         setIsSubmitted(false);
@@ -156,21 +190,30 @@ const ALCC_Testimonials = () => {
   // Filter and sort testimonials
   const filteredTestimonials = testimonials
     .filter(testimonial => {
-      const matchesSearch = testimonial.message.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      return testimonial.message.toLowerCase().includes(searchQuery.toLowerCase()) ||
         testimonial.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesFilter = filterOption === "all" || (filterOption === "5star" && testimonial.rating === 5);
-      return matchesSearch && matchesFilter;
     })
     .sort((a, b) => {
       if (sortOption === "newest") {
         return new Date(b.date) - new Date(a.date);
       } else if (sortOption === "oldest") {
         return new Date(a.date) - new Date(b.date);
-      } else if (sortOption === "rating") {
-        return b.rating - a.rating;
       }
       return 0;
     });
+
+  // Featured testimonials (top 3 newest)
+  const featuredTestimonials = [...testimonials]
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 3);
+
+  const nextFeatured = () => {
+    setFeaturedIndex((prev) => (prev + 1) % featuredTestimonials.length);
+  };
+
+  const prevFeatured = () => {
+    setFeaturedIndex((prev) => (prev - 1 + featuredTestimonials.length) % featuredTestimonials.length);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-emerald-50">
@@ -247,12 +290,6 @@ const ALCC_Testimonials = () => {
                         required
                       />
                     </div>
-                    <div className="flex items-center text-yellow-500 mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="fill-current" size={20} />
-                      ))}
-                      <span className="ml-2 text-sm text-gray-600">5 Star Rating</span>
-                    </div>
                     <button
                       type="submit"
                       disabled={isLoading}
@@ -314,11 +351,88 @@ const ALCC_Testimonials = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <Star className="text-emerald-300 fill-current" size={20} />
+            <BookOpen className="text-emerald-300" size={20} />
             <span className="text-white">"We have this treasure in jars of clay" - 2 Corinthians 4:7</span>
           </motion.div>
         </motion.div>
       </section>
+
+      {/* Featured Testimonials Carousel */}
+      {featuredTestimonials.length > 0 && (
+        <section className="py-12 px-4 sm:px-6 bg-gradient-to-b from-white to-emerald-50">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">
+                Featured Testimonies
+              </h2>
+              <div className="flex gap-2">
+                <button 
+                  onClick={prevFeatured}
+                  className="p-2 rounded-full bg-white border border-gray-300 text-gray-600 hover:bg-gray-50"
+                  aria-label="Previous testimony"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button 
+                  onClick={nextFeatured}
+                  className="p-2 rounded-full bg-white border border-gray-300 text-gray-600 hover:bg-gray-50"
+                  aria-label="Next testimony"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+            </div>
+            
+            <div className="relative bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl shadow-xl overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={featuredIndex}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="p-8 text-white"
+                >
+                  <div className="max-w-3xl mx-auto text-center">
+                    <div className="flex justify-center mb-6">
+                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-white to-gray-200 rounded-full flex items-center justify-center text-emerald-700 font-bold text-xl">
+                          {featuredTestimonials[featuredIndex]?.name.charAt(0)}
+                        </div>
+                      </div>
+                    </div>
+                    <blockquote className="text-xl italic mb-6">
+                      "{featuredTestimonials[featuredIndex]?.message}"
+                    </blockquote>
+                    <p className="font-bold text-lg">
+                      {featuredTestimonials[featuredIndex]?.name}
+                    </p>
+                    <p className="text-emerald-200">
+                      {featuredTestimonials[featuredIndex]?.date ? new Date(featuredTestimonials[featuredIndex].date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      }) : 'N/A'}
+                    </p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                {featuredTestimonials.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setFeaturedIndex(idx)}
+                    className={`w-2.5 h-2.5 rounded-full ${
+                      idx === featuredIndex ? 'bg-white' : 'bg-white/50'
+                    }`}
+                    aria-label={`Go to testimony ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Filter & Search Section */}
       <section className="py-12 px-4 sm:px-6 bg-gradient-to-b from-white to-emerald-50">
@@ -336,39 +450,25 @@ const ALCC_Testimonials = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <div className="flex gap-3">
-              <div className="relative">
+            <div className="flex gap-3 w-full md:w-auto">
+              <div className="relative w-full md:w-auto">
                 <select
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
-                  className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-10 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="appearance-none w-full bg-white border border-gray-300 rounded-lg px-4 py-3 pr-10 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                 >
                   <option value="newest">Newest First</option>
                   <option value="oldest">Oldest First</option>
-                  <option value="rating">Highest Rated</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <ChevronDown size={20} />
-                </div>
-              </div>
-              <div className="relative">
-                <select
-                  value={filterOption}
-                  onChange={(e) => setFilterOption(e.target.value)}
-                  className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-10 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                >
-                  <option value="all">All Ratings</option>
-                  <option value="5star">5 Star Only</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <Filter size={20} />
                 </div>
               </div>
             </div>
           </div>
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold text-gray-900">
-              Testimonies <span className="text-emerald-600">({filteredTestimonials.length})</span>
+              All Testimonies <span className="text-emerald-600">({filteredTestimonials.length})</span>
             </h2>
             <p className="text-gray-600">
               Showing {Math.min(visibleCount, filteredTestimonials.length)} of {filteredTestimonials.length} testimonies
@@ -476,7 +576,7 @@ const ALCC_Testimonials = () => {
             whileInView={{ opacity: 1, y: 0 }}
           >
             <div className="bg-emerald-500/10 p-10 rounded-2xl border border-emerald-500/20 inline-block">
-              <Star className="mx-auto mb-4 text-emerald-300 fill-current" size={40} />
+              <BookOpen className="mx-auto mb-4 text-emerald-300" size={40} />
               <h3 className="text-2xl md:text-3xl font-bold mb-6 text-white">
                 "Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up."
               </h3>
