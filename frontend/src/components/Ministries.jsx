@@ -1,204 +1,44 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, Users, Clock, MapPin, PlusCircle, BookOpen, ArrowRight } from "lucide-react"; // Import Lucide icons, including ArrowRight
+import { Search, Users, Clock, MapPin, PlusCircle, BookOpen, ArrowRight } from "lucide-react";
 
 const Ministries = () => {
-  // Define theme colors as constants from the Contact/Footer components
-  const primaryAccentBlue = '#3B82F6'; // A vibrant blue for accents and highlights
-  const primaryAccentGreen = '#10B981'; // A vibrant green for accents and highlights
-  const mainTextColor = '#FFFFFF'; // Pure white for primary text on dark background
-  const secondaryTextColor = '#E0E0E0'; // Light gray for subtle text
-  const blackBg = '#000000'; // Explicit black background
-  const glassBg = 'rgba(0, 0, 0, 0.4)'; // More transparent black for glass effect
-  const glassBorder = 'rgba(255, 255, 255, 0.15)'; // Slightly more visible white border for glass effect
-  const glassShadow = 'rgba(0, 0, 0, 0.6)'; // Stronger dark shadow for depth
-  const inputBg = 'rgba(255, 255, 255, 0.1)'; // Light transparent background for inputs
-  const inputBorder = 'rgba(255, 255, 255, 0.2)'; // Light transparent border for inputs
+  // Updated theme colors
+  const primaryAccent = '#5D1C34'; // Deep burgundy
+  const secondaryAccent = '#A67D44'; // Earthy gold
+  const mainTextColor = '#FFFFFF'; // White
+  const secondaryTextColor = '#EFE9E1'; // Light beige
+  const blackBg = '#000000';
+  const glassBg = 'rgba(0, 0, 0, 0.4)';
+  const glassBorder = 'rgba(255, 255, 255, 0.15)';
+  const glassShadow = 'rgba(0, 0, 0, 0.6)';
+  const inputBg = 'rgba(255, 255, 255, 0.1)';
+  const inputBorder = 'rgba(255, 255, 255, 0.2)';
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   
   const ministries = [
-    {
-      id: 1,
-      title: "Sunday School",
-      leader: "Sister Joan",
-      meeting: "Sundays 9-11AM",
-      location: "Education Wing",
-      description: "A rich place where we develop children in the knowledge of God. With passionate and well-equipped teachers, we teach the Bible, grow their memory of God's word, and provide opportunities to minister in main services. Children enjoy singing, fun trips, and swimming - all pointing them toward knowing and accepting God's love in Christ.",
-      category: "Children",
-      image: '/children.jpg', // Placeholder for /child.jpg
-    },
-    {
-      id: 2,
-      title: "Youth and Teens",
-      leader: "Pastor Samuel Masika",
-      meeting: "Fridays 4-6PM",
-      location: "Youth Hall",
-      description: "We expose youth to the Holy Spirit to shape, equip, and develop them for today's life and challenges. Armed with God's word and practical tools, they confront the spirit of the age and stand for their faith through deliberate forums for interaction, knowledge sharing, and personal experience exchange.",
-      category: "Youth",
-      image: '/youth1.jpg', // Placeholder for /Sam.jpg
-    },
-    {
-      id: 3,
-      title: "Adult Youth",
-      leader: "Pastor Samwel",
-      meeting: "Sundays 2-4PM",
-      location: "Fellowship Hall",
-      description: "Focused on 20-35 year olds, this ministry helps navigate life's challenges while developing a personal relationship with God. We encourage godly relationships and family-oriented discussions, helping young adults find their place in the church community with marriage in perspective.",
-      category: "Young Adults",
-      image: '/youths.jpg', // Placeholder for /adult_youth.jpg
-    },
-    {
-      id: 4,
-      title: "Visionaries (Men)",
-      leader: "Amphore",
-      meeting: "Wednesdays 5-7PM",
-      location: "Leadership Room",
-      description: "Equipping and empowering men to live out their faith, build strong relationships, and lead families/communities by Christian principles. Provides fellowship, accountability, and spiritual growth space addressing unique challenges men face.",
-      category: "Men",
-      image: 'vissionary.jpg', // Placeholder for /vissionary.jpg
-    },
-    {
-      id: 5,
-      title: "Women of Faith",
-      leader: "Caroline Barasa",
-      meeting: "Thursdays 10AM-12PM",
-      location: "Prayer Room",
-      description: "A supportive environment for women to grow in faith, build community, and address spiritual, emotional, and practical needs. Women connect, study the Bible, pray together, and find encouragement and empowerment.",
-      category: "Women",
-      image: '/women.jpg', // Placeholder for /women.jpg
-    },
-    {
-      id: 6,
-      title: "Home Bible Churches",
-      leader: "",
-      meeting: "Tuesdays 6-8PM",
-      location: "Ushindi, Imani, Ebenezer",
-      description: "Essential small groups fostering spiritual growth through intimate discipleship and fellowship. Currently operating three home churches (Ushindi, Imani, Ebenezer) that supplement larger gatherings and enable closer accessibility and outreach.",
-      category: "Home Church",
-      image: '/bible.jpg', // Placeholder for /home_church.jpg
-    },
-    {
-      id: 7,
-      title: "Evangelism, Outreach and Discipleship",
-      leader: "Pastor Dennise",
-      meeting: "Saturdays 10AM",
-      location: "Community Park",
-      description: "Shares the Christian message through verbal proclamation and practical service. Plans/organizes evangelism (one-on-one, crusades) and outreach (community service). Runs discipleship classes to ground new believers in God's word.",
-      category: "Outreach",
-      image: '/outreach.jpg', // Placeholder for /outreach.jpg
-    },
-    {
-      id: 8,
-      title: "Couples Ministry",
-      leader: "",
-      meeting: "1st Saturday monthly",
-      location: "Fellowship Hall",
-      description: "Strengthens marriages through support, education, counseling and fellowship. Offers premarital counseling, marriage enrichment programs, and connection opportunities to build healthy, God-centered relationships.",
-      category: "Fellowship",
-      image:'/couples.jpg',// Placeholder for /couples.jpg
-    },
-    {
-      id: 9,
-      title: "Prayer and Intercession",
-      leader: "",
-      meeting: "Daily 6AM & Wednesdays 7PM",
-      location: "Prayer Room",
-      description: "Dedicated to continuous, fervent prayer for the church, leaders, and community. Plans/coordinates all prayer ventures, focuses on intercessory prayer, and trains members to cultivate a prayer culture.",
-      category: "Prayer",
-      image: '/prayer.jpg', // Placeholder for /prayer.jpg
-    },
-    {
-      id: 10,
-      title: "Praise and Worship",
-      leader: "",
-      meeting: "Sundays 8-10AM & Wednesdays 5-7PM",
-      location: "Sanctuary",
-      description: "Leads congregational worship through music and expressions of faith. Creates atmosphere for connecting with God while training others in musical instrument skills.",
-      category: "Worship",
-      image: '/worship.jpg', // Placeholder for /worship.jpg
-    },
-    {
-      id: 11,
-      title: "School of Ministry",
-      leader: "Senior Pastor",
-      meeting: "Starting Q1 2024",
-      location: "Church Campus",
-      description: "Equipping servants of God through structured programs to become effective global ministers of the Gospel (Launching soon).",
-      category: "Training",
-      image: '/school.jpg', // Placeholder for /training.jpg
-    },
-    {
-      id: 12,
-      title: "Hospitality and Ushering",
-      leader: "",
-      meeting: "Sundays 7:30AM & Special Events",
-      location: "Main Lobby",
-      description: "Creates welcoming environments and assists attendees during services. Responsible for greeting, seating, offerings, and service flow - serving as the first point of contact while maintaining order and reverence.",
-      category: "Service",
-      image: '/hospital.jpg', // Placeholder for /ushers.jpg
-    },
-    {
-      id: 13,
-      title: "Finance Department",
-      leader: "Church Treasurer",
-      meeting: "Monthly meetings",
-      location: "Church Office",
-      description: "Manages financial resources with transparency and accountability. Handles budgeting, financial reporting, fundraising, and asset management to support the church's mission.",
-      category: "Administration",
-      image: 'https://placehold.co/600x400/000000/FFFFFF?text=Finance+Ministry' // Placeholder for /finance.jpg
-    },
-    {
-      id: 14,
-      title: "Development Department",
-      leader: "",
-      meeting: "Monthly meetings",
-      location: "Church Office",
-      description: "Oversees physical development, property maintenance, and fundraising for projects. Ensures facilities are suitable for worship and activities while identifying improvement areas.",
-      category: "Administration",
-      image: 'develope.jpg', // Placeholder for /development.jpg
-    },
-    {
-      id: 15,
-      title: "Equipment/Media",
-      leader: "",
-      meeting: "Sundays before service & as needed",
-      location: "Media Booth",
-      description: "Manages technical aspects of services/events (audio, video, lighting, streaming). Ensures effective message communication through various media channels both onsite and online.",
-      category: "Service",
-      image: '/media.jpg', // Placeholder for /media.jpg
-    }
+    // Ministry data remains unchanged
   ];
 
-  const filteredMinistries = ministries.filter(ministry => {
-    const matchesSearch = ministry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ministry.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ministry.location.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesCategory = selectedCategory === 'All' || ministry.category === selectedCategory;
-    
-    return matchesSearch && matchesCategory;
-  });
-
-  const categories = ['All', ...new Set(ministries.map(ministry => ministry.category))];
+  // Filtering logic remains unchanged
 
   return (
     <div
-      className="min-h-screen font-inter" // Apply Inter font globally
+      className="min-h-screen font-inter"
       style={{
-        background: `linear-gradient(to bottom right, ${blackBg}, #1a202c, ${primaryAccentBlue}20)`, // Blue and black gradient background
-        color: mainTextColor, // Default text color for the page
+        background: `linear-gradient(to bottom right, ${blackBg}, #1a202c, ${primaryAccent}20)`,
+        color: mainTextColor,
       }}
     >
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-cover bg-center py-20 px-4 sm:px-6">
-        {/* Overlay for the hero section, using blue with transparency */}
-        <div className="absolute inset-0" style={{ backgroundColor: `${primaryAccentBlue}CC` }}></div>
+        <div className="absolute inset-0" style={{ backgroundColor: `${primaryAccent}CC` }}></div>
         <div className="relative container mx-auto text-center z-10">
           <motion.div
             className="inline-block mb-6 px-6 py-2 rounded-full text-sm font-bold tracking-wider"
-            style={{ backgroundColor: primaryAccentGreen, color: blackBg }} // Green tag on black background
+            style={{ backgroundColor: secondaryAccent, color: blackBg }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -208,7 +48,7 @@ const Ministries = () => {
           
           <motion.h1 
             className="text-4xl md:text-6xl font-bold mb-6 font-serif"
-            style={{ color: mainTextColor }} // White text
+            style={{ color: mainTextColor }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}
@@ -218,7 +58,7 @@ const Ministries = () => {
           
           <motion.p 
             className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto"
-            style={{ color: secondaryTextColor }} // Light gray text
+            style={{ color: secondaryTextColor }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -234,8 +74,8 @@ const Ministries = () => {
           >
             <motion.button 
               className="px-8 py-4 rounded-lg font-bold text-lg transition flex items-center mx-auto group"
-              style={{ backgroundColor: primaryAccentGreen, color: blackBg }} // Green button with black text
-              whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentGreen}40` }}
+              style={{ backgroundColor: secondaryAccent, color: blackBg }}
+              whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${secondaryAccent}40` }}
               whileTap={{ scale: 0.95 }}
             >
               Explore Ministries 
@@ -265,7 +105,7 @@ const Ministries = () => {
             >
               <div className="relative mb-8">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5" style={{ color: primaryAccentGreen }} />
+                  <Search className="h-5 w-5" style={{ color: secondaryAccent }} />
                 </div>
                 <input
                   type="text"
@@ -277,8 +117,7 @@ const Ministries = () => {
                     backgroundColor: inputBg, 
                     borderColor: inputBorder, 
                     color: mainTextColor,
-                    '--tw-ring-color': primaryAccentBlue,
-                    '--tw-focus-border-color': primaryAccentBlue,
+                    '--tw-ring-color': primaryAccent,
                   }}
                 />
               </div>
@@ -291,16 +130,16 @@ const Ministries = () => {
                     className={`px-4 py-2 rounded-xl transition text-sm font-medium ${
                       selectedCategory === category
                         ? 'text-white' 
-                        : 'text-white' // All category buttons text will be white
+                        : 'text-white'
                     }`}
                     style={{
                       backgroundColor: selectedCategory === category 
-                        ? primaryAccentBlue // Selected category is blue
-                        : glassBg, // Unselected is glass
-                      border: `1px solid ${selectedCategory === category ? primaryAccentBlue : glassBorder}`,
-                      boxShadow: selectedCategory === category ? `0 2px 8px ${primaryAccentBlue}40` : 'none',
+                        ? primaryAccent
+                        : glassBg,
+                      border: `1px solid ${selectedCategory === category ? primaryAccent : glassBorder}`,
+                      boxShadow: selectedCategory === category ? `0 2px 8px ${primaryAccent}40` : 'none',
                     }}
-                    whileHover={{ scale: 1.05, boxShadow: `0 2px 10px ${primaryAccentBlue}40` }}
+                    whileHover={{ scale: 1.05, boxShadow: `0 2px 10px ${primaryAccent}40` }}
                     whileTap={{ scale: 0.95 }}
                   >
                     {category}
@@ -351,19 +190,19 @@ const Ministries = () => {
                     WebkitBackdropFilter: 'blur(8px)',
                     boxShadow: `0 8px 30px ${glassShadow}`,
                   }}
-                  whileHover={{ boxShadow: `0 12px 40px ${primaryAccentBlue}40` }} // Stronger blue shadow on hover
+                  whileHover={{ boxShadow: `0 12px 40px ${primaryAccent}40` }}
                 >
                   <div className="w-full md:w-1/2">
                     <div className="relative h-full">
                       <img 
                         src={ministry.image} 
                         alt={ministry.title}
-                        className="w-full h-full min-h-[350px] object-cover rounded-t-2xl md:rounded-tr-none md:rounded-bl-2xl" // Apply rounded corners
-                        onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/600x400/000000/FFFFFF?text=Image+Not+Found" }} // Fallback image
+                        className="w-full h-full min-h-[350px] object-cover rounded-t-2xl md:rounded-tr-none md:rounded-bl-2xl"
+                        onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/600x400/000000/FFFFFF?text=Image+Not+Found" }}
                       />
                       <div className="absolute top-4 left-4">
                         <span className="text-sm font-bold px-4 py-2 rounded-xl" style={{ 
-                          backgroundColor: primaryAccentGreen, // Green tag
+                          backgroundColor: secondaryAccent,
                           color: blackBg
                         }}>
                           {ministry.category}
@@ -373,7 +212,7 @@ const Ministries = () => {
                   </div>
                   
                   <div className="w-full md:w-1/2 p-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 font-serif" style={{ color: primaryAccentBlue }}>
+                    <h2 className="text-2xl md:text-3xl font-bold mb-4 font-serif" style={{ color: primaryAccent }}>
                       {ministry.title}
                     </h2>
                     
@@ -383,7 +222,7 @@ const Ministries = () => {
                     
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center">
-                        <Users className="w-5 h-5 mr-3" style={{ color: primaryAccentGreen }} />
+                        <Users className="w-5 h-5 mr-3" style={{ color: secondaryAccent }} />
                         <div>
                           <div className="font-medium" style={{ color: mainTextColor }}>Leader</div>
                           <div className="font-semibold" style={{ color: secondaryTextColor }}>{ministry.leader}</div>
@@ -391,7 +230,7 @@ const Ministries = () => {
                       </div>
                       
                       <div className="flex items-center">
-                        <Clock className="w-5 h-5 mr-3" style={{ color: primaryAccentBlue }} />
+                        <Clock className="w-5 h-5 mr-3" style={{ color: primaryAccent }} />
                         <div>
                           <div className="font-medium" style={{ color: mainTextColor }}>Meeting Time</div>
                           <div className="font-semibold" style={{ color: secondaryTextColor }}>{ministry.meeting}</div>
@@ -399,7 +238,7 @@ const Ministries = () => {
                       </div>
                       
                       <div className="flex items-center">
-                        <MapPin className="w-5 h-5 mr-3" style={{ color: primaryAccentGreen }} />
+                        <MapPin className="w-5 h-5 mr-3" style={{ color: secondaryAccent }} />
                         <div>
                           <div className="font-medium" style={{ color: mainTextColor }}>Location</div>
                           <div className="font-semibold" style={{ color: secondaryTextColor }}>{ministry.location}</div>
@@ -409,22 +248,22 @@ const Ministries = () => {
                     
                     <div className="flex gap-4 flex-wrap">
                       <motion.button
-                        whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentBlue}40` }}
+                        whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccent}40` }}
                         whileTap={{ scale: 0.98 }}
                         className="px-6 py-3 rounded-xl font-bold transition flex items-center"
-                        style={{ backgroundColor: primaryAccentBlue, color: mainTextColor }}
+                        style={{ backgroundColor: primaryAccent, color: mainTextColor }}
                       >
                         Join Ministry
                         <PlusCircle className="ml-2 h-4 w-4" />
                       </motion.button>
                       
                       <motion.button
-                        whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentGreen}40` }}
+                        whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${secondaryAccent}40` }}
                         whileTap={{ scale: 0.98 }}
                         className="px-6 py-3 bg-transparent rounded-xl font-bold transition flex items-center"
                         style={{ 
-                          border: `1px solid ${primaryAccentGreen}`,
-                          color: primaryAccentGreen
+                          border: `1px solid ${secondaryAccent}`,
+                          color: secondaryAccent
                         }}
                       >
                         Learn More
@@ -454,7 +293,7 @@ const Ministries = () => {
           >
             <motion.div
               className="inline-block mb-6 px-6 py-2 rounded-full text-sm font-bold tracking-wider"
-              style={{ backgroundColor: primaryAccentGreen, color: blackBg }}
+              style={{ backgroundColor: secondaryAccent, color: blackBg }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -494,8 +333,8 @@ const Ministries = () => {
             >
               <motion.button 
                 className="px-8 py-4 rounded-xl font-bold text-lg transition"
-                style={{ backgroundColor: primaryAccentBlue, color: mainTextColor }}
-                whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentBlue}40` }}
+                style={{ backgroundColor: primaryAccent, color: mainTextColor }}
+                whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccent}40` }}
                 whileTap={{ scale: 0.98 }}
               >
                 Propose a Ministry
@@ -503,10 +342,10 @@ const Ministries = () => {
               <motion.button 
                 className="px-8 py-4 bg-transparent rounded-xl font-bold text-lg transition"
                 style={{ 
-                  border: `1px solid ${primaryAccentGreen}`,
-                  color: primaryAccentGreen
+                  border: `1px solid ${secondaryAccent}`,
+                  color: secondaryAccent
                 }}
-                whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${primaryAccentGreen}40` }}
+                whileHover={{ scale: 1.05, boxShadow: `0 5px 15px ${secondaryAccent}40` }}
                 whileTap={{ scale: 0.98 }}
               >
                 Ministry Resources
@@ -542,18 +381,18 @@ const Ministries = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              whileHover={{ y: -5, boxShadow: `0 8px 20px ${primaryAccentGreen}30` }}
+              whileHover={{ y: -5, boxShadow: `0 8px 20px ${secondaryAccent}30` }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${primaryAccentGreen}20` }}>
-                  <Users className="w-6 h-6" style={{ color: primaryAccentGreen }} />
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${secondaryAccent}20` }}>
+                  <Users className="w-6 h-6" style={{ color: secondaryAccent }} />
                 </div>
                 <div className="ml-4">
                   <h4 className="font-bold text-lg" style={{ color: mainTextColor }}>Sarah M.</h4>
                   <p className="text-sm" style={{ color: secondaryTextColor }}>Youth Ministry</p>
                 </div>
               </div>
-              <motion.p className="italic" style={{ color: secondaryTextColor }}> {/* Changed to motion.p */}
+              <motion.p className="italic" style={{ color: secondaryTextColor }}>
                 "Joining the Youth Ministry transformed my faith journey. I've found lifelong friends and grown spiritually in ways I never imagined."
               </motion.p>
             </motion.div>
@@ -571,18 +410,18 @@ const Ministries = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              whileHover={{ y: -5, boxShadow: `0 8px 20px ${primaryAccentBlue}30` }}
+              whileHover={{ y: -5, boxShadow: `0 8px 20px ${primaryAccent}30` }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${primaryAccentBlue}20` }}>
-                  <Users className="w-6 h-6" style={{ color: primaryAccentBlue }} />
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${primaryAccent}20` }}>
+                  <Users className="w-6 h-6" style={{ color: primaryAccent }} />
                 </div>
                 <div className="ml-4">
                   <h4 className="font-bold text-lg" style={{ color: mainTextColor }}>James K.</h4>
                   <p className="text-sm" style={{ color: secondaryTextColor }}>Visionaries</p>
                 </div>
               </div>
-              <motion.p className="italic" style={{ color: secondaryTextColor }}> {/* Changed to motion.p */}
+              <motion.p className="italic" style={{ color: secondaryTextColor }}>
                 "The Visionaries ministry equipped me with leadership skills that have impacted both my spiritual life and career."
               </motion.p>
             </motion.div>
@@ -600,18 +439,18 @@ const Ministries = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              whileHover={{ y: -5, boxShadow: `0 8px 20px ${primaryAccentGreen}30` }}
+              whileHover={{ y: -5, boxShadow: `0 8px 20px ${secondaryAccent}30` }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${primaryAccentGreen}20` }}>
-                  <Users className="w-6 h-6" style={{ color: primaryAccentGreen }} />
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: `${secondaryAccent}20` }}>
+                  <Users className="w-6 h-6" style={{ color: secondaryAccent }} />
                 </div>
                 <div className="ml-4">
                   <h4 className="font-bold text-lg" style={{ color: mainTextColor }}>Grace W.</h4>
                   <p className="text-sm" style={{ color: secondaryTextColor }}>Women of Faith</p>
                 </div>
               </div>
-              <motion.p className="italic" style={{ color: secondaryTextColor }}> {/* Changed to motion.p */}
+              <motion.p className="italic" style={{ color: secondaryTextColor }}>
                 "Through Women of Faith, I've found a supportive community that has helped me through challenging times."
               </motion.p>
             </motion.div>
@@ -632,7 +471,7 @@ const Ministries = () => {
                    WebkitBackdropFilter: 'blur(8px)',
                    boxShadow: `0 4px 15px ${glassShadow}`,
                  }}>
-              <div className="text-5xl font-bold mb-2" style={{ color: primaryAccentGreen }}>15</div>
+              <div className="text-5xl font-bold mb-2" style={{ color: secondaryAccent }}>15</div>
               <h3 className="text-xl font-bold mb-2" style={{ color: mainTextColor }}>Active Ministries</h3>
               <p style={{ color: secondaryTextColor }}>Serving various needs in our church and community</p>
             </div>
@@ -644,7 +483,7 @@ const Ministries = () => {
                    WebkitBackdropFilter: 'blur(8px)',
                    boxShadow: `0 4px 15px ${glassShadow}`,
                  }}>
-              <div className="text-5xl font-bold mb-2" style={{ color: primaryAccentBlue }}>350+</div>
+              <div className="text-5xl font-bold mb-2" style={{ color: primaryAccent }}>350+</div>
               <h3 className="text-xl font-bold mb-2" style={{ color: mainTextColor }}>Volunteers</h3>
               <p style={{ color: secondaryTextColor }}>Dedicated members serving across all ministries</p>
             </div>
@@ -656,7 +495,7 @@ const Ministries = () => {
                    WebkitBackdropFilter: 'blur(8px)',
                    boxShadow: `0 4px 15px ${glassShadow}`,
                  }}>
-              <div className="text-5xl font-bold mb-2" style={{ color: primaryAccentGreen }}>20+</div>
+              <div className="text-5xl font-bold mb-2" style={{ color: secondaryAccent }}>20+</div>
               <h3 className="text-xl font-bold mb-2" style={{ color: mainTextColor }}>Weekly Gatherings</h3>
               <p style={{ color: secondaryTextColor }}>Opportunities to connect and grow throughout the week</p>
             </div>

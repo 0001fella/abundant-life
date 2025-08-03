@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 // --- Constants and Configuration ---
 const HERO_IMAGE = '/ALCC.jpg';
 const PASTOR_IMAGE = '/pstElkana.jpg';
-
 const HARDCODED_WEEKLY_EVENTS = [
     {
         id: 1,
@@ -39,75 +38,80 @@ const HARDCODED_WEEKLY_EVENTS = [
         description: "Experience fellowship and Bible study in small group settings throughout our community."
     }
 ];
-
 const QUICK_ACTIONS = [
     {
         id: 1,
-        icon: <FaPrayingHands className="w-8 h-8 mx-auto text-[#006d7e] mb-4" />,
+        icon: <FaPrayingHands className="w-8 h-8 mx-auto text-[#5D1C34] mb-4" />,
         title: "Prayer Wall",
         description: "Share your prayer requests and pray for others.",
         link: "/prayer-wall"
     },
     {
         id: 2,
-        icon: <FaUsers className="w-8 h-8 mx-auto text-[#006d7e] mb-4" />,
+        icon: <FaUsers className="w-8 h-8 mx-auto text-[#5D1C34] mb-4" />,
         title: "Testimonials",
         description: "Read inspiring stories of faith and transformation.",
         link: "/testimonials"
     },
     {
         id: 3,
-        icon: <FaBookOpen className="w-8 h-8 mx-auto text-[#006d7e] mb-4" />,
+        icon: <FaBookOpen className="w-8 h-8 mx-auto text-[#5D1C34] mb-4" />,
         title: "Daily Devotionals",
         description: "Start your day with spiritual insights from God's Word.",
         link: "/devotionals"
     },
     {
         id: 4,
-        icon: <FaCalendarAlt className="w-8 h-8 mx-auto text-[#006d7e] mb-4" />,
+        icon: <FaCalendarAlt className="w-8 h-8 mx-auto text-[#5D1C34] mb-4" />,
         title: "Events Calendar",
         description: "Discover all upcoming services, gatherings, and special events.",
         link: "/events"
     }
 ];
-
 const WHAT_TO_EXPECT_ITEMS = [
     {
-        icon: <FaChurch className="w-10 h-10 text-[#006d7e] mb-3" />,
+        icon: <FaChurch className="w-10 h-10 text-[#5D1C34] mb-3" />,
         title: "Welcoming Atmosphere",
         description: "Feel at home from the moment you step through our doors. Our friendly ushers are here to guide you."
     },
     {
-        icon: <FaMusic className="w-10 h-10 text-[#006d7e] mb-3" />,
+        icon: <FaMusic className="w-10 h-10 text-[#5D1C34] mb-3" />,
         title: "Inspiring Worship",
         description: "Experience dynamic praise and worship led by our vibrant team, preparing your heart for God's Word."
     },
     {
-        icon: <FaBookOpen className="w-10 h-10 text-[#006d7e] mb-3" />,
+        icon: <FaBookOpen className="w-10 h-10 text-[#5D1C34] mb-3" />,
         title: "Powerful Messages",
         description: "Hear relevant and transformative messages from Pastor Elkana, rooted in biblical truth."
     },
     {
-        icon: <FaChild className="w-10 h-10 text-[#006d7e] mb-3" />,
+        icon: <FaChild className="w-10 h-10 text-[#5D1C34] mb-3" />,
         title: "Children's Programs",
         description: "Safe and engaging Sunday School programs for kids of all ages, so parents can enjoy the service."
     },
     {
-        icon: <FaHandshake className="w-10 h-10 text-[#006d7e] mb-3" />,
+        icon: <FaHandshake className="w-10 h-10 text-[#5D1C34] mb-3" />,
         title: "Community & Connection",
         description: "Connect with fellow believers, find a small group, and build lasting friendships."
     },
     {
-        icon: <FaPrayingHands className="w-10 h-10 text-[#006d7e] mb-3" />,
+        icon: <FaPrayingHands className="w-10 h-10 text-[#5D1C34] mb-3" />,
         title: "Prayer & Support",
         description: "Our prayer teams are available to minister to you and offer support whenever you need it."
     }
 ];
 
-// Updated classes for cleaner, modern look
-const BUTTON_CLASSES = "bg-[#006d7e] text-white hover:bg-[#004e57] font-bold rounded-lg text-base px-6 py-2 shadow-md hover:shadow-lg transition-all";
-const OUTLINE_BUTTON_CLASSES = "border-2 border-[#006d7e] text-[#006d7e] hover:bg-[#006d7e]/10 font-bold rounded-lg text-base px-6 py-2 flex items-center justify-center shadow-sm transition-all";
-const SECTION_BADGE_CLASSES = "inline-block mb-4 bg-[#006d7e]/10 text-[#006d7e] rounded-lg px-4 py-2 text-xs font-medium tracking-wider border border-[#006d7e]/20";
+// --- Updated Color Classes for Cleaner, Modern Look ---
+// Primary Color: #5D1C34 (Dark Red)
+// Secondary Color: #A67D44 (Gold)
+// Accent Color: #899481 (Sage Green)
+// Light Backgrounds: #EFE9E1 (Cream)
+// Dark Backgrounds: #11100F (Near Black)
+// Light Accents: #CDBCAB (Light Tan)
+
+const BUTTON_CLASSES = "bg-[#5D1C34] text-white hover:bg-[#A67D44] font-bold rounded-lg text-base px-6 py-2 shadow-md hover:shadow-lg transition-all";
+const OUTLINE_BUTTON_CLASSES = "border-2 border-[#5D1C34] text-[#5D1C34] hover:bg-[#5D1C34]/10 font-bold rounded-lg text-base px-6 py-2 flex items-center justify-center shadow-sm transition-all";
+const SECTION_BADGE_CLASSES = "inline-block mb-4 bg-[#EFE9E1] text-[#5D1C34] rounded-lg px-4 py-2 text-xs font-medium tracking-wider border border-[#CDBCAB]";
 
 const Hero = () => {
     const [timeLeft, setTimeLeft] = useState({});
@@ -153,26 +157,25 @@ const Hero = () => {
                 setSelectedEvent(null);
             }
         };
-        
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [selectedEvent]);
 
     return (
-        <div className="min-h-screen bg-white text-gray-800 font-sans scroll-smooth">
+        <div className="min-h-screen bg-[#EFE9E1] text-[#11100F] font-sans scroll-smooth">
             {/* Image Modal */}
             {selectedEvent && (
                 <div className="fixed inset-0 z-50 modal-backdrop bg-black/90 flex items-center justify-center p-4">
                     <div className="relative max-w-4xl w-full max-h-[90vh]">
-                        <button 
+                        <button
                             className="absolute -top-10 right-0 text-white z-50"
                             onClick={() => setSelectedEvent(null)}
                             aria-label="Close image"
                         >
                             <FaTimes className="w-8 h-8" />
                         </button>
-                        <img 
-                            src={selectedEvent.image} 
+                        <img
+                            src={selectedEvent.image}
                             alt={selectedEvent.title}
                             className="w-full h-full object-contain max-h-[80vh]"
                         />
@@ -183,7 +186,6 @@ const Hero = () => {
                     </div>
                 </div>
             )}
-
             {/* Hero Section - Modernized */}
             <section className="relative overflow-hidden border-t-0 -mt-[1px]">
                 <div className="absolute inset-0">
@@ -194,7 +196,7 @@ const Hero = () => {
                         loading="eager"
                     />
                     {/* Cleaner overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-slate-900/20"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#11100F] via-[#11100F]/70 to-[#11100F]/20"></div>
                 </div>
                 <div className="relative z-20 container mx-auto px-4 py-32 lg:py-40 text-center">
                     <motion.div
@@ -212,7 +214,7 @@ const Hero = () => {
                         transition={{ duration: 0.7 }}
                     >
                         Welcome to Abundant
-                        <span className="block text-[#43b9c7] mt-2 font-light"> Life Celebration Center</span>
+                        <span className="block text-[#A67D44] mt-2 font-light"> Life Celebration Center</span>
                     </motion.h1>
                     {/* Added Bible Verse - John 10:10 */}
                     <motion.div
@@ -221,7 +223,7 @@ const Hero = () => {
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.4, duration: 0.7 }}
                     >
-                        <p className="text-[#f3d17a] italic font-serif text-lg md:text-xl">
+                        <p className="text-[#CDBCAB] italic font-serif text-lg md:text-xl">
                             "The thief comes only to steal and kill and destroy; I have come that they may have life,
                             and have it to the full." - John 10:10
                         </p>
@@ -234,21 +236,20 @@ const Hero = () => {
                         role="timer"
                         aria-label="Countdown to next service"
                     >
-                        <h3 className="text-base font-semibold text-[#43b9c7] mb-3">Next Service Starts In:</h3>
+                        <h3 className="text-base font-semibold text-[#A67D44] mb-3">Next Service Starts In:</h3>
                         <div className="grid grid-cols-4 gap-2">
                             {Object.entries(timeLeft).map(([unit, value]) => (
                                 <div key={unit} className="text-center">
                                     <div className="text-xl md:text-2xl font-bold text-white">{value}</div>
-                                    <div className="text-[#43b9c7] uppercase text-xs">{unit}</div>
+                                    <div className="text-[#CDBCAB] uppercase text-xs">{unit}</div>
                                 </div>
                             ))}
                         </div>
                     </motion.div>
                 </div>
             </section>
-
             {/* Stats Section - Minimalist */}
-            <section className="py-12 bg-white border-b border-t border-gray-100">
+            <section className="py-12 bg-[#EFE9E1] border-b border-t border-[#CDBCAB]">
                 <div className="container mx-auto px-4">
                     <div className="grid md:grid-cols-4 gap-6 text-center">
                         {[
@@ -259,22 +260,21 @@ const Hero = () => {
                         ].map((stat, index) => (
                             <motion.div
                                 key={index}
-                                className="space-y-1 p-4 rounded-xl bg-white shadow-sm border border-gray-100"
+                                className="space-y-1 p-4 rounded-xl bg-white shadow-sm border border-[#CDBCAB]"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, amount: 0.5 }}
                                 transition={{ delay: index * 0.1 }}
                             >
-                                <div className="text-3xl font-bold text-[#006d7e]">{stat.value}</div>
-                                <div className="text-gray-600 text-sm">{stat.label}</div>
+                                <div className="text-3xl font-bold text-[#5D1C34]">{stat.value}</div>
+                                <div className="text-[#11100F]/80 text-sm">{stat.label}</div>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
-
             {/* Pastor's Welcome - Modern Design */}
-            <section className="py-16 bg-white">
+            <section className="py-16 bg-[#EFE9E1]">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="text-center mb-12">
                         <motion.div
@@ -286,12 +286,12 @@ const Hero = () => {
                         >
                             A WARM WELCOME
                         </motion.div>
-                        <h2 className="text-3xl font-bold mb-4 text-gray-800">From Our Senior Pastor</h2>
-                        <p className="text-gray-600 max-w-2xl mx-auto text-sm">
+                        <h2 className="text-3xl font-bold mb-4 text-[#11100F]">From Our Senior Pastor</h2>
+                        <p className="text-[#11100F]/80 max-w-2xl mx-auto text-sm">
                             A personal message to you and your family.
                         </p>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center bg-white rounded-xl shadow-sm border border-gray-200">
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center bg-white rounded-xl shadow-sm border border-[#CDBCAB]">
                         <div className="md:col-span-2 h-full">
                             <motion.div
                                 className="relative h-full"
@@ -317,17 +317,17 @@ const Hero = () => {
                                 transition={{ delay: 0.2, duration: 0.7 }}
                             >
                                 <motion.h3
-                                    className="text-2xl font-bold mb-6 text-gray-800 relative flex items-center"
+                                    className="text-2xl font-bold mb-6 text-[#11100F] relative flex items-center"
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, amount: 0.5 }}
                                     transition={{ delay: 0.4, duration: 0.5 }}
                                 >
-                                    <span className="mr-2 text-[#006d7e]">❤️</span>
+                                    <span className="mr-2 text-[#A67D44]">❤️</span>
                                     Dear Friend,
                                 </motion.h3>
                                 <motion.p
-                                    className="text-gray-600 mb-4 leading-relaxed text-lg relative pl-4 border-l-2 border-[#84d9e6]"
+                                    className="text-[#11100F]/80 mb-4 leading-relaxed text-lg relative pl-4 border-l-2 border-[#CDBCAB]"
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, amount: 0.5 }}
@@ -338,7 +338,7 @@ const Hero = () => {
                                     disciples who impact the world.
                                 </motion.p>
                                 <motion.p
-                                    className="text-gray-600 mb-4 leading-relaxed text-lg relative pl-4 border-l-2 border-[#84d9e6]"
+                                    className="text-[#11100F]/80 mb-4 leading-relaxed text-lg relative pl-4 border-l-2 border-[#CDBCAB]"
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, amount: 0.5 }}
@@ -348,7 +348,7 @@ const Hero = () => {
                                     to serve, you are at home here. Our doors are open wide to you and your family.
                                 </motion.p>
                                 <motion.p
-                                    className="text-gray-600 mb-6 leading-relaxed text-lg relative pl-4 border-l-2 border-[#84d9e6]"
+                                    className="text-[#11100F]/80 mb-6 leading-relaxed text-lg relative pl-4 border-l-2 border-[#CDBCAB]"
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, amount: 0.5 }}
@@ -364,24 +364,23 @@ const Hero = () => {
                                     transition={{ delay: 1.2, duration: 0.7 }}
                                 >
                                     <motion.div
-                                        className="h-0.5 bg-gradient-to-r from-[#006d7e] to-transparent w-1/3 mb-4"
+                                        className="h-0.5 bg-gradient-to-r from-[#5D1C34] to-transparent w-1/3 mb-4"
                                         initial={{ width: 0 }}
                                         whileInView={{ width: '33%' }}
                                         viewport={{ once: true, amount: 0.5 }}
                                         transition={{ delay: 1.4, duration: 1 }}
                                     />
-                                    <p className="font-bold text-gray-800 text-lg">Blessings,</p>
-                                    <p className="font-semibold text-[#006d7e]">Pastor Elkana</p>
-                                    <p className="text-gray-600 text-sm mt-1">Senior Pastor</p>
+                                    <p className="font-bold text-[#11100F] text-lg">Blessings,</p>
+                                    <p className="font-semibold text-[#5D1C34]">Pastor Elkana</p>
+                                    <p className="text-[#11100F]/80 text-sm mt-1">Senior Pastor</p>
                                 </motion.div>
                             </motion.div>
                         </div>
                     </div>
                 </div>
             </section>
-
             {/* Weekly Events Section with Gallery Effect */}
-            <section className="py-16 bg-white">
+            <section className="py-16 bg-[#EFE9E1]">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="text-center mb-16">
                         <motion.div
@@ -393,12 +392,11 @@ const Hero = () => {
                         >
                             REGULAR GATHERINGS
                         </motion.div>
-                        <h2 className="text-3xl font-bold mb-4 text-gray-800">Weekly Events</h2>
-                        <p className="text-gray-600 max-w-2xl mx-auto text-sm">
+                        <h2 className="text-3xl font-bold mb-4 text-[#11100F]">Weekly Events</h2>
+                        <p className="text-[#11100F]/80 max-w-2xl mx-auto text-sm">
                             Our regular weekly gatherings you can always join.
                         </p>
                     </div>
-                    
                     <div className="space-y-24">
                         {HARDCODED_WEEKLY_EVENTS.map((event, index) => (
                             <motion.div
@@ -410,7 +408,7 @@ const Hero = () => {
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                             >
                                 {/* Event Image with Gallery Effect */}
-                                <div 
+                                <div
                                     className="w-full md:w-1/2 h-96 overflow-hidden cursor-pointer relative"
                                     onClick={() => setSelectedEvent(event)}
                                 >
@@ -426,44 +424,39 @@ const Hero = () => {
                                         </span>
                                     </div>
                                 </div>
-                                
                                 {/* Event Details */}
                                 <div className="w-full md:w-1/2">
-                                    <div className="text-[#006d7e] font-medium mb-3">{event.type}</div>
-                                    <h3 className="text-2xl font-bold mb-4 text-gray-800">{event.title}</h3>
-                                    
+                                    <div className="text-[#5D1C34] font-medium mb-3">{event.type}</div>
+                                    <h3 className="text-2xl font-bold mb-4 text-[#11100F]">{event.title}</h3>
                                     <div className="space-y-3 mb-5">
-                                        <div className="flex items-center text-gray-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div className="flex items-center text-[#11100F]/80">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#5D1C34]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
                                             {event.date}
                                         </div>
-                                        <div className="flex items-center text-gray-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div className="flex items-center text-[#11100F]/80">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#5D1C34]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                             {event.time}
                                         </div>
-                                        <div className="flex items-center text-gray-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#006d7e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div className="flex items-center text-[#11100F]/80">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#5D1C34]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
                                             {event.location}
                                         </div>
                                     </div>
-                                    
-                                    <p className="text-gray-600 mb-6 leading-relaxed">{event.description}</p>
-                                    
-                                    <div className="inline-block bg-[#e6f7f9] text-[#006d7e] rounded-full px-4 py-2 text-sm font-medium">
+                                    <p className="text-[#11100F]/80 mb-6 leading-relaxed">{event.description}</p>
+                                    <div className="inline-block bg-[#CDBCAB] text-[#11100F] rounded-full px-4 py-2 text-sm font-medium">
                                         Weekly Event
                                     </div>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
-
                     <div className="text-center mt-16">
                         <motion.button
                             whileHover={{ scale: 1.05 }}
@@ -481,9 +474,8 @@ const Hero = () => {
                     </div>
                 </div>
             </section>
-
             {/* Quick Actions - Clean Cards */}
-            <section className="py-16 bg-white">
+            <section className="py-16 bg-[#EFE9E1]">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="text-center mb-12">
                         <motion.div
@@ -495,8 +487,8 @@ const Hero = () => {
                         >
                             CONNECT & GROW
                         </motion.div>
-                        <h2 className="text-3xl font-bold mb-4 text-gray-800">Quick Actions & Resources</h2>
-                        <p className="text-gray-600 max-w-2xl mx-auto text-sm">
+                        <h2 className="text-3xl font-bold mb-4 text-[#11100F]">Quick Actions & Resources</h2>
+                        <p className="text-[#11100F]/80 max-w-2xl mx-auto text-sm">
                             Explore key areas of our ministry and quickly find what you need.
                         </p>
                     </div>
@@ -504,7 +496,7 @@ const Hero = () => {
                         {QUICK_ACTIONS.map((action, index) => (
                             <motion.div
                                 key={action.id}
-                                className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-all border border-gray-200"
+                                className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-all border border-[#CDBCAB]"
                                 whileHover={{ y: -5 }}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -513,21 +505,20 @@ const Hero = () => {
                             >
                                 <a href={action.link} className="block group">
                                     {action.icon}
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-[#006d7e] transition-colors">{action.title}</h3>
-                                    <p className="text-gray-600 text-sm leading-relaxed">{action.description}</p>
+                                    <h3 className="text-lg font-semibold text-[#11100F] mb-2 group-hover:text-[#5D1C34] transition-colors">{action.title}</h3>
+                                    <p className="text-[#11100F]/80 text-sm leading-relaxed">{action.description}</p>
                                 </a>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
-
             {/* What to Expect Section - Reverted to original format */}
-            <section className="py-16 bg-gray-50 border-t border-b border-gray-200">
+            <section className="py-16 bg-[#899481]/10 border-t border-b border-[#CDBCAB]">
                 <div className="container mx-auto px-4 max-w-6xl">
                     <div className="text-center mb-12">
                         <motion.div
-                            className="inline-block mb-4 bg-[#006d7e]/10 text-[#006d7e] rounded-lg px-4 py-2 text-xs font-medium tracking-wider border border-[#006d7e]/20"
+                            className={SECTION_BADGE_CLASSES}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0.5 }}
@@ -535,8 +526,8 @@ const Hero = () => {
                         >
                             PLAN YOUR VISIT
                         </motion.div>
-                        <h2 className="text-3xl font-bold mb-4 text-gray-800">What to Expect on Sunday</h2>
-                        <p className="text-gray-600 max-w-2xl mx-auto text-sm">
+                        <h2 className="text-3xl font-bold mb-4 text-[#11100F]">What to Expect on Sunday</h2>
+                        <p className="text-[#11100F]/80 max-w-2xl mx-auto text-sm">
                             We're excited to have you! Here's a glimpse of what your first visit will be like.
                         </p>
                     </div>
@@ -544,19 +535,19 @@ const Hero = () => {
                         {WHAT_TO_EXPECT_ITEMS.map((item, index) => (
                             <motion.div
                                 key={index}
-                                className="bg-white rounded-xl p-6 text-center shadow-sm border border-gray-200"
+                                className="bg-white rounded-xl p-6 text-center shadow-sm border border-[#CDBCAB]"
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true, amount: 0.3 }}
                                 transition={{ delay: index * 0.15, duration: 0.5 }}
                             >
                                 <div className="flex justify-center items-center mb-4">
-                                    <div className="bg-[#006d7e]/10 p-3 rounded-full text-[#006d7e]">
+                                    <div className="bg-[#EFE9E1] p-3 rounded-full text-[#5D1C34]">
                                         {item.icon}
                                     </div>
                                 </div>
-                                <h3 className="text-xl font-bold mb-3 text-[#006d7e]">{item.title}</h3>
-                                <p className="text-gray-600 text-base">{item.description}</p>
+                                <h3 className="text-xl font-bold mb-3 text-[#5D1C34]">{item.title}</h3>
+                                <p className="text-[#11100F]/80 text-base">{item.description}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -572,7 +563,9 @@ const Hero = () => {
                             viewport={{ once: true, amount: 0.5 }}
                             transition={{ delay: 0.3 }}
                         >
-                            
+                            {/* Placeholder text for the button */}
+                            {/* You might want to add actual text here or remove the button if not needed */}
+                            {/* <span className="text-white">Learn More</span> */}
                         </motion.button>
                     </div>
                 </div>
